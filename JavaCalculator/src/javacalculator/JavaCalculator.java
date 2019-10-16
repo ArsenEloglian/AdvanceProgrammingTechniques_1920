@@ -15,5 +15,6 @@ public class JavaCalculator {
         // TODO code application logic here
         System.out.println("Hello, Calculator!");
         Scanner scanner = new Scanner(System.in); //morrison
+		// wlasny branch 
    }    
 }
