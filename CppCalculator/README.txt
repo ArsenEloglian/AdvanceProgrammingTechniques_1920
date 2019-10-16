@@ -1,2 +1,2 @@
-Bohdan Sydorov - ZpmPower
-Maciej Stawiasz
+Bohdan Sydorov login: ZpmPower
+Maciej Stawiasz login: Ferndejar
