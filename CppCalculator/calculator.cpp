@@ -3,6 +3,7 @@
 #include <cmath>
 #include "button.h"
 
+
 Button *Calculator::createButton(const QString &text, const char *slot)
 {
     Button *button = new Button(text);
@@ -13,6 +14,12 @@ Button *Calculator::createButton(const QString &text, const char *slot)
 Calculator::Calculator(QWidget *parent)
     : QWidget(parent)
 {
+    isAdd=false;
+    isSubstract=false;
+    isMultiply=false;
+    isDivide=false;
+
+    Result = 0.0;
     setWindowTitle(tr("CppCalculator"));
     this->resize(350, 300);
     QGridLayout *mainLayout = new QGridLayout;
@@ -33,12 +40,13 @@ Calculator::Calculator(QWidget *parent)
         int column = ((i - 1) % 3) + 1;
         mainLayout->addWidget(digitButtons[i], row, column);
     }
+
     Button* divisionButton = createButton(tr("\303\267"), SLOT(divisionClicked()));
     Button* multButton = createButton(tr("\303\227"), SLOT(multClicked()));
     Button* minusButton = createButton(tr("-"), SLOT(minusClicked()));
     Button* plusButton = createButton(tr("+"), SLOT(plusClicked()));
     Button* pointButton = createButton(tr("."), SLOT(pointClicked()));
-    Button* equalButton = createButton(tr("="), SLOT(equalClecked()));
+    Button* equalButton = createButton(tr("="), SLOT(equalClicked()));
     Button* sqrtButton = createButton(tr("sqrt"), SLOT(sqrtClicked()));
     Button* powButton = createButton(tr("pow"), SLOT(powClicked()));
     Button* clearButton = createButton(tr("CE"), SLOT(clearClicked()));
@@ -84,17 +92,181 @@ void Calculator::digitClicked()
         display->clear();
         iswaitingOperand = false;
     }
+    if(display->text() == "0")
+    {
+        display->setText(QString::number(digitValue));
+        return;
+    }
     display->setText(display->text() + QString::number(digitValue));
 }
-void Calculator::sumClicked()
-{
 
+void Calculator::signClicked()
+{
+    Button *clickedButton = qobject_cast<Button *>(sender());
+    if(clickedButton->text() == tr("\302\261"))
+    {
+        QString text = display->text();
+        double symbol = text.toDouble();
+        if (symbol > 0.0) {
+            text.prepend(tr("-"));
+        } else if (symbol < 0.0) {
+            text.remove(0, 1);
+        }
+        display->setText(text);
+    }
 }
+
+void Calculator::percentClicked()
+{
+    Button *clickedButton = qobject_cast<Button *>(sender());
+    double symbol;
+    if(clickedButton->text() == tr("%"))
+    {
+        symbol = display->text().toDouble();
+        symbol = symbol * 0.01;
+        display->setText(QString::number(symbol));
+    }
+}
+
+
+void Calculator::plusClicked()
+{
+    if(!isAdd)
+    {
+        firstValue=display->text().toDouble();
+        display->setText("");
+        isAdd=true;
+    }
+}
+
+void Calculator::minusClicked()
+{
+    if(!isSubstract)
+    {
+        firstValue=display->text().toDouble();
+        display->setText("");
+        isSubstract=true;
+    }
+}
+
+void Calculator::multClicked()
+{
+    if(!isMultiply)
+    {
+        firstValue=display->text().toDouble();
+        display->setText("");
+        isMultiply=true;
+    }
+}
+void Calculator::divisionClicked()
+{
+    if(!isDivide)
+    {
+        firstValue=display->text().toDouble();
+        display->setText("");
+        isDivide=true;
+    }
+}
+
+void Calculator::powClicked()
+{
+    if(!isPow)
+    {
+        firstValue=display->text().toDouble();
+        display->setText("");
+        isPow=true;
+    }
+}
+
+void Calculator::sqrtClicked()
+{
+    firstValue=display->text().toDouble();
+    if (firstValue < 0.0) {
+        abortOperation();
+        return;
+    }
+    display->setText(QString::number(sqrt(firstValue)));
+    isSqrt=false;
+}
+
 void Calculator::pointClicked()
 {
-
+    if (iswaitingOperand)
+        display->setText("0");
+    if (!display->text().contains('.'))
+        display->setText(display->text() + tr("."));
+    iswaitingOperand= false;
 }
 void Calculator::equalClicked()
 {
+    secondValue=display->text().toDouble();
+    if(isAdd){
+        display->setText(QString::number(firstValue+secondValue));
+        isAdd=false;
+    }
+    else if(isSubstract)
+    {
+        display->setText(QString::number(firstValue-secondValue));
+        isSubstract=false;
 
+    }
+    else if(isMultiply)
+    {
+        display->setText(QString::number(firstValue*secondValue));
+        isMultiply=false;
+    }
+    else if(isDivide)
+    {
+        display->setText(QString::number(firstValue/secondValue));
+        isDivide=false;
+    }
+    else if(isPow)
+    {
+        display->setText(QString::number(pow(firstValue,secondValue)));
+        isPow=false;
+    }
+}
+
+void Calculator::backspaceClicked()
+{
+    if (iswaitingOperand)
+        return;
+
+    QString text = display->text();
+    text.chop(1);
+    if (text.isEmpty()) {
+        text = "0";
+        iswaitingOperand = true;
+    }
+    display->setText(text);
+}
+
+void Calculator::clearClicked()
+{
+    firstValue = 0.0;
+    secondValue = 0.0;
+    display->setText("0");
+    iswaitingOperand = true;
+}
+
+void Calculator::clearMemoryClicked()
+{
+    firstValue = 0.0;
+    secondValue = 0.0;
+}
+
+void Calculator::addToMemoryClicked()
+{   double result;
+    equalClicked();
+    result=firstValue+secondValue;
+}
+
+void Calculator::clearAll()
+{
+    display->setText("0");
+    iswaitingOperand = true;
+}
+void Calculator::abortOperation()
+{
+    clearAll();
 }
