@@ -10,6 +10,12 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 import javax.swing.UIManager.LookAndFeelInfo;
 
+
+/**
+ *
+ * @author fatne, morrison
+ */
+
 public class JavaCalculator implements ActionListener {
    
    private JTextField field;
