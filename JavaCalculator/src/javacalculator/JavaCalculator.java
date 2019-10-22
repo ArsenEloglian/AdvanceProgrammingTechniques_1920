@@ -19,6 +19,7 @@ import javax.swing.UIManager.LookAndFeelInfo;
 public class JavaCalculator implements ActionListener {
    
    private JTextField field;
+   private String operation;
    
    public final String[][] BUTTON_TEXTS = {
       {"C", "CE", "%", "√"},
@@ -81,7 +82,43 @@ public class JavaCalculator implements ActionListener {
    }
 
     @Override
-    public void actionPerformed(ActionEvent e) {      
-        field.setText(e.getActionCommand());      
+    public void actionPerformed(ActionEvent e) {              
+        operation = e.getActionCommand();
+        
+        if(!this.isInteger(operation)){
+            switch(operation){
+                case "C" :       
+                    break;
+                case "CE" : 
+                    break;
+                case "%" :       
+                    break;      
+                case "√" : 
+                    break;
+                case "+" : 
+                    break;
+                case "-" : 
+                    break;
+                case "*" : 
+                     break;
+                case "=" : 
+                    break;
+                case "/" : 
+                    break;
+                case "." : 
+                    break;
+            }
+        }else {    
+        }
+    }
+    private boolean isInteger(String s) {
+        try { 
+            Integer.parseInt(s); 
+        } catch(NumberFormatException e) { 
+            return false; 
+        } catch(NullPointerException e) {
+            return false;
+        }
+        return true;
     }
 }
