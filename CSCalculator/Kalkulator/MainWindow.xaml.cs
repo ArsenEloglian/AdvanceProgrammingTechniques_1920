@@ -24,14 +24,11 @@ namespace Kalkulator
         public MainWindow()
         {
             InitializeComponent();
-            var myButton = (Button)this.FindName("button");
-            myButton.Click += setText;
         }
 
-        public void setText(object sender, RoutedEventArgs e)
+        private void button1_onClick(object sender, RoutedEventArgs e)
         {
-            Button clicked = (Button)sender;
-            clicked.Content = "clicked";
+            tbOperation.Text += "1";
         }
     }
 }
