@@ -40,5 +40,10 @@ namespace Kalkulator
         {
             tbOperation.Text += "3";
 		}
+		
+		private void button4_onClick(object sender, RoutedEventArgs e)
+        {
+            tbOperation.Text += "4";
+		}
     }
 }
