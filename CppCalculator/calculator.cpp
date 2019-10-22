@@ -2,6 +2,7 @@
 #include <QtWidgets>
 #include <cmath>
 #include "button.h"
+#include<QDebug>
 
 
 Button *Calculator::createButton(const QString &text, const char *slot)
@@ -53,8 +54,8 @@ Calculator::Calculator(QWidget *parent)
     Button* signButton = createButton(tr("\302\261"), SLOT(signClicked()));
     Button* backspaceButton = createButton(tr("←"), SLOT(backspaceClicked()));
     Button* percentButton = createButton(tr("%"), SLOT(percentClicked()));
-    Button* addToMemoryButton = createButton(tr("M+"), SLOT(addToMemoryClicked()));
-    Button* clearMemoryButton = createButton(tr("M-"), SLOT(clearMemoryClicked()));
+//    Button* addToMemoryButton = createButton(tr("M+"), SLOT(addToMemoryClicked()));
+//    Button* clearMemoryButton = createButton(tr("M-"), SLOT(clearMemoryClicked()));
 
     mainLayout->addWidget(display,0,0,1,6);        //lineEdit
     mainLayout->addWidget(digitButtons[0], 5, 1);  //"0"
@@ -62,19 +63,19 @@ Calculator::Calculator(QWidget *parent)
     mainLayout->addWidget(equalButton, 5, 3);      //"="
 
     mainLayout->addWidget(divisionButton, 2, 4);   //"/"
-    mainLayout->addWidget(multButton, 3, 4);       //"*"
-    mainLayout->addWidget(minusButton, 4, 4);      //"-"
-    mainLayout->addWidget(plusButton, 5, 4);       //"+"
+    mainLayout->addWidget(multButton, 3, 4,1,2);       //"*"
+    mainLayout->addWidget(minusButton, 4, 4,1,2);      //"-"
+    mainLayout->addWidget(plusButton, 5, 4,1,2);       //"+"
 
     mainLayout->addWidget(powButton, 2, 0);        //"pow"
     mainLayout->addWidget(sqrtButton, 3, 0);        //"sqrt"
     mainLayout->addWidget(signButton, 4, 0);        //"sign"
     mainLayout->addWidget(clearButton, 5, 0);        //"CLEAR"
 
-    mainLayout->addWidget(percentButton, 1, 1);        //"%"
-    mainLayout->addWidget(addToMemoryButton, 1, 2);        //"M-"
-    mainLayout->addWidget(clearMemoryButton, 1, 3);        //"M+"
-    mainLayout->addWidget(backspaceButton, 1, 4);        //"<-"
+    mainLayout->addWidget(percentButton, 1, 0,1,2);        //"%"
+//    mainLayout->addWidget(addToMemoryButton, 1, 2);        //"M-"
+//    mainLayout->addWidget(clearMemoryButton, 1, 3);        //"M+"
+    mainLayout->addWidget(backspaceButton, 1, 2,1,4);        //"<-"
 
     QPixmap pixCalc("C:/Users/ZpmPower/Documents/CppCalculator/Images/buzka.png");
     QLabel* calc = new QLabel();
@@ -133,8 +134,12 @@ void Calculator::plusClicked()
 {
     if(!isAdd)
     {
-        firstValue=display->text().toDouble();
+        if (!isEmptyField())
+        {
+            firstValue=display->text().toDouble();
+        }
         display->setText("");
+        cleanOperation();
         isAdd=true;
     }
 }
@@ -143,8 +148,12 @@ void Calculator::minusClicked()
 {
     if(!isSubstract)
     {
-        firstValue=display->text().toDouble();
+        if (!isEmptyField())
+        {
+            firstValue=display->text().toDouble();
+        }
         display->setText("");
+        cleanOperation();
         isSubstract=true;
     }
 }
@@ -153,8 +162,12 @@ void Calculator::multClicked()
 {
     if(!isMultiply)
     {
-        firstValue=display->text().toDouble();
+        if (!isEmptyField())
+        {
+            firstValue=display->text().toDouble();
+        }
         display->setText("");
+        cleanOperation();
         isMultiply=true;
     }
 }
@@ -162,8 +175,12 @@ void Calculator::divisionClicked()
 {
     if(!isDivide)
     {
-        firstValue=display->text().toDouble();
+        if (!isEmptyField())
+        {
+            firstValue=display->text().toDouble();
+        }
         display->setText("");
+        cleanOperation();
         isDivide=true;
     }
 }
@@ -172,20 +189,28 @@ void Calculator::powClicked()
 {
     if(!isPow)
     {
-        firstValue=display->text().toDouble();
+        if (!isEmptyField())
+        {
+            firstValue=display->text().toDouble();
+        }
         display->setText("");
+        cleanOperation();
         isPow=true;
     }
 }
 
 void Calculator::sqrtClicked()
 {
-    firstValue=display->text().toDouble();
+    if (!isEmptyField())
+    {
+        firstValue=display->text().toDouble();
+    }
     if (firstValue < 0.0) {
         abortOperation();
         return;
     }
     display->setText(QString::number(sqrt(firstValue)));
+    cleanOperation();
     isSqrt=false;
 }
 
@@ -217,6 +242,11 @@ void Calculator::equalClicked()
     }
     else if(isDivide)
     {
+        if (secondValue == 0.0) {
+            abortOperation();
+            isDivide=false;
+            return;
+        }
         display->setText(QString::number(firstValue/secondValue));
         isDivide=false;
     }
@@ -247,6 +277,8 @@ void Calculator::clearClicked()
     secondValue = 0.0;
     display->setText("0");
     iswaitingOperand = true;
+    cleanOperation();
+
 }
 
 void Calculator::clearMemoryClicked()
@@ -269,4 +301,19 @@ void Calculator::clearAll()
 void Calculator::abortOperation()
 {
     clearAll();
+}
+
+bool Calculator::isEmptyField()
+{
+    return display->text().isEmpty() ?  true :  false;
+}
+
+void Calculator::cleanOperation()
+{
+    isAdd = false;
+    isPow = false;
+    isSqrt = false;
+    isDivide = false;
+    isMultiply = false;
+    isSubstract = false;
 }

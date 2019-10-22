@@ -25,9 +25,12 @@ private:
     bool isSqrt;
     double firstValue,secondValue;
 
+
 public:
     Calculator(QWidget *parent = 0);
     void abortOperation();
+    bool isEmptyField();
+    void cleanOperation();
 
 private slots:
     void powClicked();
