@@ -20,6 +20,11 @@ public class JavaCalculator implements ActionListener {
    
    private JTextField field;
    private String operation;
+   private Float operandA, operandB;
+   private String currentOperation;
+   private String result;
+   private boolean isFirstOperandSelected, isSecondOperandSelected;
+   private StringBuilder temp;
    
    public final String[][] BUTTON_TEXTS = {
       {"C", "CE", "%", "√"},
@@ -76,7 +81,9 @@ public class JavaCalculator implements ActionListener {
        
       SwingUtilities.invokeLater(new Runnable() {
          public void run() {
-           new JavaCalculator().createAndShowGui();
+           JavaCalculator javaCalculator = new JavaCalculator();
+           javaCalculator.temp = new StringBuilder();
+           javaCalculator.createAndShowGui();
          }
       });
    }
@@ -87,30 +94,51 @@ public class JavaCalculator implements ActionListener {
         
         if(!this.isInteger(operation)){
             switch(operation){
-                case "C" :       
+                case "C" :  
+                    this.clearScreen();
                     break;
-                case "CE" : 
+                case "CE" :  
                     break;
-                case "%" :       
+                case "%" :   
+                    this.currentOperation = operation;
                     break;      
                 case "√" : 
+                    this.currentOperation = operation;
                     break;
-                case "+" : 
+                case "+" :
+                    this.currentOperation = operation; 
                     break;
                 case "-" : 
+                    this.currentOperation = operation;
                     break;
                 case "*" : 
-                     break;
-                case "=" : 
+                    this.currentOperation = operation;
                     break;
-                case "/" : 
+                case "=" :    
+                    if(isFirstOperandSelected && isSecondOperandSelected){
+                        this.calculate();
+                    }
+                    break;
+                case "/" :
+                    this.currentOperation = operation;
                     break;
                 case "." : 
                     break;
             }
-        }else {    
+        }else {     
+            for(int i=0; i<=9; ++i){     
+                if(Integer.parseInt(operation) == i){
+                    temp.append(i);
+                    field.setText(temp.toString());
+                }       
+            }     
         }
     }
+    
+    private void removeLastOperand(){
+        
+    }
+    
     private boolean isInteger(String s) {
         try { 
             Integer.parseInt(s); 
@@ -120,5 +148,39 @@ public class JavaCalculator implements ActionListener {
             return false;
         }
         return true;
+    }
+    
+    
+    private void calculate(){
+        
+        switch(this.currentOperation){
+            case "%" :           
+                result = String.valueOf(this.operandA%this.operandB);
+                this.field.setText(this.operandA + "%" + this.operandB + "="+ 
+                         result);
+                break;      
+            case "√" : 
+                this.currentOperation = operation;
+                break;
+            case "+" :
+                this.currentOperation = operation; 
+                break;
+            case "-" : 
+                this.currentOperation = operation;
+                break;
+            case "*" : 
+                this.currentOperation = operation;
+                break;
+            case "/" :
+               this.currentOperation = operation;
+               break;
+        
+        }  
+            this.isFirstOperandSelected = this.isSecondOperandSelected = false;
+    }
+    
+    private void clearScreen(){
+        temp.setLength(0);
+        field.setText("");
     }
 }
