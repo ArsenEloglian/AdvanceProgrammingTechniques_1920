@@ -99,27 +99,40 @@ public class JavaCalculator implements ActionListener {
                     break;
                 case "CE" :  
                     break;
-                case "%" :   
+                case "%" :
+                    this.operandA = Float.parseFloat(this.field.getText());
+                     this.clearScreen();
                     this.currentOperation = operation;
                     break;      
-                case "√" : 
+                case "√" :
+                    this.operandA = Float.parseFloat(this.field.getText());
+                     this.clearScreen();
                     this.currentOperation = operation;
                     break;
                 case "+" :
+                    this.operandA = Float.parseFloat(this.field.getText());
+                     this.clearScreen();
                     this.currentOperation = operation; 
                     break;
-                case "-" : 
+                case "-" :
+                    this.operandA = Float.parseFloat(this.field.getText());
+                     this.clearScreen();
                     this.currentOperation = operation;
                     break;
-                case "*" : 
+                case "*" :
+                    this.operandA = Float.parseFloat(this.field.getText());
+                    this.clearScreen();
                     this.currentOperation = operation;
                     break;
-                case "=" :    
-                    if(isFirstOperandSelected && isSecondOperandSelected){
+                case "=" : 
+                    this.operandB = Float.parseFloat(this.field.getText());
+                    
                         this.calculate();
-                    }
+                    
                     break;
                 case "/" :
+                    this.operandA = Float.parseFloat(this.field.getText());
+                    this.clearScreen();
                     this.currentOperation = operation;
                     break;
                 case "." : 
@@ -159,19 +172,31 @@ public class JavaCalculator implements ActionListener {
                 this.field.setText(this.operandA + "%" + this.operandB + "="+ 
                          result);
                 break;      
-            case "√" : 
+            case "√" :
                 this.currentOperation = operation;
                 break;
             case "+" :
+                result = String.valueOf(this.operandA+this.operandB);
+                this.field.setText(this.operandA + "+" + this.operandB + "="+ 
+                         result);
                 this.currentOperation = operation; 
                 break;
-            case "-" : 
+            case "-" :
+                 result = String.valueOf(this.operandA-this.operandB);
+                this.field.setText(this.operandA + "-" + this.operandB + "="+ 
+                         result);
                 this.currentOperation = operation;
                 break;
             case "*" : 
+                result = String.valueOf(this.operandA*this.operandB);
+                this.field.setText(this.operandA + "*" + this.operandB + "="+ 
+                         result);
                 this.currentOperation = operation;
                 break;
             case "/" :
+                 result = String.valueOf(this.operandA/this.operandB);
+                this.field.setText(this.operandA + "/" + this.operandB + "="+ 
+                         result);
                this.currentOperation = operation;
                break;
         
