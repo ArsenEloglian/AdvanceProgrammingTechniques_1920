@@ -50,5 +50,25 @@ namespace Kalkulator
         {
             tbOperation.Text += "5";
         }
+        private void button6onClick(object sender, RoutedEventArgs e)
+        {
+            tbOperation.Text += "6";
+        }
+        private void button7_onClick(object sender, RoutedEventArgs e)
+        {
+            tbOperation.Text += "7";
+        }
+        private void button8_onClick(object sender, RoutedEventArgs e)
+        {
+            tbOperation.Text += "8";
+        }
+        private void button9_onClick(object sender, RoutedEventArgs e)
+        {
+            tbOperation.Text += "9";
+        }
+        private void button0_onClick(object sender, RoutedEventArgs e)
+        {
+            tbOperation.Text += "0";
+        }
     }
 }
