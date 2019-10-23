@@ -54,7 +54,7 @@ namespace Kalkulator
             tbOperation.Text += "5";
         }
 
-		private void button6onClick(object sender, RoutedEventArgs e)
+		private void button6_onClick(object sender, RoutedEventArgs e)
         {
             tbOperation.Text += "6";
         }
@@ -75,13 +75,13 @@ namespace Kalkulator
             tbOperation.Text += "0";
         }
 
-        private void buttonDodawanie_onClick(object sender, RoutedEventArgs e)
+        private void buttonPlus_onClick(object sender, RoutedEventArgs e)
         {
             Double.TryParse(tbOperation.Text, out liczba1);
             tbOperation.Text = "+";
             czyZnak = true;
         }
-        private void buttonOdejmowanie_onClick(object sender, RoutedEventArgs e)
+        private void buttonMinus_onClick(object sender, RoutedEventArgs e)
         {
             Double.TryParse(tbOperation.Text, out liczba1);
             tbOperation.Text = "-";
@@ -93,7 +93,7 @@ namespace Kalkulator
             tbOperation.Text = "*";
             czyZnak = true;
         }
-        private void buttonDzielenie_onClick(object sender, RoutedEventArgs e)
+        private void buttonDivide_onClick(object sender, RoutedEventArgs e)
         {
             Double.TryParse(tbOperation.Text, out liczba1);
             tbOperation.Text = "/";
@@ -101,5 +101,19 @@ namespace Kalkulator
             // buttonDzielenie.IsEnabled = false;
         }
 
+        private void buttonPrzecinek_onClick(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void buttonPlusMinus_onClick(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void buttonWynik_onClick(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
