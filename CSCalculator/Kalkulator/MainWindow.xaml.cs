@@ -20,6 +20,9 @@ namespace Kalkulator
     /// </summary>
     public partial class MainWindow : Window
     {
+        double liczba1 = 0;
+        double liczba2 = 0;
+        Boolean czyZnak = false;
 
         public MainWindow()
         {
@@ -74,20 +77,28 @@ namespace Kalkulator
 
         private void buttonDodawanie_onClick(object sender, RoutedEventArgs e)
         {
-            tbOperation.Text += "+";
+            Double.TryParse(tbOperation.Text, out liczba1);
+            tbOperation.Text = "+";
+            czyZnak = true;
         }
         private void buttonOdejmowanie_onClick(object sender, RoutedEventArgs e)
         {
-            tbOperation.Text += "-";
+            Double.TryParse(tbOperation.Text, out liczba1);
+            tbOperation.Text = "-";
+            czyZnak = true;
         }
         private void buttonMnozenie_onClick(object sender, RoutedEventArgs e)
         {
-            tbOperation.Text += "*";
+            Double.TryParse(tbOperation.Text, out liczba1);
+            tbOperation.Text = "*";
+            czyZnak = true;
         }
         private void buttonDzielenie_onClick(object sender, RoutedEventArgs e)
         {
-            tbOperation.Text += ":";
-            buttonDzielenie.IsEnabled = false;
+            Double.TryParse(tbOperation.Text, out liczba1);
+            tbOperation.Text = "/";
+            czyZnak = true;
+            // buttonDzielenie.IsEnabled = false;
         }
 
     }
