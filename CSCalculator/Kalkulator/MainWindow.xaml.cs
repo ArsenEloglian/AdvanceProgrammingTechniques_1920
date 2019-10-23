@@ -20,6 +20,9 @@ namespace Kalkulator
     /// </summary>
     public partial class MainWindow : Window
     {
+        double liczba1 = 0;
+        double liczba2 = 0;
+        Boolean czyZnak = false;
 
         public MainWindow()
         {
@@ -50,7 +53,8 @@ namespace Kalkulator
         {
             tbOperation.Text += "5";
         }
-        private void button6onClick(object sender, RoutedEventArgs e)
+
+		private void button6_onClick(object sender, RoutedEventArgs e)
         {
             tbOperation.Text += "6";
         }
@@ -69,6 +73,47 @@ namespace Kalkulator
         private void button0_onClick(object sender, RoutedEventArgs e)
         {
             tbOperation.Text += "0";
+        }
+
+        private void buttonPlus_onClick(object sender, RoutedEventArgs e)
+        {
+            Double.TryParse(tbOperation.Text, out liczba1);
+            tbOperation.Text = "+";
+            czyZnak = true;
+        }
+        private void buttonMinus_onClick(object sender, RoutedEventArgs e)
+        {
+            Double.TryParse(tbOperation.Text, out liczba1);
+            tbOperation.Text = "-";
+            czyZnak = true;
+        }
+        private void buttonMnozenie_onClick(object sender, RoutedEventArgs e)
+        {
+            Double.TryParse(tbOperation.Text, out liczba1);
+            tbOperation.Text = "*";
+            czyZnak = true;
+        }
+        private void buttonDivide_onClick(object sender, RoutedEventArgs e)
+        {
+            Double.TryParse(tbOperation.Text, out liczba1);
+            tbOperation.Text = "/";
+            czyZnak = true;
+            // buttonDzielenie.IsEnabled = false;
+        }
+
+        private void buttonPrzecinek_onClick(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void buttonPlusMinus_onClick(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void buttonWynik_onClick(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
