@@ -23,7 +23,6 @@ public class JavaCalculator implements ActionListener {
    private Float operandA, operandB;
    private String currentOperation;
    private String result;
-   private boolean isFirstOperandSelected, isSecondOperandSelected;
    private StringBuilder temp;
    
    public final String[][] BUTTON_TEXTS = {
@@ -201,7 +200,7 @@ public class JavaCalculator implements ActionListener {
                break;
         
         }  
-            this.isFirstOperandSelected = this.isSecondOperandSelected = false;
+           
     }
     
     private void clearScreen(){
