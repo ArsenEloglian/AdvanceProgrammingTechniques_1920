@@ -50,5 +50,26 @@ namespace Kalkulator
         {
             tbOperation.Text += "5";
         }
+        private void buttonDodawanie_onClick(object sender, RoutedEventArgs e)
+        {
+            tbOperation.Text += "+";
+            buttonDodawanie.IsEnabled = false;
+        }
+        private void buttonOdejmowanie_onClick(object sender, RoutedEventArgs e)
+        {
+            tbOperation.Text += "-";
+            buttonDodawanie.IsEnabled = false;
+        }
+        private void buttonMnozenie_onClick(object sender, RoutedEventArgs e)
+        {
+            tbOperation.Text += "*";
+            buttonDodawanie.IsEnabled = false;
+        }
+        private void buttonDzielenie_onClick(object sender, RoutedEventArgs e)
+        {
+            tbOperation.Text += ":";
+            buttonDodawanie.IsEnabled = false;
+        }
+
     }
 }
