@@ -17,5 +17,6 @@
         <Button x:Name="button7" Content="7" HorizontalAlignment="Left" Margin="10,38,0,0" VerticalAlignment="Top" Width="75"/>
         <Button x:Name="button8" Content="8" HorizontalAlignment="Left" Margin="90,38,0,0" VerticalAlignment="Top" Width="75"/>
         <Button x:Name="button9" Content="9" HorizontalAlignment="Left" Margin="170,38,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button x:Name="button0" Content="0" HorizontalAlignment="Left" Margin="90,113,0,0" VerticalAlignment="Top" Width="75"/>
     </Grid>
 </Window>
