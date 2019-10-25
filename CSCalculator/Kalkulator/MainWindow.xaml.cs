@@ -20,6 +20,9 @@ namespace Kalkulator
     /// </summary>
     public partial class MainWindow : Window
     {
+        double liczba1 = 0;
+        double liczba2 = 0;
+        Boolean czyZnak = false;
 
         public MainWindow()
         {
@@ -40,5 +43,77 @@ namespace Kalkulator
         {
             tbOperation.Text += "3";
 		}
+		
+		private void button4_onClick(object sender, RoutedEventArgs e)
+        {
+            tbOperation.Text += "4";
+		}
+
+        private void button5_onClick(object sender, RoutedEventArgs e)
+        {
+            tbOperation.Text += "5";
+        }
+
+		private void button6_onClick(object sender, RoutedEventArgs e)
+        {
+            tbOperation.Text += "6";
+        }
+        private void button7_onClick(object sender, RoutedEventArgs e)
+        {
+            tbOperation.Text += "7";
+        }
+        private void button8_onClick(object sender, RoutedEventArgs e)
+        {
+            tbOperation.Text += "8";
+        }
+        private void button9_onClick(object sender, RoutedEventArgs e)
+        {
+            tbOperation.Text += "9";
+        }
+        private void button0_onClick(object sender, RoutedEventArgs e)
+        {
+            tbOperation.Text += "0";
+        }
+
+        private void buttonPlus_onClick(object sender, RoutedEventArgs e)
+        {
+            Double.TryParse(tbOperation.Text, out liczba1);
+            tbOperation.Text = "+";
+            czyZnak = true;
+        }
+        private void buttonMinus_onClick(object sender, RoutedEventArgs e)
+        {
+            Double.TryParse(tbOperation.Text, out liczba1);
+            tbOperation.Text = "-";
+            czyZnak = true;
+        }
+        private void buttonMnozenie_onClick(object sender, RoutedEventArgs e)
+        {
+            Double.TryParse(tbOperation.Text, out liczba1);
+            tbOperation.Text = "*";
+            czyZnak = true;
+        }
+        private void buttonDivide_onClick(object sender, RoutedEventArgs e)
+        {
+            Double.TryParse(tbOperation.Text, out liczba1);
+            tbOperation.Text = "/";
+            czyZnak = true;
+            // buttonDzielenie.IsEnabled = false;
+        }
+
+        private void buttonPrzecinek_onClick(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void buttonPlusMinus_onClick(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void buttonWynik_onClick(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
