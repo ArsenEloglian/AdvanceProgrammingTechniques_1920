@@ -11,10 +11,7 @@ import javax.swing.*;
 import javax.swing.UIManager.LookAndFeelInfo;
 
 
-/**
- *
- * @author fatne, morrison
- */
+
 
 public class JavaCalculator implements ActionListener {
    
@@ -93,7 +90,8 @@ public class JavaCalculator implements ActionListener {
         
         if(!this.isInteger(operation)){
             switch(operation){
-                case "C" :  
+                case "C" :
+                    System.out.println("Usuwanie");
                     this.clearScreen();
                     break;
                 case "CE" :  
