@@ -11,8 +11,6 @@ import android.widget.Toast;
 import net.objecthunter.exp4j.Expression;
 import net.objecthunter.exp4j.ExpressionBuilder;
 
-import java.util.ArrayList;
-
 public class MainActivity extends AppCompatActivity {
 
     private TextView resultView;
@@ -35,6 +33,28 @@ public class MainActivity extends AppCompatActivity {
     private Button buttonDot;
     private Button buttonDel;
 
+    private void init() {
+        resultView = findViewById(R.id.textView);
+        result = "";
+        button0 = (Button) findViewById(R.id.button0);
+        button1 = (Button) findViewById(R.id.button1);
+        button2 = (Button) findViewById(R.id.button2);
+        button3 = (Button) findViewById(R.id.button3);
+        button4 = (Button) findViewById(R.id.button4);
+        button5 = (Button) findViewById(R.id.button5);
+        button6 = (Button) findViewById(R.id.button6);
+        button7 = (Button) findViewById(R.id.button7);
+        button8 = (Button) findViewById(R.id.button8);
+        button9 = (Button) findViewById(R.id.button9);
+        buttonAdd = (Button) findViewById(R.id.buttonPlus);
+        buttonSubtract = (Button) findViewById(R.id.buttonMinus);
+        buttonDivide = (Button) findViewById(R.id.buttonDivide);
+        buttonMultiply = (Button) findViewById(R.id.buttonMultiply);
+        buttonDel = (Button) findViewById(R.id.buttonDel);
+        buttonDot = (Button) findViewById(R.id.buttonDot);
+        buttonEqual = (Button) findViewById(R.id.buttonEquals);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,51 +64,35 @@ public class MainActivity extends AppCompatActivity {
         buttonEqual.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!"".equals(result)) {
+                if (!"".equals(result)) {
 
-                    try{
+                    try {
                         Expression expression = new ExpressionBuilder(result).build();
                         double calculate = expression.evaluate();
-                        /*
-                        Tutaj część kacpra aby zrobic funkcje przerabiajaca double na stringa
 
                         resultView.setText(DoubleToString(calculate));
 
-                         */
                         result = "";
 
-                    }
-                    catch(Exception e){
+                    } catch (Exception e) {
                         Toast.makeText(MainActivity.this, "Incorrect", Toast.LENGTH_SHORT).show();
                     }
                 }
 
             }
         });
+
     }
 
+    private String DoubleToString(double calculate) {
+        return String.valueOf(calculate);
+    }
 
-    private void init() {
-        resultView = findViewById(R.id.textView);
-        result = "";
-        button0=(Button) findViewById(R.id.button0);
-        button1=(Button) findViewById(R.id.button1);
-        button2=(Button) findViewById(R.id.button2);
-        button3=(Button) findViewById(R.id.button3);
-        button4=(Button) findViewById(R.id.button4);
-        button5=(Button) findViewById(R.id.button5);
-        button6=(Button) findViewById(R.id.button6);
-        button7=(Button) findViewById(R.id.button7);
-        button8=(Button) findViewById(R.id.button8);
-        button9=(Button) findViewById(R.id.button9);
-        buttonAdd=(Button) findViewById(R.id.buttonPlus);
-        buttonSubtract=(Button) findViewById(R.id.buttonMinus);
-        buttonDivide=(Button) findViewById(R.id.buttonDivide);
-        buttonMultiply=(Button) findViewById(R.id.buttonMultiply);
-        buttonDel=(Button) findViewById(R.id.buttonDel);
-        buttonDot=(Button) findViewById(R.id.buttonDot);
-        buttonEqual=(Button) findViewById(R.id.buttonEquals);
-
+    public void onClickOtherButtons(View view) {
+        Button buttonPressed = (Button) view;
+        String valueFromTheButton = buttonPressed.getText().toString();
+        resultView.setText(resultView.getText() + valueFromTheButton);
+        result = resultView.getText().toString();
     }
 
 }
