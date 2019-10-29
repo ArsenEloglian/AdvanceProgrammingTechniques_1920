@@ -22,7 +22,9 @@ namespace Kalkulator
     {
         double liczba1 = 0;
         double liczba2 = 0;
+		String znak = "";
         Boolean czyZnak = false;
+        double wynik = 0;
 
         public MainWindow()
         {
@@ -169,6 +171,7 @@ namespace Kalkulator
         {
             Double.TryParse(tbOperation.Text, out liczba1);
             tbOperation.Text = "+";
+			znak = "+";
             czyZnak = true;
             
         }
@@ -176,6 +179,7 @@ namespace Kalkulator
         {
             Double.TryParse(tbOperation.Text, out liczba1);
             tbOperation.Text = "-";
+			znak = "-";
             czyZnak = true;
             
         }
@@ -183,6 +187,7 @@ namespace Kalkulator
         {
             Double.TryParse(tbOperation.Text, out liczba1);
             tbOperation.Text = "*";
+			znak = "*";
             czyZnak = true;
             
         }
@@ -190,6 +195,7 @@ namespace Kalkulator
         {
             Double.TryParse(tbOperation.Text, out liczba1);
             tbOperation.Text = "/";
+			znak = "/";
             czyZnak = true;
             
         }
@@ -201,12 +207,48 @@ namespace Kalkulator
 
         private void buttonPlusMinus_onClick(object sender, RoutedEventArgs e)
         {
-
+            if(znak == "")
+            {
+                Double.TryParse(tbOperation.Text, out liczba1);
+                liczba1 = liczba1 * -1;
+                tbOperation.Text = liczba1.ToString();
+            }
+            else
+            {
+                Double.TryParse(tbOperation.Text, out liczba2);
+                liczba2 = liczba2 * -1;
+                tbOperation.Text = liczba2.ToString();
+            }
         }
 
         private void buttonWynik_onClick(object sender, RoutedEventArgs e)
         {
-
+			if(znak == "+")
+			{
+				Double.TryParse(tbOperation.Text, out liczba2);
+                wynik = liczba1 + liczba2;
+                tbOperation.Text = wynik.ToString();
+            }
+			else if(znak == "-")
+			{
+				Double.TryParse(tbOperation.Text, out liczba2);
+                wynik = liczba1 - liczba2;
+                tbOperation.Text = wynik.ToString();
+            }
+			else if(znak == "*")
+			{
+				Double.TryParse(tbOperation.Text, out liczba2);
+                wynik = liczba1 * liczba2;
+                tbOperation.Text = wynik.ToString();
+            }
+			else if(znak == "/")
+			{
+				Double.TryParse(tbOperation.Text, out liczba2);
+                wynik = liczba1 / liczba2;
+                tbOperation.Text = wynik.ToString();
+            }
+            znak = "";
+            disableAll();
         }
 
         private void disableAll()

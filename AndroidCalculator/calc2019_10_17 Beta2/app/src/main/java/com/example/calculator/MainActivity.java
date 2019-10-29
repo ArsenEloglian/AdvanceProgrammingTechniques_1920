@@ -13,7 +13,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        findViewById(R.id.button).setOnClickListener(handleClick);
+		findViewById(R.id.button0).setOnClickListener(handleClick);
+        findViewById(R.id.button1).setOnClickListener(handleClick);
         findViewById(R.id.button2).setOnClickListener(handleClick);
         findViewById(R.id.button3).setOnClickListener(handleClick);
         findViewById(R.id.button4).setOnClickListener(handleClick);
@@ -22,12 +23,11 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.button7).setOnClickListener(handleClick);
         findViewById(R.id.button8).setOnClickListener(handleClick);
         findViewById(R.id.button9).setOnClickListener(handleClick);
-        findViewById(R.id.button10).setOnClickListener(handleClick);
-        findViewById(R.id.button13).setOnClickListener(operClick);
-        findViewById(R.id.button14).setOnClickListener(operClick);
-        findViewById(R.id.button15).setOnClickListener(operClick);
-        findViewById(R.id.button16).setOnClickListener(operClick);
-        findViewById(R.id.button12).setOnClickListener(eqClick);
+        findViewById(R.id.buttonOdejmij).setOnClickListener(operClick);
+        findViewById(R.id.buttonDziel).setOnClickListener(operClick);
+        findViewById(R.id.buttonDodaj).setOnClickListener(operClick);
+        findViewById(R.id.buttonMnoz).setOnClickListener(operClick);
+        findViewById(R.id.buttonWynik).setOnClickListener(eqClick);
     }
     int which=0;
     int first=0;
