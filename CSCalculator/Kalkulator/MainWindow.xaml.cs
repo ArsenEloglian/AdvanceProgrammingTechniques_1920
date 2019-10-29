@@ -22,6 +22,7 @@ namespace Kalkulator
     {
         double liczba1 = 0;
         double liczba2 = 0;
+		String znak = "";
         Boolean czyZnak = false;
 
         public MainWindow()
@@ -79,24 +80,28 @@ namespace Kalkulator
         {
             Double.TryParse(tbOperation.Text, out liczba1);
             tbOperation.Text = "+";
+			znak = "+";
             czyZnak = true;
         }
         private void buttonMinus_onClick(object sender, RoutedEventArgs e)
         {
             Double.TryParse(tbOperation.Text, out liczba1);
             tbOperation.Text = "-";
+			znak = "-";
             czyZnak = true;
         }
         private void buttonMnozenie_onClick(object sender, RoutedEventArgs e)
         {
             Double.TryParse(tbOperation.Text, out liczba1);
             tbOperation.Text = "*";
+			znak = "*";
             czyZnak = true;
         }
         private void buttonDivide_onClick(object sender, RoutedEventArgs e)
         {
             Double.TryParse(tbOperation.Text, out liczba1);
             tbOperation.Text = "/";
+			znak = "/";
             czyZnak = true;
             // buttonDzielenie.IsEnabled = false;
         }
@@ -113,7 +118,22 @@ namespace Kalkulator
 
         private void buttonWynik_onClick(object sender, RoutedEventArgs e)
         {
-
+			if(znak.equals("+"))
+			{
+				Double.TryParse(tbOperation.Text, out liczba2);
+			}
+			else if(znak.equals("-"))
+			{
+				Double.TryParse(tbOperation.Text, out liczba2);
+			}
+			else if(znak.equals("*"))
+			{
+				Double.TryParse(tbOperation.Text, out liczba2);
+			}
+			else if(znak.equals("/"))
+			{
+				Double.TryParse(tbOperation.Text, out liczba2);
+			}
         }
     }
 }
