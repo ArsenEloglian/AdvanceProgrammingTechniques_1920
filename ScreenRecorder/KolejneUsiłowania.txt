@@ -1,0 +1,2 @@
+--redakcja g³osu za pomoc¹ WaveReader oraz WaveWriter
+--odczyt danych z p³yty CD oraz zapis jako wav lub mp3
