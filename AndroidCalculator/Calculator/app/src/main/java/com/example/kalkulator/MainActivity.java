@@ -65,7 +65,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private String doubleToString(double calculate) {
-        return String.valueOf(calculate);
+
+        return calculate % 1 == 0 ? String.valueOf((int) calculate) : String.format ("%.3f", calculate) ;
+
     }
 
     private void calculateResultAndDisplayOnTheScreen() {
