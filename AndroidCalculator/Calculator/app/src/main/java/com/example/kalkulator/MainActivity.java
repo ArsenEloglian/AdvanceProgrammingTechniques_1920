@@ -12,7 +12,6 @@ import net.objecthunter.exp4j.Expression;
 import net.objecthunter.exp4j.ExpressionBuilder;
 
 public class MainActivity extends AppCompatActivity {
-
     private TextView resultView;
     private String result;
     private Button button0;
@@ -32,8 +31,9 @@ public class MainActivity extends AppCompatActivity {
     private Button buttonEqual;
     private Button buttonDot;
     private Button buttonDel;
+    private boolean wasCalculatedResult = false;
 
-    private void init() {
+    private void initializeVariables() {
         resultView = findViewById(R.id.textView);
         result = "";
         button0 = (Button) findViewById(R.id.button0);
@@ -53,46 +53,51 @@ public class MainActivity extends AppCompatActivity {
         buttonDel = (Button) findViewById(R.id.buttonDel);
         buttonDot = (Button) findViewById(R.id.buttonDot);
         buttonEqual = (Button) findViewById(R.id.buttonEquals);
+
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        init();
+        initializeVariables();
+        calculateResultAndDisplayOnTheScreen();
+    }
 
+    private String doubleToString(double calculate) {
+        return String.valueOf(calculate);
+    }
+
+    private void calculateResultAndDisplayOnTheScreen() {
         buttonEqual.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (!"".equals(result)) {
-
                     try {
                         Expression expression = new ExpressionBuilder(result).build();
                         double calculate = expression.evaluate();
-
-                        resultView.setText(DoubleToString(calculate));
-
+                        resultView.setText(doubleToString(calculate));
                         result = "";
-
+                        wasCalculatedResult = true;
                     } catch (Exception e) {
                         Toast.makeText(MainActivity.this, "Incorrect", Toast.LENGTH_SHORT).show();
                     }
                 }
-
             }
         });
-
-    }
-
-    private String DoubleToString(double calculate) {
-        return String.valueOf(calculate);
     }
 
     public void onClickOtherButtons(View view) {
         Button buttonPressed = (Button) view;
         String valueFromTheButton = buttonPressed.getText().toString();
-        resultView.setText(resultView.getText() + valueFromTheButton);
-        result = resultView.getText().toString();
+        if (!wasCalculatedResult) {
+            resultView.setText(resultView.getText() + valueFromTheButton);
+            result = resultView.getText().toString();
+        } else {
+            resultView.setText(valueFromTheButton);
+            result = resultView.getText().toString();
+            wasCalculatedResult = false;
+        }
     }
 
 }
