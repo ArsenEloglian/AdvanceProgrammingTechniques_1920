@@ -1,0 +1,7 @@
+	Pliki na X aby roz³o¿yæ na 
+klatki(output*.png)+dŸwiêk(output.mp3)+fps(output.txt) 
+lub z tego z³o¿yæ.
+	Przedostatni na ostatni aby czyœciæ roboczy.
+	MP4 na pierwszy aby METAMORFOZA.
+	NAGRYWANIE pierwszy podwójnie.
+YOUTUBE(patch.exe) -potrzeba Microsoft Visual C++ 2010 Redistributable Package (x86)

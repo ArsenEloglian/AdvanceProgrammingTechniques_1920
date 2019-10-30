@@ -22,7 +22,10 @@ namespace Kalkulator
     {
         double liczba1 = 0;
         double liczba2 = 0;
+		String znak = "";
         Boolean czyZnak = false;
+        double wynik = 0;
+        
 
         public MainWindow()
         {
@@ -31,74 +34,181 @@ namespace Kalkulator
 
         private void button1_onClick(object sender, RoutedEventArgs e)
         {
-            tbOperation.Text += "1";
+            if (czyZnak == true)
+            {
+                tbOperation.Text = "1";
+                czyZnak = false;
+                disableAll();
+                buttonWynik.IsEnabled = true;
+            }
+            else
+            {
+                tbOperation.Text += "1";
+            }
         }
 
         private void button2_onClick(object sender, RoutedEventArgs e)
         {
-            tbOperation.Text += "2";
+            if (czyZnak == true)
+            {
+                tbOperation.Text = "2";
+                czyZnak = false;
+                disableAll();
+                buttonWynik.IsEnabled = true;
+            }
+            else
+            {
+                tbOperation.Text += "2";
+            }
         }
 
         private void button3_onClick(object sender, RoutedEventArgs e)
         {
-            tbOperation.Text += "3";
-		}
+            if (czyZnak == true)
+            {
+                tbOperation.Text = "3";
+                czyZnak = false;
+                disableAll();
+                buttonWynik.IsEnabled = true;
+            }
+            else
+            {
+                tbOperation.Text += "3";
+            }
+        }
 		
 		private void button4_onClick(object sender, RoutedEventArgs e)
         {
-            tbOperation.Text += "4";
-		}
+            if (czyZnak == true)
+            {
+                tbOperation.Text = "4";
+                czyZnak = false;
+                disableAll();
+                buttonWynik.IsEnabled = true;
+            }
+            else
+            {
+                tbOperation.Text += "4";
+            }
+        }
 
         private void button5_onClick(object sender, RoutedEventArgs e)
         {
-            tbOperation.Text += "5";
+            if (czyZnak == true)
+            {
+                tbOperation.Text = "5";
+                czyZnak = false;
+                disableAll();
+                buttonWynik.IsEnabled = true;
+            }
+            else
+            {
+                tbOperation.Text += "5";
+            }
         }
 
 		private void button6_onClick(object sender, RoutedEventArgs e)
         {
-            tbOperation.Text += "6";
+            if (czyZnak == true)
+            {
+                tbOperation.Text = "6";
+                czyZnak = false;
+                disableAll();
+                buttonWynik.IsEnabled = true;
+            }
+            else
+            {
+                tbOperation.Text += "6";
+            }
         }
         private void button7_onClick(object sender, RoutedEventArgs e)
         {
-            tbOperation.Text += "7";
+            if (czyZnak == true)
+            {
+                tbOperation.Text = "7";
+                czyZnak = false;
+                disableAll();
+                buttonWynik.IsEnabled = true;
+            }
+            else
+            {
+                tbOperation.Text += "7";
+            }
         }
         private void button8_onClick(object sender, RoutedEventArgs e)
         {
-            tbOperation.Text += "8";
+            if (czyZnak == true)
+            {
+                tbOperation.Text = "8";
+                czyZnak = false;
+                disableAll();
+                buttonWynik.IsEnabled = true;
+            }
+            else
+            {
+                tbOperation.Text += "8";
+            }
         }
         private void button9_onClick(object sender, RoutedEventArgs e)
         {
-            tbOperation.Text += "9";
+            if (czyZnak == true)
+            {
+                tbOperation.Text = "9";
+                czyZnak = false;
+                disableAll();
+                buttonWynik.IsEnabled = true;
+            }
+            else
+            {
+                tbOperation.Text += "9";
+            }
         }
         private void button0_onClick(object sender, RoutedEventArgs e)
         {
-            tbOperation.Text += "0";
+            if(czyZnak == true)
+            {
+                tbOperation.Text = "0";
+                czyZnak = false;
+                disableAll();
+                buttonWynik.IsEnabled = true;
+            }
+            else
+            {
+                tbOperation.Text += "0";
+            }      
         }
 
         private void buttonPlus_onClick(object sender, RoutedEventArgs e)
         {
             Double.TryParse(tbOperation.Text, out liczba1);
             tbOperation.Text = "+";
+			znak = "+";
             czyZnak = true;
+            
         }
         private void buttonMinus_onClick(object sender, RoutedEventArgs e)
         {
             Double.TryParse(tbOperation.Text, out liczba1);
             tbOperation.Text = "-";
+			znak = "-";
             czyZnak = true;
+            
         }
         private void buttonMnozenie_onClick(object sender, RoutedEventArgs e)
         {
             Double.TryParse(tbOperation.Text, out liczba1);
             tbOperation.Text = "*";
+			znak = "*";
             czyZnak = true;
+            
         }
         private void buttonDivide_onClick(object sender, RoutedEventArgs e)
         {
             Double.TryParse(tbOperation.Text, out liczba1);
             tbOperation.Text = "/";
+			znak = "/";
             czyZnak = true;
-            // buttonDzielenie.IsEnabled = false;
+            
         }
 
         private void buttonPrzecinek_onClick(object sender, RoutedEventArgs e)
@@ -108,12 +218,69 @@ namespace Kalkulator
 
         private void buttonPlusMinus_onClick(object sender, RoutedEventArgs e)
         {
-
+            if(znak == "")
+            {
+                Double.TryParse(tbOperation.Text, out liczba1);
+                liczba1 = liczba1 * -1;
+                tbOperation.Text = liczba1.ToString();
+            }
+            else
+            {
+                Double.TryParse(tbOperation.Text, out liczba2);
+                liczba2 = liczba2 * -1;
+                tbOperation.Text = liczba2.ToString();
+            }
         }
 
         private void buttonWynik_onClick(object sender, RoutedEventArgs e)
         {
+			if(znak == "+")
+			{
+				Double.TryParse(tbOperation.Text, out liczba2);
+                wynik = liczba1 + liczba2;
+                tbOperation.Text = wynik.ToString();
+            }
+			else if(znak == "-")
+			{
+				Double.TryParse(tbOperation.Text, out liczba2);
+                wynik = liczba1 - liczba2;
+                tbOperation.Text = wynik.ToString();
+            }
+			else if(znak == "*")
+			{
+				Double.TryParse(tbOperation.Text, out liczba2);
+                wynik = liczba1 * liczba2;
+                tbOperation.Text = wynik.ToString();
+            }
+			else if(znak == "/")
+			{
+				Double.TryParse(tbOperation.Text, out liczba2);
+                wynik = liczba1 / liczba2;
+                tbOperation.Text = wynik.ToString();
+            }
+            znak = "";
+            czyZnak = true;
+            buttonWynik.IsEnabled = false;
+        }
 
+        private void disableAll()
+        {
+            buttonPlus.IsEnabled = !buttonPlus.IsEnabled;
+            buttonMinus.IsEnabled = !buttonMinus.IsEnabled;
+            buttonMnozenie.IsEnabled = !buttonMnozenie.IsEnabled;
+            buttonDivide.IsEnabled = !buttonDivide.IsEnabled;
+        }
+
+        private void buttonC_Click(object sender, RoutedEventArgs e)
+        {
+            tbOperation.Text = "";
+            znak = "";
+            czyZnak = false;
+            buttonWynik.IsEnabled = false;
+            if(buttonMnozenie.IsEnabled == false)
+            {
+                disableAll();
+            }
         }
     }
 }
