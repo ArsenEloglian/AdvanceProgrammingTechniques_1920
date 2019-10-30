@@ -26,5 +26,8 @@
         <Button x:Name="buttonPlusMinus" Content="+/-" HorizontalAlignment="Left" Margin="10,113,0,0" VerticalAlignment="Top" Width="50" Click="buttonPlusMinus_onClick"/>
         <Button x:Name="buttonWynik" Content="=" HorizontalAlignment="Left" Margin="10,138,0,0" VerticalAlignment="Top" Width="280" Height="34" Click="buttonWynik_onClick" IsEnabled="False"/>
         <Button x:Name="buttonC" Content="C" HorizontalAlignment="Left" Margin="220,38,0,0" VerticalAlignment="Top" Width="40" Click="buttonC_Click"/>
+        <Button x:Name="buttonUsunZnak" Content="←" HorizontalAlignment="Left" Margin="220,63,0,0" VerticalAlignment="Top" Width="40" Click="buttonUsunZnak_Click"/>
+        <Button x:Name="buttonPierwiastek" Content="&#8730;" HorizontalAlignment="Left" Margin="220,88,0,0" VerticalAlignment="Top" Width="40" Click="buttonPierwiastek_Click"/>
+        <Button x:Name="buttonResztaZdzielenia" Content="%" HorizontalAlignment="Left" Margin="220,113,0,0" VerticalAlignment="Top" Width="40" Click="buttonResztaZdzielenia_Click"/>
     </Grid>
 </Window>

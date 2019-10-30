@@ -184,7 +184,7 @@ namespace Kalkulator
             tbOperation.Text = "+";
 			znak = "+";
             czyZnak = true;
-            
+            disableAll();
         }
         private void buttonMinus_onClick(object sender, RoutedEventArgs e)
         {
@@ -192,7 +192,7 @@ namespace Kalkulator
             tbOperation.Text = "-";
 			znak = "-";
             czyZnak = true;
-            
+            disableAll();
         }
         private void buttonMnozenie_onClick(object sender, RoutedEventArgs e)
         {
@@ -200,7 +200,7 @@ namespace Kalkulator
             tbOperation.Text = "*";
 			znak = "*";
             czyZnak = true;
-            
+            disableAll();
         }
         private void buttonDivide_onClick(object sender, RoutedEventArgs e)
         {
@@ -208,12 +208,24 @@ namespace Kalkulator
             tbOperation.Text = "/";
 			znak = "/";
             czyZnak = true;
-            
+            disableAll();
+        }
+
+        private void buttonResztaZdzielenia_Click(object sender, RoutedEventArgs e)
+        {
+            Double.TryParse(tbOperation.Text, out liczba1);
+            tbOperation.Text = "%";
+            znak = "%";
+            czyZnak = true;
+            disableAll();
         }
 
         private void buttonPrzecinek_onClick(object sender, RoutedEventArgs e)
         {
-
+            if(czyZnak == false && tbOperation.Text.Length > 0 && !(tbOperation.Text.Contains(",")))
+            {
+                tbOperation.Text = tbOperation.Text + ",";
+            }
         }
 
         private void buttonPlusMinus_onClick(object sender, RoutedEventArgs e)
@@ -258,6 +270,12 @@ namespace Kalkulator
                 wynik = liczba1 / liczba2;
                 tbOperation.Text = wynik.ToString();
             }
+            else if(znak == "%")
+            {
+                Double.TryParse(tbOperation.Text, out liczba2);
+                wynik = liczba1 % liczba2;
+                tbOperation.Text = wynik.ToString();
+            }
             znak = "";
             czyZnak = true;
             buttonWynik.IsEnabled = false;
@@ -269,6 +287,7 @@ namespace Kalkulator
             buttonMinus.IsEnabled = !buttonMinus.IsEnabled;
             buttonMnozenie.IsEnabled = !buttonMnozenie.IsEnabled;
             buttonDivide.IsEnabled = !buttonDivide.IsEnabled;
+            buttonResztaZdzielenia.IsEnabled = !buttonResztaZdzielenia.IsEnabled;
         }
 
         private void buttonC_Click(object sender, RoutedEventArgs e)
@@ -280,6 +299,37 @@ namespace Kalkulator
             if(buttonMnozenie.IsEnabled == false)
             {
                 disableAll();
+            }
+        }
+
+        private void buttonPierwiastek_Click(object sender, RoutedEventArgs e)
+        {
+            if (tbOperation.Text.Length > 0 && czyZnak == false)
+            {
+                if (znak == "")
+                {
+                    Double.TryParse(tbOperation.Text, out liczba1);
+                    liczba1 = Math.Sqrt(liczba1);
+                    tbOperation.Text = liczba1.ToString();
+                }
+                else
+                {
+                    Double.TryParse(tbOperation.Text, out liczba2);
+                    liczba2 = Math.Sqrt(liczba2);
+                    tbOperation.Text = liczba2.ToString();
+                }
+            }
+        }
+
+        private void buttonUsunZnak_Click(object sender, RoutedEventArgs e)
+        {
+            if(tbOperation.Text.Length > 0 && buttonWynik.IsEnabled == false)
+            {
+                tbOperation.Text = tbOperation.Text.Remove(tbOperation.Text.Length - 1);
+            }
+            else if (tbOperation.Text.Length > 0 && czyZnak == false)
+            {
+                tbOperation.Text = tbOperation.Text.Remove(tbOperation.Text.Length - 1);
             }
         }
     }
