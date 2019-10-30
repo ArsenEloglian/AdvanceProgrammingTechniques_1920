@@ -25,6 +25,7 @@ namespace Kalkulator
 		String znak = "";
         Boolean czyZnak = false;
         double wynik = 0;
+        
 
         public MainWindow()
         {
@@ -38,6 +39,7 @@ namespace Kalkulator
                 tbOperation.Text = "1";
                 czyZnak = false;
                 disableAll();
+                buttonWynik.IsEnabled = true;
             }
             else
             {
@@ -52,6 +54,7 @@ namespace Kalkulator
                 tbOperation.Text = "2";
                 czyZnak = false;
                 disableAll();
+                buttonWynik.IsEnabled = true;
             }
             else
             {
@@ -66,6 +69,7 @@ namespace Kalkulator
                 tbOperation.Text = "3";
                 czyZnak = false;
                 disableAll();
+                buttonWynik.IsEnabled = true;
             }
             else
             {
@@ -80,6 +84,7 @@ namespace Kalkulator
                 tbOperation.Text = "4";
                 czyZnak = false;
                 disableAll();
+                buttonWynik.IsEnabled = true;
             }
             else
             {
@@ -94,6 +99,7 @@ namespace Kalkulator
                 tbOperation.Text = "5";
                 czyZnak = false;
                 disableAll();
+                buttonWynik.IsEnabled = true;
             }
             else
             {
@@ -108,6 +114,7 @@ namespace Kalkulator
                 tbOperation.Text = "6";
                 czyZnak = false;
                 disableAll();
+                buttonWynik.IsEnabled = true;
             }
             else
             {
@@ -121,6 +128,7 @@ namespace Kalkulator
                 tbOperation.Text = "7";
                 czyZnak = false;
                 disableAll();
+                buttonWynik.IsEnabled = true;
             }
             else
             {
@@ -134,6 +142,7 @@ namespace Kalkulator
                 tbOperation.Text = "8";
                 czyZnak = false;
                 disableAll();
+                buttonWynik.IsEnabled = true;
             }
             else
             {
@@ -147,6 +156,7 @@ namespace Kalkulator
                 tbOperation.Text = "9";
                 czyZnak = false;
                 disableAll();
+                buttonWynik.IsEnabled = true;
             }
             else
             {
@@ -160,6 +170,7 @@ namespace Kalkulator
                 tbOperation.Text = "0";
                 czyZnak = false;
                 disableAll();
+                buttonWynik.IsEnabled = true;
             }
             else
             {
@@ -248,7 +259,8 @@ namespace Kalkulator
                 tbOperation.Text = wynik.ToString();
             }
             znak = "";
-            disableAll();
+            czyZnak = true;
+            buttonWynik.IsEnabled = false;
         }
 
         private void disableAll()
@@ -257,6 +269,18 @@ namespace Kalkulator
             buttonMinus.IsEnabled = !buttonMinus.IsEnabled;
             buttonMnozenie.IsEnabled = !buttonMnozenie.IsEnabled;
             buttonDivide.IsEnabled = !buttonDivide.IsEnabled;
+        }
+
+        private void buttonC_Click(object sender, RoutedEventArgs e)
+        {
+            tbOperation.Text = "";
+            znak = "";
+            czyZnak = false;
+            buttonWynik.IsEnabled = false;
+            if(buttonMnozenie.IsEnabled == false)
+            {
+                disableAll();
+            }
         }
     }
 }
