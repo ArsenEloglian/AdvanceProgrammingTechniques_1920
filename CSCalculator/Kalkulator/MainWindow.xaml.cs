@@ -279,6 +279,7 @@ namespace Kalkulator
             znak = "";
             czyZnak = true;
             buttonWynik.IsEnabled = false;
+
         }
 
         private void disableAll()
@@ -290,6 +291,24 @@ namespace Kalkulator
             buttonResztaZdzielenia.IsEnabled = !buttonResztaZdzielenia.IsEnabled;
         }
 
+        private void disableAll_v2()
+        {
+            button0.IsEnabled = !button0.IsEnabled;
+            button1.IsEnabled = !button1.IsEnabled;
+            button2.IsEnabled = !button2.IsEnabled;
+            button3.IsEnabled = !button3.IsEnabled;
+            button4.IsEnabled = !button4.IsEnabled;
+            button5.IsEnabled = !button5.IsEnabled;
+            button6.IsEnabled = !button6.IsEnabled;
+            button7.IsEnabled = !button7.IsEnabled;
+            button8.IsEnabled = !button8.IsEnabled;
+            button9.IsEnabled = !button9.IsEnabled;
+            buttonPlusMinus.IsEnabled = !buttonPlusMinus.IsEnabled;
+            buttonPrzecinek.IsEnabled = !buttonPrzecinek.IsEnabled;
+            buttonUsunZnak.IsEnabled = !buttonUsunZnak.IsEnabled;
+            buttonPierwiastek.IsEnabled = !buttonPierwiastek.IsEnabled;
+        }
+
         private void buttonC_Click(object sender, RoutedEventArgs e)
         {
             tbOperation.Text = "";
@@ -299,12 +318,13 @@ namespace Kalkulator
             if(buttonMnozenie.IsEnabled == false)
             {
                 disableAll();
+                disableAll_v2();
             }
         }
 
         private void buttonPierwiastek_Click(object sender, RoutedEventArgs e)
         {
-            if (tbOperation.Text.Length > 0 && czyZnak == false)
+            if (tbOperation.Text.Length > 0 && Double.TryParse(tbOperation.Text, out liczba2))
             {
                 if (znak == "")
                 {
@@ -319,6 +339,12 @@ namespace Kalkulator
                     tbOperation.Text = liczba2.ToString();
                 }
             }
+            if (tbOperation.Text == "NaN")
+            {
+                disableAll();
+                disableAll_v2();
+            }
+
         }
 
         private void buttonUsunZnak_Click(object sender, RoutedEventArgs e)

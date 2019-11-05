@@ -41,3 +41,17 @@ C:\Users\Student\Desktop\AdvanceProgrammingTechniques\CSCalculator\Kalkulator\ob
 C:\Users\Student\Desktop\AdvanceProgrammingTechniques\CSCalculator\Kalkulator\obj\Debug\Kalkulator.g.resources
 C:\Users\Student\Desktop\AdvanceProgrammingTechniques\CSCalculator\Kalkulator\obj\Debug\Kalkulator.Properties.Resources.resources
 C:\Users\Student\Desktop\AdvanceProgrammingTechniques\CSCalculator\Kalkulator\obj\Debug\Kalkulator.csproj.GenerateResource.Cache
+C:\Users\lenovopc\Desktop\AdvanceProgrammingTechniques\CSCalculator\Kalkulator\bin\Debug\Kalkulator.exe.config
+C:\Users\lenovopc\Desktop\AdvanceProgrammingTechniques\CSCalculator\Kalkulator\obj\Debug\Kalkulator.exe
+C:\Users\lenovopc\Desktop\AdvanceProgrammingTechniques\CSCalculator\Kalkulator\obj\Debug\Kalkulator.pdb
+C:\Users\lenovopc\Desktop\AdvanceProgrammingTechniques\CSCalculator\Kalkulator\bin\Debug\Kalkulator.exe
+C:\Users\lenovopc\Desktop\AdvanceProgrammingTechniques\CSCalculator\Kalkulator\bin\Debug\Kalkulator.pdb
+C:\Users\lenovopc\Desktop\AdvanceProgrammingTechniques\CSCalculator\Kalkulator\obj\Debug\Kalkulator.csprojResolveAssemblyReference.cache
+C:\Users\lenovopc\Desktop\AdvanceProgrammingTechniques\CSCalculator\Kalkulator\obj\Debug\MainWindow.g.cs
+C:\Users\lenovopc\Desktop\AdvanceProgrammingTechniques\CSCalculator\Kalkulator\obj\Debug\App.g.cs
+C:\Users\lenovopc\Desktop\AdvanceProgrammingTechniques\CSCalculator\Kalkulator\obj\Debug\Kalkulator_MarkupCompile.cache
+C:\Users\lenovopc\Desktop\AdvanceProgrammingTechniques\CSCalculator\Kalkulator\obj\Debug\Kalkulator_MarkupCompile.lref
+C:\Users\lenovopc\Desktop\AdvanceProgrammingTechniques\CSCalculator\Kalkulator\obj\Debug\MainWindow.baml
+C:\Users\lenovopc\Desktop\AdvanceProgrammingTechniques\CSCalculator\Kalkulator\obj\Debug\Kalkulator.g.resources
+C:\Users\lenovopc\Desktop\AdvanceProgrammingTechniques\CSCalculator\Kalkulator\obj\Debug\Kalkulator.Properties.Resources.resources
+C:\Users\lenovopc\Desktop\AdvanceProgrammingTechniques\CSCalculator\Kalkulator\obj\Debug\Kalkulator.csproj.GenerateResource.Cache
