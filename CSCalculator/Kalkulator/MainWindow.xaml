@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Kalkulator"
         mc:Ignorable="d"
-        Title="Kalkulator" Height="211.667" Width="308" ResizeMode="NoResize">
+        Title="Kalkulator" Height="411.667" Width="508" ResizeMode="NoResize">
     <Grid>
         <Button x:Name="button1" Content="1" HorizontalAlignment="Left" Margin="10,88,0,0" VerticalAlignment="Top" Width="50" Click="button1_onClick"/>
-        <TextBox x:Name="tbOperation" HorizontalAlignment="Left" Height="23" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="280" IsEnabled="False"/>
+        <TextBox x:Name="tbOperation" HorizontalAlignment="Left" Height="43" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="280" IsEnabled="False" FontSize="30"/>
         <Button x:Name="button2" Content="2" HorizontalAlignment="Left" Margin="65,88,0,0" VerticalAlignment="Top" Width="50" Click="button2_onClick"/>
         <Button x:Name="button3" Content="3" HorizontalAlignment="Left" Margin="120,88,0,0" VerticalAlignment="Top" Width="50" Click="button3_onClick"/>
         <Button x:Name="button4" Content="4" HorizontalAlignment="Left" Margin="10,63,0,0" VerticalAlignment="Top" Width="50" Click="button4_onClick"/>
