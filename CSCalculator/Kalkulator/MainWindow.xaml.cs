@@ -266,9 +266,21 @@ namespace Kalkulator
             }
 			else if(znak == "/")
 			{
+
 				Double.TryParse(tbOperation.Text, out liczba2);
-                wynik = liczba1 / liczba2;
-                tbOperation.Text = wynik.ToString();
+                if (liczba2 == 0)
+                {
+                    if (MessageBox.Show("Nie można dzielić przez 0", "Dzielenie przez 0",
+                      MessageBoxButton.OK) == MessageBoxResult.OK)
+                        {
+
+                        }
+                } else
+                {
+                    wynik = liczba1 / liczba2;
+                    tbOperation.Text = wynik.ToString();
+                }
+
             }
             else if(znak == "%")
             {
