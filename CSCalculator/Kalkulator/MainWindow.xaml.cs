@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -25,7 +26,12 @@ namespace Kalkulator
 		String znak = "";
         Boolean czyZnak = false;
         double wynik = 0;
-        
+
+        private void tbOperation_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }
 
         public MainWindow()
         {
@@ -38,7 +44,7 @@ namespace Kalkulator
             {
                 tbOperation.Text = "1";
                 czyZnak = false;
-                disableAll();
+                disableOperations();
                 buttonWynik.IsEnabled = true;
             }
             else
@@ -53,7 +59,7 @@ namespace Kalkulator
             {
                 tbOperation.Text = "2";
                 czyZnak = false;
-                disableAll();
+                disableOperations();
                 buttonWynik.IsEnabled = true;
             }
             else
@@ -68,7 +74,7 @@ namespace Kalkulator
             {
                 tbOperation.Text = "3";
                 czyZnak = false;
-                disableAll();
+                disableOperations();
                 buttonWynik.IsEnabled = true;
             }
             else
@@ -83,7 +89,7 @@ namespace Kalkulator
             {
                 tbOperation.Text = "4";
                 czyZnak = false;
-                disableAll();
+                disableOperations();
                 buttonWynik.IsEnabled = true;
             }
             else
@@ -98,7 +104,7 @@ namespace Kalkulator
             {
                 tbOperation.Text = "5";
                 czyZnak = false;
-                disableAll();
+                disableOperations();
                 buttonWynik.IsEnabled = true;
             }
             else
@@ -113,7 +119,7 @@ namespace Kalkulator
             {
                 tbOperation.Text = "6";
                 czyZnak = false;
-                disableAll();
+                disableOperations();
                 buttonWynik.IsEnabled = true;
             }
             else
@@ -127,7 +133,7 @@ namespace Kalkulator
             {
                 tbOperation.Text = "7";
                 czyZnak = false;
-                disableAll();
+                disableOperations();
                 buttonWynik.IsEnabled = true;
             }
             else
@@ -141,7 +147,7 @@ namespace Kalkulator
             {
                 tbOperation.Text = "8";
                 czyZnak = false;
-                disableAll();
+                disableOperations();
                 buttonWynik.IsEnabled = true;
             }
             else
@@ -155,7 +161,7 @@ namespace Kalkulator
             {
                 tbOperation.Text = "9";
                 czyZnak = false;
-                disableAll();
+                disableOperations();
                 buttonWynik.IsEnabled = true;
             }
             else
@@ -169,7 +175,7 @@ namespace Kalkulator
             {
                 tbOperation.Text = "0";
                 czyZnak = false;
-                disableAll();
+                disableOperations();
                 buttonWynik.IsEnabled = true;
             }
             else
@@ -180,44 +186,44 @@ namespace Kalkulator
 
         private void buttonPlus_onClick(object sender, RoutedEventArgs e)
         {
-            Double.TryParse(tbOperation.Text, out liczba1);
+            Double.TryParse(tbOperation.Text.Replace(" ", string.Empty), out liczba1);
             tbOperation.Text = "+";
 			znak = "+";
             czyZnak = true;
-            disableAll();
+            disableOperations();
         }
         private void buttonMinus_onClick(object sender, RoutedEventArgs e)
         {
-            Double.TryParse(tbOperation.Text, out liczba1);
+            Double.TryParse(tbOperation.Text.Replace(" ", string.Empty), out liczba1);
             tbOperation.Text = "-";
 			znak = "-";
             czyZnak = true;
-            disableAll();
+            disableOperations();
         }
         private void buttonMnozenie_onClick(object sender, RoutedEventArgs e)
         {
-            Double.TryParse(tbOperation.Text, out liczba1);
+            Double.TryParse(tbOperation.Text.Replace(" ", string.Empty), out liczba1);
             tbOperation.Text = "*";
 			znak = "*";
             czyZnak = true;
-            disableAll();
+            disableOperations();
         }
         private void buttonDivide_onClick(object sender, RoutedEventArgs e)
         {
-            Double.TryParse(tbOperation.Text, out liczba1);
+            Double.TryParse(tbOperation.Text.Replace(" ", string.Empty), out liczba1);
             tbOperation.Text = "/";
 			znak = "/";
             czyZnak = true;
-            disableAll();
+            disableOperations();
         }
 
         private void buttonResztaZdzielenia_Click(object sender, RoutedEventArgs e)
         {
-            Double.TryParse(tbOperation.Text, out liczba1);
+            Double.TryParse(tbOperation.Text.Replace(" ", string.Empty), out liczba1);
             tbOperation.Text = "%";
             znak = "%";
             czyZnak = true;
-            disableAll();
+            disableOperations();
         }
 
         private void buttonPrzecinek_onClick(object sender, RoutedEventArgs e)
@@ -232,13 +238,13 @@ namespace Kalkulator
         {
             if(znak == "")
             {
-                Double.TryParse(tbOperation.Text, out liczba1);
+                Double.TryParse(tbOperation.Text.Replace(" ", string.Empty), out liczba1);
                 liczba1 = liczba1 * -1;
                 tbOperation.Text = liczba1.ToString();
             }
             else
             {
-                Double.TryParse(tbOperation.Text, out liczba2);
+                Double.TryParse(tbOperation.Text.Replace(" ", string.Empty), out liczba2);
                 liczba2 = liczba2 * -1;
                 tbOperation.Text = liczba2.ToString();
             }
@@ -246,36 +252,35 @@ namespace Kalkulator
 
         private void buttonWynik_onClick(object sender, RoutedEventArgs e)
         {
-			if(znak == "+")
+            if(znak == "+")
 			{
-				Double.TryParse(tbOperation.Text, out liczba2);
+				Double.TryParse(tbOperation.Text.Replace(" ", string.Empty), out liczba2);
                 wynik = liczba1 + liczba2;
                 tbOperation.Text = wynik.ToString();
             }
 			else if(znak == "-")
 			{
-				Double.TryParse(tbOperation.Text, out liczba2);
+				Double.TryParse(tbOperation.Text.Replace(" ", string.Empty), out liczba2);
                 wynik = liczba1 - liczba2;
                 tbOperation.Text = wynik.ToString();
             }
 			else if(znak == "*")
 			{
-				Double.TryParse(tbOperation.Text, out liczba2);
+				Double.TryParse(tbOperation.Text.Replace(" ", string.Empty), out liczba2);
                 wynik = liczba1 * liczba2;
                 tbOperation.Text = wynik.ToString();
             }
 			else if(znak == "/")
 			{
-
-				Double.TryParse(tbOperation.Text, out liczba2);
+				Double.TryParse(tbOperation.Text.Replace(" ", string.Empty), out liczba2);
                 if (liczba2 == 0)
                 {
-                    if (MessageBox.Show("Nie można dzielić przez 0", "Dzielenie przez 0",
-                      MessageBoxButton.OK) == MessageBoxResult.OK)
-                        {
-
-                        }
-                } else
+                    if (MessageBox.Show("Nie można dzielić przez 0", "Dzielenie przez 0", MessageBoxButton.OK) == MessageBoxResult.OK)
+                    {
+						tbOperation.Text = liczba1.ToString();
+                    }
+                } 
+				else
                 {
                     wynik = liczba1 / liczba2;
                     tbOperation.Text = wynik.ToString();
@@ -284,17 +289,15 @@ namespace Kalkulator
             }
             else if(znak == "%")
             {
-                Double.TryParse(tbOperation.Text, out liczba2);
+                Double.TryParse(tbOperation.Text.Replace(" ", string.Empty), out liczba2);
                 wynik = liczba1 % liczba2;
                 tbOperation.Text = wynik.ToString();
             }
             znak = "";
-            czyZnak = true;
             buttonWynik.IsEnabled = false;
-
         }
 
-        private void disableAll()
+        private void disableOperations()
         {
             buttonPlus.IsEnabled = !buttonPlus.IsEnabled;
             buttonMinus.IsEnabled = !buttonMinus.IsEnabled;
@@ -303,7 +306,7 @@ namespace Kalkulator
             buttonResztaZdzielenia.IsEnabled = !buttonResztaZdzielenia.IsEnabled;
         }
 
-        private void disableAll_v2()
+        private void disableAll()
         {
             button0.IsEnabled = !button0.IsEnabled;
             button1.IsEnabled = !button1.IsEnabled;
@@ -329,32 +332,35 @@ namespace Kalkulator
             buttonWynik.IsEnabled = false;
             if(buttonMnozenie.IsEnabled == false)
             {
-                disableAll();
-                disableAll_v2();
+                disableOperations();
+                if(!button0.IsEnabled)
+                {
+                    disableAll();
+                }
             }
         }
 
         private void buttonPierwiastek_Click(object sender, RoutedEventArgs e)
         {
-            if (tbOperation.Text.Length > 0 && Double.TryParse(tbOperation.Text, out liczba2))
+            if (tbOperation.Text.Length > 0 && Double.TryParse(tbOperation.Text.Replace(" ", string.Empty), out liczba2))
             {
                 if (znak == "")
                 {
-                    Double.TryParse(tbOperation.Text, out liczba1);
+                    Double.TryParse(tbOperation.Text.Replace(" ", string.Empty), out liczba1);
                     liczba1 = Math.Sqrt(liczba1);
                     tbOperation.Text = liczba1.ToString();
                 }
                 else
                 {
-                    Double.TryParse(tbOperation.Text, out liczba2);
+                    Double.TryParse(tbOperation.Text.Replace(" ", string.Empty), out liczba2);
                     liczba2 = Math.Sqrt(liczba2);
                     tbOperation.Text = liczba2.ToString();
                 }
             }
-            if (tbOperation.Text == "NaN")
+            if (double.IsNaN(liczba1) || double.IsNaN(liczba2))
             {
+                disableOperations();
                 disableAll();
-                disableAll_v2();
             }
 
         }
