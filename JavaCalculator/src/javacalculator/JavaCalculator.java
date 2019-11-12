@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Stack;
 import javax.swing.*;
 import javax.swing.UIManager.LookAndFeelInfo;
 
@@ -65,6 +66,10 @@ public class JavaCalculator implements ActionListener {
 
    public static void main(String[] args) {    
         try {
+            
+            Expression expression = new Expression("4+2*3-1");
+            NotationInterface notation = expression.parseToNotation(new ONPNotation());
+            System.out.println(notation.getNotation());
             for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
                     UIManager.setLookAndFeel(info.getClassName());
@@ -98,7 +103,7 @@ public class JavaCalculator implements ActionListener {
                     break;
                 case "%" :
                     this.operandA = Float.parseFloat(this.field.getText());
-                     this.clearScreen();
+                    this.clearScreen();
                     this.currentOperation = operation;
                     break;      
                 case "√" :
@@ -108,7 +113,7 @@ public class JavaCalculator implements ActionListener {
                     break;
                 case "+" :
                     this.operandA = Float.parseFloat(this.field.getText());
-                     this.clearScreen();
+                    this.clearScreen();
                     this.currentOperation = operation; 
                     break;
                 case "-" :
