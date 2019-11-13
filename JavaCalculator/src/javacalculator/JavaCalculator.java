@@ -21,6 +21,7 @@ public class JavaCalculator implements ActionListener {
    private String currentOperation;
    private String result;
    private StringBuilder temp;
+   private boolean isAlreadyCalculated = false;
    
    public final String[][] BUTTON_TEXTS = {
       {"C", "CE", "%", "√"},
@@ -87,6 +88,10 @@ public class JavaCalculator implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {              
         operation = e.getActionCommand();
+        if(this.isAlreadyCalculated){
+            clearScreen();
+            this.isAlreadyCalculated = false;
+        }
         
         if(!this.isInteger(operation)){
             switch(operation){
@@ -168,33 +173,39 @@ public class JavaCalculator implements ActionListener {
                 result = String.valueOf(this.operandA%this.operandB);
                 this.field.setText(this.operandA + "%" + this.operandB + "="+ 
                          result);
+                this.isAlreadyCalculated = true;
                 break;      
             case "√" :
                 this.currentOperation = operation;
+                this.isAlreadyCalculated = true;
                 break;
             case "+" :
                 result = String.valueOf(this.operandA+this.operandB);
                 this.field.setText(this.operandA + "+" + this.operandB + "="+ 
                          result);
                 this.currentOperation = operation; 
+                this.isAlreadyCalculated = true;
                 break;
             case "-" :
                  result = String.valueOf(this.operandA-this.operandB);
                 this.field.setText(this.operandA + "-" + this.operandB + "="+ 
                          result);
                 this.currentOperation = operation;
+                this.isAlreadyCalculated = true;
                 break;
             case "*" : 
                 result = String.valueOf(this.operandA*this.operandB);
                 this.field.setText(this.operandA + "*" + this.operandB + "="+ 
                          result);
                 this.currentOperation = operation;
+                this.isAlreadyCalculated = true;
                 break;
             case "/" :
                  result = String.valueOf(this.operandA/this.operandB);
                 this.field.setText(this.operandA + "/" + this.operandB + "="+ 
                          result);
                this.currentOperation = operation;
+               this.isAlreadyCalculated = true;
                break;
         
         }  
