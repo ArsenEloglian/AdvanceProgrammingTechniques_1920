@@ -5,29 +5,38 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Kalkulator"
         mc:Ignorable="d"
-        Title="Kalkulator" Height="411.667" Width="508" ResizeMode="NoResize">
-    <Grid>
-        <Button x:Name="button1" Content="1" HorizontalAlignment="Left" Margin="10,88,0,0" VerticalAlignment="Top" Width="50" Click="button1_onClick"/>
-        <TextBox x:Name="tbOperation" HorizontalAlignment="Left" Height="43" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="280" IsEnabled="False" FontSize="30"/>
-        <Button x:Name="button2" Content="2" HorizontalAlignment="Left" Margin="65,88,0,0" VerticalAlignment="Top" Width="50" Click="button2_onClick"/>
-        <Button x:Name="button3" Content="3" HorizontalAlignment="Left" Margin="120,88,0,0" VerticalAlignment="Top" Width="50" Click="button3_onClick"/>
-        <Button x:Name="button4" Content="4" HorizontalAlignment="Left" Margin="10,63,0,0" VerticalAlignment="Top" Width="50" Click="button4_onClick"/>
-        <Button x:Name="button5" Content="5" HorizontalAlignment="Left" Margin="65,63,0,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="-0.084,0.433" Click="button5_onClick"/>
-        <Button x:Name="button6" Content="6" HorizontalAlignment="Left" Margin="120,63,0,0" VerticalAlignment="Top" Width="50" Click="button6_onClick"/>
-        <Button x:Name="button7" Content="7" HorizontalAlignment="Left" Margin="10,38,0,0" VerticalAlignment="Top" Width="50" Click="button7_onClick"/>
-        <Button x:Name="button8" Content="8" HorizontalAlignment="Left" Margin="65,38,0,0" VerticalAlignment="Top" Width="50" Click="button8_onClick"/>
-        <Button x:Name="button9" Content="9" HorizontalAlignment="Left" Margin="120,38,0,0" VerticalAlignment="Top" Width="50" Click="button9_onClick"/>
-        <Button x:Name="button0" Content="0" HorizontalAlignment="Left" Margin="65,113,0,0" VerticalAlignment="Top" Width="50" Click="button0_onClick"/>
-        <Button x:Name="buttonDivide" Content="/" HorizontalAlignment="Left" Margin="175,38,0,0" VerticalAlignment="Top" Width="40" Click="buttonDivide_onClick" RenderTransformOrigin="0.5,0.682"/>
-        <Button x:Name="buttonPlus" Content="+" HorizontalAlignment="Left" Margin="175,88,0,0" VerticalAlignment="Top" Width="40" Click="buttonPlus_onClick"/>
-        <Button x:Name="buttonMinus" Content="-" HorizontalAlignment="Left" Margin="175,113,0,0" VerticalAlignment="Top" Width="40" IsCancel="True" Click="buttonMinus_onClick"/>
-        <Button x:Name="buttonMnozenie" Content="*" HorizontalAlignment="Left" Margin="175,63,0,0" VerticalAlignment="Top" Width="40" Click="buttonMnozenie_onClick"/>
-        <Button x:Name="buttonPrzecinek" Content="," HorizontalAlignment="Left" Margin="120,113,0,0" VerticalAlignment="Top" Width="50" Click="buttonPrzecinek_onClick"/>
-        <Button x:Name="buttonPlusMinus" Content="+/-" HorizontalAlignment="Left" Margin="10,113,0,0" VerticalAlignment="Top" Width="50" Click="buttonPlusMinus_onClick"/>
-        <Button x:Name="buttonWynik" Content="=" HorizontalAlignment="Left" Margin="10,138,0,0" VerticalAlignment="Top" Width="280" Height="34" Click="buttonWynik_onClick" IsEnabled="False"/>
-        <Button x:Name="buttonC" Content="C" HorizontalAlignment="Left" Margin="220,38,0,0" VerticalAlignment="Top" Width="40" Click="buttonC_Click"/>
-        <Button x:Name="buttonUsunZnak" Content="←" HorizontalAlignment="Left" Margin="220,63,0,0" VerticalAlignment="Top" Width="40" Click="buttonUsunZnak_Click"/>
-        <Button x:Name="buttonPierwiastek" Content="&#8730;" HorizontalAlignment="Left" Margin="220,88,0,0" VerticalAlignment="Top" Width="40" Click="buttonPierwiastek_Click"/>
-        <Button x:Name="buttonResztaZdzielenia" Content="%" HorizontalAlignment="Left" Margin="220,113,0,0" VerticalAlignment="Top" Width="40" Click="buttonResztaZdzielenia_Click"/>
+        Title="Kalkulator" Height="355.959" Width="512" ResizeMode="NoResize">
+    <Grid Margin="0,0,4,0">
+        <TextBox x:Name="tbOperation" HorizontalAlignment="Left" Height="59" Margin="8,14,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="483" FontSize="30" RenderTransformOrigin="0.5,0.5" PreviewTextInput="tbOperation_PreviewTextInput">
+            <TextBox.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="0.49"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </TextBox.RenderTransform>
+        </TextBox>
+        <Button x:Name="button1" Content="1" HorizontalAlignment="Left" Margin="9,160,0,0" VerticalAlignment="Top" Width="97" Click="button1_onClick" Height="33" FontSize="16"/>
+        <Button x:Name="button2" Content="2" HorizontalAlignment="Left" Margin="115,160,0,0" VerticalAlignment="Top" Width="97" Click="button2_onClick" Height="33" FontSize="16"/>
+        <Button x:Name="button3" Content="3" HorizontalAlignment="Left" Margin="222,160,0,0" VerticalAlignment="Top" Width="96" Click="button3_onClick" Height="33" FontSize="16"/>
+        <Button x:Name="button4" Content="4" HorizontalAlignment="Left" Margin="9,119,0,0" VerticalAlignment="Top" Width="97" Click="button4_onClick" Height="33" FontSize="16"/>
+        <Button x:Name="button5" Content="5" HorizontalAlignment="Left" Margin="115,119,0,0" VerticalAlignment="Top" Width="97" RenderTransformOrigin="-0.084,0.433" Click="button5_onClick" Height="33" FontSize="16"/>
+        <Button x:Name="button6" Content="6" HorizontalAlignment="Left" Margin="222,119,0,0" VerticalAlignment="Top" Width="96" Click="button6_onClick" Height="33" FontSize="16"/>
+        <Button x:Name="button7" Content="7" HorizontalAlignment="Left" Margin="9,78,0,0" VerticalAlignment="Top" Width="97" Click="button7_onClick" Height="33" FontSize="16"/>
+        <Button x:Name="button8" Content="8" HorizontalAlignment="Left" Margin="115,78,0,0" VerticalAlignment="Top" Width="97" Click="button8_onClick" Height="33" FontSize="16"/>
+        <Button x:Name="button9" Content="9" HorizontalAlignment="Left" Margin="222,78,0,0" VerticalAlignment="Top" Width="96" Click="button9_onClick" Height="33" FontSize="16"/>
+        <Button x:Name="button0" Content="0" HorizontalAlignment="Left" Margin="115,202,0,0" VerticalAlignment="Top" Width="97" Click="button0_onClick" Height="32" FontSize="16"/>
+        <Button x:Name="buttonDivide" Content="/" HorizontalAlignment="Left" Margin="328,78,0,0" VerticalAlignment="Top" Width="77" Click="buttonDivide_onClick" RenderTransformOrigin="0.5,0.682" Height="33" FontSize="16"/>
+        <Button x:Name="buttonPlus" Content="+" HorizontalAlignment="Left" Margin="328,160,0,0" VerticalAlignment="Top" Width="77" Click="buttonPlus_onClick" Height="33" FontSize="16"/>
+        <Button x:Name="buttonMinus" Content="-" HorizontalAlignment="Left" Margin="328,202,0,0" VerticalAlignment="Top" Width="77" IsCancel="True" Click="buttonMinus_onClick" Height="32" FontSize="16"/>
+        <Button x:Name="buttonMnozenie" Content="*" HorizontalAlignment="Left" Margin="328,119,0,0" VerticalAlignment="Top" Width="77" Click="buttonMnozenie_onClick" Height="33" FontSize="16"/>
+        <Button x:Name="buttonPrzecinek" Content="," HorizontalAlignment="Left" Margin="222,202,0,0" VerticalAlignment="Top" Width="96" Click="buttonPrzecinek_onClick" Height="32" FontSize="16"/>
+        <Button x:Name="buttonPlusMinus" Content="+/-" HorizontalAlignment="Left" Margin="9,202,0,0" VerticalAlignment="Top" Width="97" Click="buttonPlusMinus_onClick" Height="32" FontSize="16"/>
+        <Button x:Name="buttonWynik" Content="=" HorizontalAlignment="Left" Margin="10,239,0,0" VerticalAlignment="Top" Width="482" Height="75" Click="buttonWynik_onClick" IsEnabled="False" FontSize="16"/>
+        <Button x:Name="buttonC" Content="C" HorizontalAlignment="Left" Margin="415,78,0,0" VerticalAlignment="Top" Width="77" Click="buttonC_Click" Height="33" FontSize="16"/>
+        <Button x:Name="buttonUsunZnak" Content="←" HorizontalAlignment="Left" Margin="415,119,0,0" VerticalAlignment="Top" Width="77" Click="buttonUsunZnak_Click" Height="33" FontSize="16"/>
+        <Button x:Name="buttonPierwiastek" Content="&#8730;" HorizontalAlignment="Left" Margin="415,160,0,0" VerticalAlignment="Top" Width="77" Click="buttonPierwiastek_Click" Height="33" FontSize="16"/>
+        <Button x:Name="buttonResztaZdzielenia" Content="%" HorizontalAlignment="Left" Margin="415,202,0,0" VerticalAlignment="Top" Width="77" Click="buttonResztaZdzielenia_Click" Height="32" FontSize="16"/>
     </Grid>
 </Window>
