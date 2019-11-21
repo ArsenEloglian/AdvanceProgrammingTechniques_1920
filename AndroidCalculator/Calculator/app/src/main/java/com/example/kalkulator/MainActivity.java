@@ -53,8 +53,21 @@ public class MainActivity extends AppCompatActivity {
         buttonDel = (Button) findViewById(R.id.buttonDel);
         buttonDot = (Button) findViewById(R.id.buttonDot);
         buttonEqual = (Button) findViewById(R.id.buttonEquals);
-
+        buttonDel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onDeleteClick();
+            }
+        });
+        buttonDel.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                onDeleteLongClick();
+                return true;
+            }
+        });
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +78,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private String doubleToString(double calculate) {
-        return String.valueOf(calculate);
+
+        return calculate % 1 == 0 ? String.valueOf((int) calculate) : String.format ("%.3f", calculate) ;
+
     }
 
     private void calculateResultAndDisplayOnTheScreen() {
@@ -100,4 +115,23 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
+    private void onDeleteClick() {
+        result = deleteLastChar(result);
+        resultView.setText(result);
+    }
+
+    private String deleteLastChar(String string) {
+        if (string != null) {
+            if (string.length() > 0) {
+                string = string.substring(0, string.length() - 1);
+            }
+        }
+        return string;
+    }
+
+    private void onDeleteLongClick() {
+        result = "";
+        resultView.setText(result);
+    }
 }
