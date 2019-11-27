@@ -1,0 +1,10 @@
+C:\Users\okardak\Desktop\CkomunikatorSokety\CkomunikatorSokety\bin\Debug\CkomunikatorSokety.exe.config
+C:\Users\okardak\Desktop\CkomunikatorSokety\CkomunikatorSokety\bin\Debug\CkomunikatorSokety.exe
+C:\Users\okardak\Desktop\CkomunikatorSokety\CkomunikatorSokety\bin\Debug\CkomunikatorSokety.pdb
+C:\Users\okardak\Desktop\CkomunikatorSokety\CkomunikatorSokety\obj\Debug\CkomunikatorSokety.csprojAssemblyReference.cache
+C:\Users\okardak\Desktop\CkomunikatorSokety\CkomunikatorSokety\obj\Debug\CkomunikatorSokety.Form1.resources
+C:\Users\okardak\Desktop\CkomunikatorSokety\CkomunikatorSokety\obj\Debug\CkomunikatorSokety.Properties.Resources.resources
+C:\Users\okardak\Desktop\CkomunikatorSokety\CkomunikatorSokety\obj\Debug\CkomunikatorSokety.csproj.GenerateResource.cache
+C:\Users\okardak\Desktop\CkomunikatorSokety\CkomunikatorSokety\obj\Debug\CkomunikatorSokety.csproj.CoreCompileInputs.cache
+C:\Users\okardak\Desktop\CkomunikatorSokety\CkomunikatorSokety\obj\Debug\CkomunikatorSokety.exe
+C:\Users\okardak\Desktop\CkomunikatorSokety\CkomunikatorSokety\obj\Debug\CkomunikatorSokety.pdb
