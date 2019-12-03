@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "242118356400",
+    "firebase_url": "https://communicator-2e692.firebaseio.com",
+    "project_id": "communicator-2e692",
+    "storage_bucket": "communicator-2e692.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:242118356400:android:db9b1cf7683e17db2a3a75",
+        "android_client_info": {
+          "package_name": "pl.lodz.uni.math.advanded.programming.project.communicator"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "242118356400-jg5urku936pco39javcouisksmfgoo7a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "pl.lodz.uni.math.advanded.programming.project.communicator",
+            "certificate_hash": "19eba84cae6b32fd04856ed2a7121d37618e22e0"
+          }
+        },
+        {
+          "client_id": "242118356400-ppjnghomj93nriqh1v0pgqt5muf7fvam.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbx7mIZwzubOAHH4277Z5AHCkTHKm6tjo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "242118356400-ppjnghomj93nriqh1v0pgqt5muf7fvam.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

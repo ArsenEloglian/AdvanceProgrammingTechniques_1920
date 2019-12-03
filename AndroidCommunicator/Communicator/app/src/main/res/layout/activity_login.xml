@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    tools:context=".LoginActivity">
+
+    <EditText
+        android:id="@+id/editTextEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="32dp"
+        android:layout_weight="0"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="Username"
+        android:textColor="#FF335F"
+        android:fontFamily="casual"
+        android:textStyle="bold"
+        android:background="#00000000"
+        android:inputType="textEmailAddress" />
+
+    <EditText
+        android:id="@+id/editTextPassword"
+        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="32dp"
+        android:layout_weight="0"
+        android:ems="10"
+        android:textColor="#FF335F"
+        android:hint="Password"
+        android:fontFamily="casual"
+        android:textStyle="bold"
+        android:background="#00000000"
+        android:inputType="textPassword" />
+
+    <Button
+        android:id="@+id/buttunLogIn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="32dp"
+        android:layout_weight="0"
+        android:text="Log in"
+        android:textSize="30dp"
+        android:textColor="#2A3c58"
+        android:fontFamily="casual"
+        android:textStyle="bold"
+        />
+
+    <Button
+        android:id="@+id/logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Wyloguj sie"
+        android:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/textViewRegister"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:textColor="#FF335F"
+        android:textSize="15dp"
+        android:fontFamily="casual"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:clickable="true"
+        android:text="Register" />
+
+</LinearLayout>
