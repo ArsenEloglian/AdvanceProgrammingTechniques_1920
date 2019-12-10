@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import pl.lodz.uni.math.advanded.programming.project.communicator.Friends.Friend;
 import pl.lodz.uni.math.advanded.programming.project.communicator.Friends.FriendAdapter;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Debug;
 import android.text.Editable;
@@ -115,8 +116,13 @@ public class SearchActivity extends AppCompatActivity {
         searchList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String name = String.valueOf(adapterView.getItemAtPosition(i));
-                Toast.makeText(SearchActivity.this, name, Toast.LENGTH_SHORT).show();
+                Friend friendProfile = (Friend) adapterView.getItemAtPosition(i);
+                //String name = String.valueOf(adapterView.getItemAtPosition(i));
+//                String name = friendProfile.getFriendName();
+//                Toast.makeText(SearchActivity.this, name, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(SearchActivity.this,ProfilActivity.class);
+                intent.putExtra("ProfileUrl", friendProfile.getFriendUrl());
+                startActivity(intent);
             }
         });
     }
