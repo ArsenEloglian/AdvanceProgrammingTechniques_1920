@@ -111,6 +111,7 @@ namespace gra
             if (!File.Exists("Database1.mdf"))isDatabase = false;
             else isDatabase = true;
         }
+
         void InitializeComponentHere()
         {
             guzikZdjęcie.BackgroundImage = new Bitmap(Program.gamePath + "rysunki\\aparatFotograficzny.jpg");
@@ -454,12 +455,6 @@ namespace gra
         {
             toolStripStatusLabel1.Text = Environment.GetFolderPath(Environment.SpecialFolder.System) + "\\drivers\\... HKLM\\System\\CurrentControlSet\\Services\\";
         }
-
-        /*private void notifyIcon1_MouseClick(object sender, MouseEventArgs e)
-        {
-                Environment.Exit(0);
-        }*/
-
         private void nieeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (Clipboard.ContainsImage()) { widokGry.Image = Clipboard.GetImage(); }
@@ -609,13 +604,11 @@ namespace gra
                 }
             }
         }
-
         private void guzikPożywienie_MouseHover(object sender, EventArgs e)
         {
             toolStripStatusLabel1.Text = "Tu zlicza się zdobyte punkty...";
             toolTip1.SetToolTip(guzikPożywienie, "Po naciśnięciu ukażą się statystyki");
         }
-
         private void guzikPożywienie_Click(object sender, EventArgs e)
         {
             if (!isDatabase) MessageBox.Show("no database>16mb...no sql server for creating one");
@@ -684,25 +677,7 @@ namespace gra
         {
             toolStripStatusLabel1.Text = "Tu wyślesz nam maila lub komu kolwiek...";
         }
-
         private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-        private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Right)
-            {
-                Application.Exit();
-            }
-            else if (e.Button == MouseButtons.Left)
-            {
-                if (Program.sendMail != null) Program.sendMail.Hide();
-                if (Program.getMail != null) Program.getMail.Show();
-            }
-        }
-
-        private void notifyIcon1_MouseDoubleClick_1(object sender, MouseEventArgs e)
         {
 
         }

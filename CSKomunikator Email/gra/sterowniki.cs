@@ -5,7 +5,9 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.ServiceProcess;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace gra
@@ -77,8 +79,19 @@ namespace gra
             dataGridViewSterownikiWpamięci.DataSource = table;
             disregardSelectionChanged = false;
         }
+        public static string ReadByteSizedString(BinaryReader stream)
+        {
+            byte len = stream.ReadByte();
+            string str = "";
+            while (len-- != 0) str+=stream.ReadChar();
+            return str;
+        }
+        string mappedFileName = Program.gamePath + "mappedFile";
         private void getRegistryDrivers()
         {
+            ServiceController sc = Program.GetServiceInstalled(Program.ring1ServiceName);
+            if (sc == null || sc.Status != ServiceControllerStatus.Running) Program.installDriverService();
+            Semaphore semaphoreObject = new Semaphore(1, 1, @"Global\graŻabkaSemaphore");
             DataTable table = new DataTable();
             table.Columns.Add("BaseName", typeof(string));
             table.Columns.Add("FileName", typeof(string));
@@ -86,60 +99,71 @@ namespace gra
             table.Columns.Add("Start", typeof(string));
             RegistryKey rKey = Registry.LocalMachine.OpenSubKey("System\\CurrentControlSet\\Services\\");
             foreach (string subKeyName in rKey.GetSubKeyNames())
-            {   
-                RegistryKey subKey = Registry.LocalMachine.OpenSubKey("System\\CurrentControlSet\\Services\\"+subKeyName);
-                string fileName="";
-                string type = "";
-                string start = "";
-                foreach (string subKeyValueName in subKey.GetValueNames())
-                {   //ErrorControl dword musi być
-                    if (subKeyValueName== "ImagePath")
+            {
+                File.WriteAllText(mappedFileName, subKeyName);
+                semaphoreObject.WaitOne();
+                sc.ExecuteCommand(128);
+                semaphoreObject.WaitOne();
+                semaphoreObject.Release();
+                int valueType;
+                int valueStart;
+                string valueImagePath="";
+                using (FileStream stream = new FileStream(mappedFileName, FileMode.Open))
+                {
+                    using (BinaryReader reader = new BinaryReader(stream))
                     {
-                        fileName=(string)subKey.GetValue(subKeyValueName);
-                    }
-                    if (subKeyValueName == "Type")
-                    {
-                        switch ((int)subKey.GetValue(subKeyValueName))
+                        valueType=reader.ReadInt32();
+                        valueStart = reader.ReadInt32();
+                        try
                         {
-                            case 1:
-                            case 2:
-                                type = "ring0";
-                                break;
-                            case 16:
-                            case 32:
-                                type = "ring1";
-                                break;
-                            case 4:
-                            default:
-                                type = "none";
-                                break;
+                            valueImagePath = ReadByteSizedString(reader);
                         }
-                    }
-                    if (subKeyValueName == "Start")
-                    {
-                        switch ((int)subKey.GetValue(subKeyValueName))
-                        {
-                            case 0:
-                                start = "boot";
-                                break;
-                            case 1:
-                                start = "kernel";
-                                break;
-                            case 2:
-                                start = "system";
-                                break;
-                            case 3:
-                                start = "manual";
-                                break;
-                            case 4:
-                            default:
-                                start = "other";
-                                break;
+                        catch (Exception ex) {
+                           if(subKeyName=="graŻabka") valueImagePath="to nasza usługa";
                         }
                     }
                 }
-                subKey.Close();
-                table.Rows.Add(subKeyName,fileName,type,start);
+                string type = "";
+                string start = "";
+                switch (valueType)
+                {
+                    case 1:
+                    case 2:
+                        type = "ring0";
+                        break;
+                    case 16:
+                    case 32:
+                        type = "ring1";
+                        break;
+                    case -1:
+                        type = "";
+                        break;
+                    default:
+                        type = "none";
+                        break;
+                }
+                switch (valueStart)
+                {
+                    case 0:
+                        start = "boot";
+                        break;
+                    case 1:
+                        start = "kernel";
+                        break;
+                    case 2:
+                        start = "system";
+                        break;
+                    case 3:
+                        start = "manual";
+                        break;
+                    case -1:
+                        type = "";
+                        break;
+                    default:
+                        start = "other";
+                        break;
+                }
+                table.Rows.Add(subKeyName, valueImagePath, type,start);
             }
             rKey.Close();
             table.DefaultView.Sort = "BaseName";
@@ -149,22 +173,14 @@ namespace gra
         }
         void registerDriver(string driverName)
         {
-            if (!File.Exists("C:\\Windows\\Sysnative\\drivers\\" + driverName + ".sys")) File.Copy(driverName + ".sys", "C:\\Windows\\Sysnative\\drivers\\" + driverName + ".sys");
-            RegistryKey driverKey = Registry.LocalMachine.OpenSubKey("System\\CurrentControlSet\\Services\\"+driverName);
-            if (driverKey == null) {
-                driverKey=Registry.LocalMachine.CreateSubKey("System\\CurrentControlSet\\Services\\" + driverName);
-                driverKey.SetValue("DisplayName", driverName, RegistryValueKind.String);
-                driverKey.SetValue("ErrorControl", 1, RegistryValueKind.DWord);
-                driverKey.SetValue("ImagePath", "system32\\drivers\\"+driverName+".sys", RegistryValueKind.ExpandString);
-                driverKey.SetValue("Start", 1, RegistryValueKind.DWord);
-                driverKey.SetValue("Type", 1, RegistryValueKind.DWord);
-            }
+            ServiceController sc = Program.GetServiceInstalled(Program.ring1ServiceName);
+            if (sc == null || sc.Status != ServiceControllerStatus.Running) Program.installDriverService();
+            sc.ExecuteCommand(129);
+            return;
         }
-        privilege driverPrivilege,debugPrivilege = null;
+        privilege driverPrivilege = new privilege("SeLoadDriverPrivilege"), debugPrivilege = new privilege("SeDebugPrivilege");
         private void sterowniki_Load(object sender, EventArgs e)
         {
-            driverPrivilege = new privilege("SeLoadDriverPrivilege");
-            debugPrivilege = new privilege("SeDebugPrivilege");
             registerDriver("npcap");
             getRunningDrivers();
             getRegistryDrivers();

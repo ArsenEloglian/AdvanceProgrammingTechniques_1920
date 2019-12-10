@@ -1,0 +1,2 @@
+::WORKGROUP\SYSTEM
+usługa rozpoczęła: 2019-12-10 21:00:16

@@ -4,12 +4,21 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.IO.MemoryMappedFiles;
 using System.Net;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Cryptography;
-using System.Threading;
+using System.Security.Principal;
+using System.ServiceProcess;
 using System.Windows.Forms;
+using System.Collections.Generic;
+using System.Data;
+using System.Text;
+using System.Threading;
+using Ionic.Zip;
+using System.Security.AccessControl;
 
 namespace gra
 {
@@ -17,7 +26,7 @@ namespace gra
     {
         private static void taskBarGraj_Click(object sender, EventArgs e)
         {
-            ToolStripMenuItem GrajMenuItem=(ToolStripMenuItem)sender;
+            ToolStripMenuItem GrajMenuItem = (ToolStripMenuItem)sender;
             if (GrajMenuItem.Text == "Graj") {
                 if (oknoGry == null) oknoGry = new glowne();
                 oknoGry.Show();
@@ -37,15 +46,15 @@ namespace gra
             ToolStripMenuItem GrajMenuItem = new ToolStripMenuItem();
             GrajMenuItem.Text = "Graj";
             GrajMenuItem.Click += new EventHandler(taskBarGraj_Click);
-            ContextMenuStrip taskBarIconMenuStrip= new ContextMenuStrip();
-            taskBarIconMenuStrip.Items.AddRange(new ToolStripItem[] {GrajMenuItem});
+            ContextMenuStrip taskBarIconMenuStrip = new ContextMenuStrip();
+            taskBarIconMenuStrip.Items.AddRange(new ToolStripItem[] { GrajMenuItem });
             if ((emailLoginsKey = Registry.CurrentUser.OpenSubKey(żabkaMailLogins, true)) == null) emailLoginsKey = Registry.CurrentUser.CreateSubKey(żabkaMailLogins);
             foreach (string emailName in emailLoginsKey.GetSubKeyNames()) {
                 GrajMenuItem = new ToolStripMenuItem();
                 GrajMenuItem.Text = emailName;
                 GrajMenuItem.Click += new EventHandler(taskBarGraj_Click);
                 taskBarIconMenuStrip.Items.Add(GrajMenuItem);
-            } 
+            }
             notifyIcon.ContextMenuStrip = taskBarIconMenuStrip;
             notifyIcon.MouseDoubleClick += NotifyIcon_MouseDoubleClick;
             notifyIcon.MouseClick += NotifyIcon_MouseClick;
@@ -53,30 +62,152 @@ namespace gra
         private static void NotifyIcon_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right) {
-                if (getMail != null) getMailDmuchawce.ReceiveUnreadMailsAgain();
+                if (getMail != null) getMailDmuchawce.noMailsAgain();
+                if (zmeczenieGrającego != null) zmeczenieGrającego.DiscardRubbish();
             }
             if (e.Button == MouseButtons.Left)
             {
-                if(sendMail==null) sendMail = new SendMail();
-                sendMail.Show();
+                if (getMail != null) getMailDmuchawce.ReceiveUnreadMailsAgain();
+                if (oknoGry==null|| oknoGry.Visible==false) {
+                    if (sendMail == null) sendMail = new SendMail();
+                    sendMail.Show();
+                }
             }
         }
         private static void NotifyIcon_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right) Environment.Exit(0);
             if (e.Button == MouseButtons.Left) {
-                //podwójnie lewy              
+                if (sendMail != null) sendMail.Hide();
+                if (oknoGry == null) oknoGry = new glowne();
+                oknoGry.Show();
             }
         }
-        [STAThread]
-        static void Main()
+        public static void becomeAdmin() {
+            if (!new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator))
+            {
+                Process.Start(new ProcessStartInfo(Application.ExecutablePath.ToString(), "") { UseShellExecute = true, Verb = "runas" });
+                Environment.Exit(0);
+            }
+        }
+        public static void installDriverService()
         {
+            ServiceController sc = GetServiceInstalled(ring1ServiceName);
+            if (sc == null|| sc.Status != ServiceControllerStatus.Running) {
+                becomeAdmin();
+                Process.Start(new ProcessStartInfo(gamePath + "onOff\\bin\\Debug\\instsrv.exe", ring1ServiceName + " " + gamePath + "usługa\\bin\\Debug\\usługa.exe") { WindowStyle = ProcessWindowStyle.Hidden, UseShellExecute = true, Verb = "runas" });
+                Thread.Sleep(500);//daj czas na wgranie
+                sc = GetServiceInstalled(ring1ServiceName);
+                if (sc == null) MessageBox.Show("za mało czasu na wgranie ring1");
+                sc.Start();
+            }
+        }
+        public static void InstallGameGraŻabka()
+        {//no admin
+            Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true).SetValue("graŻabka", Application.ExecutablePath.ToString());
+        }
+        public static ServiceController GetServiceInstalled(string serviceName)
+        {
+            ServiceController[] services = ServiceController.GetServices();
+            foreach (ServiceController service in services) if (service.ServiceName == serviceName) return service;
+            return null;
+        }
+        public static void processCommandLineArguments(string[] args) {
+            installZipper();
+            if (args.Length == 0) return;
+            if (args.Length != 1) MessageBox.Show(args.Length.ToString());
+            bool areAllZipFiles = true;
+            foreach (string arg in args) {
+                if (Directory.Exists(arg) || (File.Exists(arg) && !arg.ToLower().EndsWith(".zip"))) {
+                    areAllZipFiles = false;
+                    break;
+                } 
+            }
+            if (areAllZipFiles) unzipAll(args);
+            else zipAll(args);
+            Environment.Exit(0);
+        }
+
+        private static void installZipper()
+        {
+            RegistryKey śćskaczKey = Registry.CurrentUser.OpenSubKey("Software\\Classes", true);
+            śćskaczKey= śćskaczKey.CreateSubKey("directory");
+            śćskaczKey= śćskaczKey.CreateSubKey("shell");
+            śćskaczKey=śćskaczKey.CreateSubKey("śćskacz");
+            śćskaczKey.SetValue("icon", gamePath + "gra\\żaba.ico", RegistryValueKind.String);
+            śćskaczKey = śćskaczKey.CreateSubKey("command");
+            śćskaczKey.SetValue("", Application.ExecutablePath.ToString()+ " %1");
+            śćskaczKey = Registry.CurrentUser.OpenSubKey("Software\\Classes", true);
+            śćskaczKey = śćskaczKey.CreateSubKey("*");
+            śćskaczKey = śćskaczKey.CreateSubKey("shell");
+            śćskaczKey = śćskaczKey.CreateSubKey("śćskacz");
+            śćskaczKey.SetValue("icon", gamePath + "gra\\żaba.ico", RegistryValueKind.String);
+            śćskaczKey = śćskaczKey.CreateSubKey("command");
+            śćskaczKey.SetValue("", Application.ExecutablePath.ToString() + " %1");
+        }
+
+        private static void zipAll(string[] args)
+        {
+            for (int i = 0; i < args.Length; i++) args[i] += "\\";
+            if (zipUnzip.zipAll(args)=="") MessageBox.Show("błądTUzipAllprogramCS");
+        }
+
+        private static void unzipAll(string[] args)
+        {
+            foreach(string arg in args) using (ZipFile zip = ZipFile.Read(arg)) zip.ExtractAll(arg.Substring(0, arg.Length - 4));
+        }
+        static void showIt()
+        {
+            MemoryMappedFile mmf = MemoryMappedFile.OpenExisting("mmf1.data");
+            MemoryMappedViewStream mmvStream = mmf.CreateViewStream(0, 1024);
+            BinaryFormatter formatter = new BinaryFormatter();
+            byte[] buffer = new byte[1024];
+            mmvStream.Read(buffer, 0, 1024);
+            int val1 = (int)formatter.Deserialize(new MemoryStream(buffer));
+            MessageBox.Show(val1.ToString());
+        }
+        static MemoryMappedFile mmfKernel;
+        static MemoryMappedViewStream mmvStreamKernel;
+        static void doFirst()
+        {
+            mmfKernel = MemoryMappedFile.CreateOrOpen("mmf1.data", 1024, MemoryMappedFileAccess.ReadWrite);
+            mmvStreamKernel = mmfKernel.CreateViewStream(0, 1024);
+            BinaryFormatter formatter = new BinaryFormatter();
+            formatter.Serialize(mmvStreamKernel, (int)34);
+            mmvStreamKernel.Seek(0, SeekOrigin.Begin);
+        }
+        [STAThread]
+        static void Main(string[] args)
+        {
+            //semaphoreObject.WaitOne();
+
+            /*            SemaphoreSecurity semSec = new SemaphoreSecurity();
+                        SemaphoreAccessRule rule = new SemaphoreAccessRule("OKARDAKONUR\\okardak", SemaphoreRights.FullControl, AccessControlType.Allow);
+                        semSec.AddAccessRule(rule);
+                        Semaphore semaphoreObjec2t = new Semaphore(1, 1, @"Global\graŻabkaSemaphoree",out czyZnalazłSemaphore,semSec);
+            string user = Environment.UserDomainName + "\\" + Environment.UserName;
+                        semaphoreObject.WaitOne();
+            MessageBox.Show(user);
+
+            mmfKernel = MemoryMappedFile.CreateFromFile("mmf1.data");
+            mmvStreamKernel = mmfKernel.CreateViewStream(0, 1024);
+            BinaryFormatter formatter = new BinaryFormatter();
+            formatter.Serialize(mmvStreamKernel, (int)34);
+            mmvStreamKernel.Seek(0, SeekOrigin.Begin);
+            */
+//            MessageBox.Show("jj");
+  //              Environment.Exit(0);
+            //showIt();
+            //doFirst();
+            processCommandLineArguments(args);
             if (isAlreadyOpened()) Environment.Exit(0);
+            InstallGameGraŻabka();
+            installDriverService();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             setNotifyIcon();
             getMailDmuchawce = new GetMailDmuchawce(notifyIcon);//wyświetlańe dmóchawców
-            for (;;) Application.DoEvents();
+            Application.Run();
         }
         public static byte[] EncryptStringToBytes(string plainText, byte[] Key, byte[] IV)
         {
@@ -184,17 +315,17 @@ namespace gra
             }
             return false;
         }
-        public static string gamePath = Directory.GetCurrentDirectory().Substring(0, Directory.GetCurrentDirectory().LastIndexOf('\\', Directory.GetCurrentDirectory().LastIndexOf('\\', Directory.GetCurrentDirectory().LastIndexOf('\\') - 1) - 1) + 1);
+        public static string gamePath = Application.ExecutablePath.ToString().Substring(0, Application.ExecutablePath.ToString().LastIndexOf('\\', Application.ExecutablePath.ToString().LastIndexOf('\\', Application.ExecutablePath.ToString().LastIndexOf('\\', Application.ExecutablePath.ToString().LastIndexOf('\\') - 1) - 1) - 1) + 1);
         public static DataClasses1DataContext database = new DataClasses1DataContext();
         public static string loggedUser = "";
         public static Icon żabaIcon = Icon.ExtractAssociatedIcon(Assembly.GetExecutingAssembly().Location);
         public static string żabkaMailLogins = "żabkaMail";
-        public static string zmęczeńeGdzie = "zmęczeńe";
         public static long DopuszczalneZmęczenie = 1024*1024;
-        public static zmeczenieGracza zmeczenieOkno = new zmeczenieGracza(); //zmęczeńeGdzie = "zmęczeńe"
+        public static zmeczenieGracza zmeczenieGrającego = new zmeczenieGracza();
         public static SendMail sendMail;
         public static GetMail getMail;
         public static GetMailDmuchawce getMailDmuchawce;
         public static glowne oknoGry;
+        public static string ring1ServiceName = "_graŻabkaUsługa";
         }
 }

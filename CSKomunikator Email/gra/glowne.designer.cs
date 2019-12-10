@@ -71,7 +71,6 @@ namespace gra
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.tykacz = new System.Windows.Forms.Timer(this.components);
-            this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.wybornikGłówny.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.widokGry)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
@@ -470,12 +469,6 @@ namespace gra
             this.tykacz.Interval = 10;
             this.tykacz.Tick += new System.EventHandler(this.tykacz_Tick_1);
             // 
-            // notifyIcon1
-            // 
-            this.notifyIcon1.Text = "notifyIcon1";
-            this.notifyIcon1.Visible = true;
-            this.notifyIcon1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseDoubleClick_1);
-            // 
             // glowne
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -549,7 +542,6 @@ namespace gra
         private System.Windows.Forms.Button guzikPożywienie;
         private System.Windows.Forms.Timer tykacz;
         private HelpProvider helpProvider1;
-        private NotifyIcon notifyIcon1;
     }
 }
 

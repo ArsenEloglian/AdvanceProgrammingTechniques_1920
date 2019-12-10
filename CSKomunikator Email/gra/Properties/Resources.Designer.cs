@@ -61,6 +61,16 @@ namespace gra.Properties {
         }
         
         /// <summary>
+        ///   Wyszukuje zlokalizowany zasób typu System.Drawing.Icon podobny do zasobu (Ikona).
+        /// </summary>
+        internal static System.Drawing.Icon bmp {
+            get {
+                object obj = ResourceManager.GetObject("bmp", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Wyszukuje zlokalizowany zasób typu System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap bulb {
@@ -76,6 +86,16 @@ namespace gra.Properties {
         internal static System.Drawing.Bitmap down_arrow {
             get {
                 object obj = ResourceManager.GetObject("down_arrow", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Wyszukuje zlokalizowany zasób typu System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap gromadź {
+            get {
+                object obj = ResourceManager.GetObject("gromadź", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -121,6 +141,25 @@ namespace gra.Properties {
         }
         
         /// <summary>
+        /// Wyszukuje zlokalizowany ciąg podobny do ciągu href\s*=\s*(?&lt;time&gt;\&quot;([^&quot;]*\&quot;)|&apos;[^&apos;]*&apos;).
+        /// </summary>
+        internal static string linkString {
+            get {
+                return ResourceManager.GetString("linkString", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Wyszukuje zlokalizowany zasób typu System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap noTagInfo {
+            get {
+                object obj = ResourceManager.GetObject("noTagInfo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Wyszukuje zlokalizowany zasób typu System.Drawing.Icon podobny do zasobu (Ikona).
         /// </summary>
         internal static System.Drawing.Icon osoitin {
@@ -146,6 +185,16 @@ namespace gra.Properties {
         internal static System.Drawing.Bitmap read {
             get {
                 object obj = ResourceManager.GetObject("read", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Wyszukuje zlokalizowany zasób typu System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap reply {
+            get {
+                object obj = ResourceManager.GetObject("reply", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -201,6 +250,16 @@ namespace gra.Properties {
         }
         
         /// <summary>
+        ///   Wyszukuje zlokalizowany zasób typu System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap tagInfo {
+            get {
+                object obj = ResourceManager.GetObject("tagInfo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Wyszukuje zlokalizowany zasób typu System.Drawing.Icon podobny do zasobu (Ikona).
         /// </summary>
         internal static System.Drawing.Icon teczka {
@@ -217,6 +276,16 @@ namespace gra.Properties {
             get {
                 object obj = ResourceManager.GetObject("trash", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Wyszukuje zlokalizowany zasób typu System.Drawing.Icon podobny do zasobu (Ikona).
+        /// </summary>
+        internal static System.Drawing.Icon txt {
+            get {
+                object obj = ResourceManager.GetObject("txt", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
             }
         }
         
@@ -246,6 +315,16 @@ namespace gra.Properties {
         internal static System.Drawing.Icon usb {
             get {
                 object obj = ResourceManager.GetObject("usb", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Wyszukuje zlokalizowany zasób typu System.Drawing.Icon podobny do zasobu (Ikona).
+        /// </summary>
+        internal static System.Drawing.Icon zip {
+            get {
+                object obj = ResourceManager.GetObject("zip", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
             }
         }
