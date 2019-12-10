@@ -1,4 +1,4 @@
-package pl.lodz.uni.math.advanded.programming.project.communicator;
+package pl.lodz.uni.math.advanded.programming.project.communicator.Chat;
 
 import android.content.Context;
 import android.text.format.DateFormat;
@@ -17,6 +17,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import pl.lodz.uni.math.advanded.programming.project.communicator.R;
 
 public class ChatRecyclerViewAdapter extends RecyclerView.Adapter<ChatRecyclerViewAdapter.ItemViewHolder> {
     private List<ChatMessage> messagesList = new ArrayList<>();

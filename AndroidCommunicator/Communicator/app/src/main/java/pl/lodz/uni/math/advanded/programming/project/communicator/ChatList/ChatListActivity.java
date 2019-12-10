@@ -1,4 +1,4 @@
-package pl.lodz.uni.math.advanded.programming.project.communicator;
+package pl.lodz.uni.math.advanded.programming.project.communicator.ChatList;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
@@ -6,6 +6,8 @@ import androidx.viewpager.widget.ViewPager;
 import android.os.Bundle;
 
 import com.google.android.material.tabs.TabLayout;
+
+import pl.lodz.uni.math.advanded.programming.project.communicator.R;
 
 public class ChatListActivity extends AppCompatActivity {
     private SectionsPagerAdapter mSectionsPagerAdapter;

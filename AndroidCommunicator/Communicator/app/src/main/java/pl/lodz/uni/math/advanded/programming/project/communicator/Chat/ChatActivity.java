@@ -1,4 +1,4 @@
-package pl.lodz.uni.math.advanded.programming.project.communicator;
+package pl.lodz.uni.math.advanded.programming.project.communicator.Chat;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -9,12 +9,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import pl.lodz.uni.math.advanded.programming.project.communicator.R;
 
 public class ChatActivity extends AppCompatActivity {
     private RecyclerView messagesListRecyclerView;
@@ -33,6 +34,7 @@ public class ChatActivity extends AppCompatActivity {
         initializeVariables();
         setOnCLickActionOnSendMessageButton();
         userId = getUserIdFromDatabase();
+        friendUserId = getIntent().getStringExtra("FRIEND_ID");
         Log.e("USER_ID", userId);
         Log.e("FRIEND_ID", friendUserId);
         displayChatMessage(userId, friendUserId);

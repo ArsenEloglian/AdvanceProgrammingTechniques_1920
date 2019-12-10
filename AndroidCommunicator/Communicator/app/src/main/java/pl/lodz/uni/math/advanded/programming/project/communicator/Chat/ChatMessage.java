@@ -1,4 +1,4 @@
-package pl.lodz.uni.math.advanded.programming.project.communicator;
+package pl.lodz.uni.math.advanded.programming.project.communicator.Chat;
 
 import java.util.Date;
 

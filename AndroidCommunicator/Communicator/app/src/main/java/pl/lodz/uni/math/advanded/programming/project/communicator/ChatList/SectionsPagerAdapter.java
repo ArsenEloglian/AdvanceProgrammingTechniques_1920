@@ -1,8 +1,10 @@
-package pl.lodz.uni.math.advanded.programming.project.communicator;
+package pl.lodz.uni.math.advanded.programming.project.communicator.ChatList;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+
+import pl.lodz.uni.math.advanded.programming.project.communicator.FriendsFragment;
 
 class SectionsPagerAdapter extends FragmentPagerAdapter {
     public SectionsPagerAdapter(FragmentManager fm) {
