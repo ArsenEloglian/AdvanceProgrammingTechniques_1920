@@ -2,6 +2,8 @@ package pl.lodz.uni.math.advanded.programming.project.communicator;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import pl.lodz.uni.math.advanded.programming.project.communicator.Friends.Friend;
+import pl.lodz.uni.math.advanded.programming.project.communicator.Friends.FriendAdapter;
 
 import android.os.Bundle;
 import android.os.Debug;
@@ -31,8 +33,10 @@ public class SearchActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private EditText searchText;
     private ListView searchList;
-    private ArrayAdapter adapter;
-    private ArrayList<String> names;
+   // private ArrayAdapter adapter;
+    private FriendAdapter friendAdapter;
+   //private ArrayList<String> names;
+    private  ArrayList<Friend> friendArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,9 +58,12 @@ public class SearchActivity extends AppCompatActivity {
     private void init() {
         searchText = findViewById(R.id.searchFilter);
         searchList = findViewById(R.id.searchList);
-        names = new ArrayList<>();
-        adapter = new ArrayAdapter(this, R.layout.list_item, names);
-        searchList.setAdapter(adapter);
+       // names = new ArrayList<>();
+       // adapter = new ArrayAdapter(this, R.layout.list_item, names);
+      //  searchList.setAdapter(adapter);
+        friendArrayList = new ArrayList<Friend>();
+        friendAdapter = new FriendAdapter(this,friendArrayList);
+        searchList.setAdapter(friendAdapter);
     }
 
     // wczytanie wszystkich userow z bazy
@@ -66,7 +73,9 @@ public class SearchActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     // TODO: handle the po
-                    names.add(postSnapshot.child("username").getValue().toString());
+                   // names.add(postSnapshot.child("username").getValue().toString());
+                    Friend friend = new Friend(postSnapshot.child("username").getValue().toString(), postSnapshot.getValue().toString());
+                    friendArrayList.add(friend);
                 }
             }
 
@@ -90,7 +99,8 @@ public class SearchActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                adapter.getFilter().filter(charSequence);
+               // adapter.getFilter().filter(charSequence);
+               friendAdapter.getFilter().filter(charSequence);
             }
 
             @Override
