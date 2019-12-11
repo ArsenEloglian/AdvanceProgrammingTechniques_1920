@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.IO;
+using System.IO.Pipes;
 using System.Runtime.InteropServices;
 using System.ServiceProcess;
 using System.Text;
-using System.Threading;
 using System.Windows.Forms;
 
 namespace gra
@@ -79,19 +79,46 @@ namespace gra
             dataGridViewSterownikiWpamięci.DataSource = table;
             disregardSelectionChanged = false;
         }
-        public static string ReadByteSizedString(BinaryReader stream)
+        public void Stream_WriteInt(Stream ioStream, uint tenInt)
         {
-            byte len = stream.ReadByte();
-            string str = "";
-            while (len-- != 0) str+=stream.ReadChar();
-            return str;
+            ioStream.WriteByte((byte)(tenInt / (256 * 256 * 256)));
+            ioStream.WriteByte((byte)(tenInt / (256 * 256)));
+            ioStream.WriteByte((byte)(tenInt / 256));
+            ioStream.WriteByte((byte)(tenInt & 255));
+            ioStream.Flush();
         }
-        string mappedFileName = Program.gamePath + "mappedFile";
+        public uint Stream_ReadInt(Stream ioStream)
+        {
+            uint tenInt = (uint)(ioStream.ReadByte() * 256 * 256 * 256 + ioStream.ReadByte() * 256 * 256 + ioStream.ReadByte() * 256 + ioStream.ReadByte());
+            return tenInt;
+        }
+        public void Stream_WriteString(Stream ioStream, string outString)
+        {
+            byte[] outBuffer = new UnicodeEncoding().GetBytes(outString);
+            int len = outBuffer.Length;
+            if (len > UInt16.MaxValue) len = (int)UInt16.MaxValue;
+            ioStream.WriteByte((byte)(len / 256));
+            ioStream.WriteByte((byte)(len & 255));
+            ioStream.Write(outBuffer, 0, len);
+            ioStream.Flush();
+        }
+        public string Stream_ReadString(Stream ioStream)
+        {
+            int len;
+            len = ioStream.ReadByte() * 256;
+            len += ioStream.ReadByte();
+            var inBuffer = new byte[len];
+            ioStream.Read(inBuffer, 0, len);
+            return new UnicodeEncoding().GetString(inBuffer);
+        }
+
         private void getRegistryDrivers()
         {
             ServiceController sc = Program.GetServiceInstalled(Program.ring1ServiceName);
             if (sc == null || sc.Status != ServiceControllerStatus.Running) Program.installDriverService();
-            Semaphore semaphoreObject = new Semaphore(1, 1, @"Global\graŻabkaSemaphore");
+            NamedPipeServerStream pipeServer = new NamedPipeServerStream("Global\\graŻabkaPipe", PipeDirection.InOut, 1);
+            sc.ExecuteCommand(130);
+            pipeServer.WaitForConnection();
             DataTable table = new DataTable();
             table.Columns.Add("BaseName", typeof(string));
             table.Columns.Add("FileName", typeof(string));
@@ -100,29 +127,11 @@ namespace gra
             RegistryKey rKey = Registry.LocalMachine.OpenSubKey("System\\CurrentControlSet\\Services\\");
             foreach (string subKeyName in rKey.GetSubKeyNames())
             {
-                File.WriteAllText(mappedFileName, subKeyName);
-                semaphoreObject.WaitOne();
-                sc.ExecuteCommand(128);
-                semaphoreObject.WaitOne();
-                semaphoreObject.Release();
-                int valueType;
-                int valueStart;
-                string valueImagePath="";
-                using (FileStream stream = new FileStream(mappedFileName, FileMode.Open))
-                {
-                    using (BinaryReader reader = new BinaryReader(stream))
-                    {
-                        valueType=reader.ReadInt32();
-                        valueStart = reader.ReadInt32();
-                        try
-                        {
-                            valueImagePath = ReadByteSizedString(reader);
-                        }
-                        catch (Exception ex) {
-                           if(subKeyName=="graŻabka") valueImagePath="to nasza usługa";
-                        }
-                    }
-                }
+                pipeServer.WriteByte(1);
+                Stream_WriteString(pipeServer, subKeyName);
+                uint valueType= Stream_ReadInt(pipeServer);
+                uint valueStart= Stream_ReadInt(pipeServer);
+                string valueImagePath= Stream_ReadString(pipeServer);
                 string type = "";
                 string start = "";
                 switch (valueType)
@@ -135,7 +144,7 @@ namespace gra
                     case 32:
                         type = "ring1";
                         break;
-                    case -1:
+                    case UInt32.MaxValue:
                         type = "";
                         break;
                     default:
@@ -156,7 +165,7 @@ namespace gra
                     case 3:
                         start = "manual";
                         break;
-                    case -1:
+                    case UInt32.MaxValue:
                         type = "";
                         break;
                     default:
@@ -170,60 +179,48 @@ namespace gra
             disregardSelectionChanged = true;
             dataGridViewSpisSterowników.DataSource = table;
             disregardSelectionChanged = false;
+            pipeServer.WriteByte(0);
+            pipeServer.Dispose();
         }
-        void registerDriver(string driverName)
+        void registerDriver(string driverPath, string driverName)
         {
             ServiceController sc = Program.GetServiceInstalled(Program.ring1ServiceName);
             if (sc == null || sc.Status != ServiceControllerStatus.Running) Program.installDriverService();
-            sc.ExecuteCommand(129);
+            NamedPipeServerStream pipeServer = new NamedPipeServerStream("Global\\graŻabkaPipe", PipeDirection.InOut, 1);
+            sc.ExecuteCommand(128);
+            pipeServer.WaitForConnection();
+            Stream_WriteString(pipeServer, driverPath);
+            Stream_WriteString(pipeServer, driverName);
+            pipeServer.Dispose();
             return;
         }
-        privilege driverPrivilege = new privilege("SeLoadDriverPrivilege"), debugPrivilege = new privilege("SeDebugPrivilege");
+        privilege driverPrivilege = new privilege("SeLoadDriverPrivilege"), debugPrivilege = new privilege("SeDebugPrivilege"), globalPrivilege = new privilege("SeCreateGlobalPrivilege");
         private void sterowniki_Load(object sender, EventArgs e)
         {
-            registerDriver("npcap");
+            registerDriver(AppDomain.CurrentDomain.BaseDirectory, "npcap");
             getRunningDrivers();
             getRegistryDrivers();
             wgrajSpisZnanychSterowników();
-            txtZeSpisuSterowników_TextChanged(null,null);
         }
-        [StructLayout(LayoutKind.Sequential, Pack = 0)]
-        public struct UNICODE_STRING
-        {
-            public ushort Length;
-            public ushort MaximumLength;
-            public IntPtr Buffer;
-        }
-        [DllImport("NtDll.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-        public static extern void RtlInitUnicodeString(ref UNICODE_STRING DestinationString, [MarshalAs(UnmanagedType.LPWStr)] string SourceString);
-        [DllImport("ntdll.dll")]
-        public static extern uint ZwLoadDriver(ref UNICODE_STRING DestinationString);
-        [DllImport("ntdll.dll")]
-        public static extern uint ZwUnloadDriver(ref UNICODE_STRING DestinationString);
-        [DllImport("NtDll.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-        public static extern int RtlNtStatusToDosError(int Status);
         private void dataGridView2_DoubleClick(object sender, EventArgs e)
         {
-            string fileName = dataGridViewSpisSterowników.SelectedRows[0].Cells["FileName"].Value.ToString();
-            UNICODE_STRING unicodeString = new UNICODE_STRING();
-            RtlInitUnicodeString(ref unicodeString, "\\Registry\\Machine\\System\\CurrentControlSet\\Services\\" + (string)dataGridViewSpisSterowników.SelectedRows[0].Cells["BaseName"].Value);
-            uint wynik=ZwLoadDriver(ref unicodeString);
+            ServiceController sc = Program.GetServiceInstalled(Program.ring1ServiceName);
+            if (sc == null || sc.Status != ServiceControllerStatus.Running) Program.installDriverService();
+            NamedPipeServerStream pipeServer = new NamedPipeServerStream("Global\\graŻabkaPipe", PipeDirection.InOut, 1);
+            sc.ExecuteCommand(129);
+            pipeServer.WaitForConnection();
+            Stream_WriteString(pipeServer, (string)dataGridViewSpisSterowników.SelectedRows[0].Cells["BaseName"].Value);
+            uint wynik= Stream_ReadInt(pipeServer);
             if (wynik == 0)
             {
                 getRunningDrivers();
                 findDriverInDataGridViewFirstCell(dataGridViewSterownikiWpamięci, nazwaSterownikaZeScieżki(dataGridViewSpisSterowników.SelectedRows[0].Cells[1].Value.ToString()));
-                return;
-            } 
-            wynik = ZwUnloadDriver(ref unicodeString);
-            if (wynik == 0)
-            {
-                getRunningDrivers();
-                return;
-            } else if (wynik==0xC0000034) {
-                MessageBox.Show(nazwaSterownikaZeScieżki(dataGridViewSpisSterowników.SelectedRows[0].Cells[1].Value.ToString())+" nie w system32\\drivers\\");
-            } else {
+            }
+            else {
                 MessageBox.Show(wynik.ToString("X8"));
             }
+            pipeServer.Dispose();
+            return;
         }
         private void txtZeSpisuSterowników_TextChanged(object sender, EventArgs e)
         {
@@ -319,6 +316,7 @@ namespace gra
                 while ((nazwaSterownika = file.ReadLine()) != null) znaneSterowniki.Add(nazwaSterownika);
             }
             for (int i = 0; i < dataGridViewSpisSterowników.RowCount; i++) if(dataGridViewSpisSterowników.Rows[i].Cells[1].Value.ToString()!="" && !znaneSterowniki.Contains(nazwaSterownikaZeScieżki(dataGridViewSpisSterowników.Rows[i].Cells[1].Value.ToString()))) dataGridViewSpisSterowników.Rows[i].Cells[1].Style.ForeColor = Color.Red;
+            txtZeSpisuSterowników_TextChanged(null, null);
         }
     }
 }

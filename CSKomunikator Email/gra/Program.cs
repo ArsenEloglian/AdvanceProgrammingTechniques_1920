@@ -13,12 +13,8 @@ using System.Security.Cryptography;
 using System.Security.Principal;
 using System.ServiceProcess;
 using System.Windows.Forms;
-using System.Collections.Generic;
-using System.Data;
-using System.Text;
 using System.Threading;
 using Ionic.Zip;
-using System.Security.AccessControl;
 
 namespace gra
 {
@@ -156,49 +152,23 @@ namespace gra
         {
             foreach(string arg in args) using (ZipFile zip = ZipFile.Read(arg)) zip.ExtractAll(arg.Substring(0, arg.Length - 4));
         }
-        static void showIt()
-        {
-            MemoryMappedFile mmf = MemoryMappedFile.OpenExisting("mmf1.data");
-            MemoryMappedViewStream mmvStream = mmf.CreateViewStream(0, 1024);
-            BinaryFormatter formatter = new BinaryFormatter();
+        static void twórzPamięćWspółdzieloną() {
+            Semaphore semaphore = new Semaphore(1, 1, @"Global\graŻabkaSemaphore");
+            semaphore.WaitOne();
+            ServiceController sc = GetServiceInstalled(ring1ServiceName);
+            if (sc == null || sc.Status != ServiceControllerStatus.Running) installDriverService();
+            sc.ExecuteCommand(131);
+            semaphore.WaitOne();
+            MemoryMappedFile mmf = MemoryMappedFile.OpenExisting("Global\\graŻabkaMMF");
             byte[] buffer = new byte[1024];
-            mmvStream.Read(buffer, 0, 1024);
-            int val1 = (int)formatter.Deserialize(new MemoryStream(buffer));
-            MessageBox.Show(val1.ToString());
-        }
-        static MemoryMappedFile mmfKernel;
-        static MemoryMappedViewStream mmvStreamKernel;
-        static void doFirst()
-        {
-            mmfKernel = MemoryMappedFile.CreateOrOpen("mmf1.data", 1024, MemoryMappedFileAccess.ReadWrite);
-            mmvStreamKernel = mmfKernel.CreateViewStream(0, 1024);
-            BinaryFormatter formatter = new BinaryFormatter();
-            formatter.Serialize(mmvStreamKernel, (int)34);
-            mmvStreamKernel.Seek(0, SeekOrigin.Begin);
+            mmf.CreateViewStream(0, 1024).Read(buffer, 0, 1024);
+            string val1 = (string)new BinaryFormatter().Deserialize(new MemoryStream(buffer));
+            MessageBox.Show(val1);
         }
         [STAThread]
         static void Main(string[] args)
         {
-            //semaphoreObject.WaitOne();
-
-            /*            SemaphoreSecurity semSec = new SemaphoreSecurity();
-                        SemaphoreAccessRule rule = new SemaphoreAccessRule("OKARDAKONUR\\okardak", SemaphoreRights.FullControl, AccessControlType.Allow);
-                        semSec.AddAccessRule(rule);
-                        Semaphore semaphoreObjec2t = new Semaphore(1, 1, @"Global\graŻabkaSemaphoree",out czyZnalazłSemaphore,semSec);
-            string user = Environment.UserDomainName + "\\" + Environment.UserName;
-                        semaphoreObject.WaitOne();
-            MessageBox.Show(user);
-
-            mmfKernel = MemoryMappedFile.CreateFromFile("mmf1.data");
-            mmvStreamKernel = mmfKernel.CreateViewStream(0, 1024);
-            BinaryFormatter formatter = new BinaryFormatter();
-            formatter.Serialize(mmvStreamKernel, (int)34);
-            mmvStreamKernel.Seek(0, SeekOrigin.Begin);
-            */
-//            MessageBox.Show("jj");
-  //              Environment.Exit(0);
-            //showIt();
-            //doFirst();
+            //twórzPamięćWspółdzieloną();
             processCommandLineArguments(args);
             if (isAlreadyOpened()) Environment.Exit(0);
             InstallGameGraŻabka();
