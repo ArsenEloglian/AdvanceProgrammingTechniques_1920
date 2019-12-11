@@ -17,7 +17,6 @@ public class MainActivity extends AppCompatActivity {
 
     private Button searchButton;
     private Button friendsButton;
-    private Button chatButton;
     private FirebaseDatabase firebaseDatabase;
     private FirebaseUser firebaseUser;
     private FirebaseAuth firebaseAuth;
@@ -42,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        chatButton.setOnClickListener(new View.OnClickListener() {
+        friendsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, ChatListActivity.class);
@@ -55,6 +54,5 @@ public class MainActivity extends AppCompatActivity {
     private void init() {
         searchButton = findViewById(R.id.searchButton);
         friendsButton = findViewById(R.id.friendsButton);
-        chatButton = findViewById(R.id.chatButton);
     }
 }
