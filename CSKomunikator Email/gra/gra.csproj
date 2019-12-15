@@ -33,7 +33,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>bin\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -75,9 +75,12 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
-  </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup />
+  <PropertyGroup />
+  <PropertyGroup />
+  <PropertyGroup />
+  <PropertyGroup />
   <ItemGroup>
     <Reference Include="AxInterop.WMPLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -116,9 +119,20 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Linq" />
     <Reference Include="System.Design" />
+    <Reference Include="System.Diagnostics.EventLog, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.EventLog.4.7.0\lib\net461\System.Diagnostics.EventLog.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Principal.Windows, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Principal.Windows.4.7.0\lib\net461\System.Security.Principal.Windows.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.ServiceProcess.ServiceController, Version=4.2.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ServiceProcess.ServiceController.4.7.0\lib\net461\System.ServiceProcess.ServiceController.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
@@ -130,6 +144,12 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="weekQuarter">
+      <HintPath>..\weekQuarter\weekQuarter\bin\weekQuarter.dll</HintPath>
+    </Reference>
+    <Reference Include="weekQuarters">
+      <HintPath>..\weekQuarters\weekQuarters\bin\Debug\weekQuarters.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Biblioteki.cs">
@@ -163,12 +183,13 @@
       <DependentUpon>GetMail.cs</DependentUpon>
     </Compile>
     <Compile Include="GetMailDmuchawce.cs" />
-    <Compile Include="glowne.cs">
+    <Compile Include="OknoGry.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="glowne.designer.cs">
-      <DependentUpon>glowne.cs</DependentUpon>
+    <Compile Include="OknoGry.designer.cs">
+      <DependentUpon>OknoGry.cs</DependentUpon>
     </Compile>
+    <Compile Include="instalator.cs" />
     <Compile Include="Intro.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -176,6 +197,15 @@
       <DependentUpon>Intro.cs</DependentUpon>
     </Compile>
     <Compile Include="klikanie.cs" />
+    <Compile Include="notifyIcon.cs" />
+    <Compile Include="pieczętowanie.cs" />
+    <Compile Include="screenShotter.cs" />
+    <Compile Include="startupSelection.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="startupSelection.Designer.cs">
+      <DependentUpon>startupSelection.cs</DependentUpon>
+    </Compile>
     <Compile Include="OtherPlayer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -203,12 +233,13 @@
     <Compile Include="sterowniki.Designer.cs">
       <DependentUpon>sterowniki.cs</DependentUpon>
     </Compile>
-    <Compile Include="zarzadca.cs">
+    <Compile Include="zarzadcaZdjęć.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="zarzadca.Designer.cs">
-      <DependentUpon>zarzadca.cs</DependentUpon>
+    <Compile Include="zarzadcaZdjęć.Designer.cs">
+      <DependentUpon>zarzadcaZdjęć.cs</DependentUpon>
     </Compile>
+    <Compile Include="zipUnzip.cs" />
     <Compile Include="zmeczenieGracza.cs" />
     <Compile Include="zrzuty.cs">
       <SubType>Form</SubType>
@@ -228,11 +259,14 @@
     <EmbeddedResource Include="GetMail.resx">
       <DependentUpon>GetMail.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="glowne.resx">
-      <DependentUpon>glowne.cs</DependentUpon>
+    <EmbeddedResource Include="OknoGry.resx">
+      <DependentUpon>OknoGry.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Intro.resx">
       <DependentUpon>Intro.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="startupSelection.resx">
+      <DependentUpon>startupSelection.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="OtherPlayer.resx">
       <DependentUpon>OtherPlayer.cs</DependentUpon>
@@ -256,13 +290,12 @@
     <EmbeddedResource Include="sterowniki.resx">
       <DependentUpon>sterowniki.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="zarzadca.resx">
-      <DependentUpon>zarzadca.cs</DependentUpon>
+    <EmbeddedResource Include="zarzadcaZdjęć.resx">
+      <DependentUpon>zarzadcaZdjęć.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="zrzuty.resx">
       <DependentUpon>zrzuty.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="app.manifest" />
     <None Include="DataClasses1.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>
       <LastGenOutput>DataClasses1.designer.cs</LastGenOutput>
@@ -286,6 +319,18 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Properties\txt.ico" />
+    <None Include="Properties\zip.ico" />
+    <None Include="Properties\bmp.ico" />
+    <None Include="Properties\reply.png" />
+    <None Include="Properties\noTagInfo.png" />
+    <None Include="Properties\tagInfo.png" />
+    <None Include="Properties\gromadź.png" />
+    <None Include="Properties\osoitin.ico" />
+    <None Include="Properties\read.png" />
+    <None Include="Properties\unread.png" />
+    <None Include="Properties\usuńTeczkę.png" />
+    <None Include="Properties\pżeńeś.png" />
     <Content Include="Database1.mdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -326,6 +371,9 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
