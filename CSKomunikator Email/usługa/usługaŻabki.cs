@@ -39,13 +39,16 @@ namespace gra
                     registerDriver();
                     break;
                 case 129:
-                    loadUnloadDriver();
+                    loadDriver();
                     break;
                 case 130:
                     replyWithDriverInfo();
                     break;
                 case 131:
                     createMemoryMappedFile();
+                    break;
+                case 132:
+                    unloadDriver();
                     break;
                 default:
                     break;
@@ -107,22 +110,28 @@ namespace gra
         [DllImport("NtDll.dll", SetLastError = true, CharSet = CharSet.Unicode)]
         public static extern int RtlNtStatusToDosError(int Status);
 
-        void loadUnloadDriver() {
+        void loadDriver() {
             NamedPipeClientStream pipeClient = new NamedPipeClientStream(".", "Global\\graŻabkaPipe", PipeDirection.InOut, PipeOptions.None, TokenImpersonationLevel.Impersonation);
             pipeClient.Connect();
             string baseName = Stream_ReadString(pipeClient);
             UNICODE_STRING unicodeString = new UNICODE_STRING();
             RtlInitUnicodeString(ref unicodeString, "\\Registry\\Machine\\System\\CurrentControlSet\\Services\\" + baseName);
             uint wynik = ZwLoadDriver(ref unicodeString);
-            if (wynik == 0)
-            {
-                Stream_WriteInt( pipeClient, wynik);
-                return;
-            }
-            wynik = ZwUnloadDriver(ref unicodeString);
+            Stream_WriteInt( pipeClient, wynik);
+            return;
+        }
+        void unloadDriver()
+        {
+            NamedPipeClientStream pipeClient = new NamedPipeClientStream(".", "Global\\graŻabkaPipe", PipeDirection.InOut, PipeOptions.None, TokenImpersonationLevel.Impersonation);
+            pipeClient.Connect();
+            string baseName = Stream_ReadString(pipeClient);
+            UNICODE_STRING unicodeString = new UNICODE_STRING();
+            RtlInitUnicodeString(ref unicodeString, "\\Registry\\Machine\\System\\CurrentControlSet\\Services\\" + baseName);
+            uint wynik = ZwUnloadDriver(ref unicodeString);
             Stream_WriteInt(pipeClient, wynik);
             return;
         }
+
         public void Stream_WriteInt(Stream ioStream, uint tenInt)
         {
             ioStream.WriteByte((byte)(tenInt / (256 * 256 * 256)));
@@ -157,9 +166,7 @@ namespace gra
         }
         public void WriteToFile(string Message)
         {
-            string path = AppDomain.CurrentDomain.BaseDirectory + "\\Logs";
-            if (!Directory.Exists(path)) Directory.CreateDirectory(path);
-            string filepath = AppDomain.CurrentDomain.BaseDirectory + "\\Logs\\ServiceLog_" + DateTime.Now.Date.ToShortDateString().Replace('/', '_') + ".txt";
+            string filepath = AppDomain.CurrentDomain.BaseDirectory + "log_" + DateTime.Now.Date.ToShortDateString().Replace('/', '_') + ".txt";
             if (!File.Exists(filepath))
             {
                 using (StreamWriter sw = File.CreateText(filepath))

@@ -182,6 +182,16 @@ namespace gra.Properties {
         /// <summary>
         ///   Wyszukuje zlokalizowany zasób typu System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap pżeńeś {
+            get {
+                object obj = ResourceManager.GetObject("pżeńeś", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Wyszukuje zlokalizowany zasób typu System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap read {
             get {
                 object obj = ResourceManager.GetObject("read", resourceCulture);
@@ -316,6 +326,16 @@ namespace gra.Properties {
             get {
                 object obj = ResourceManager.GetObject("usb", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Wyszukuje zlokalizowany zasób typu System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap usuńTeczkę {
+            get {
+                object obj = ResourceManager.GetObject("usuńTeczkę", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         

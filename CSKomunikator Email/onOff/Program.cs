@@ -30,7 +30,7 @@ namespace onOff
         }
         private static void installService()
         {
-            Process.Start(new ProcessStartInfo(gamePath + "onOff\\bin\\Debug\\instsrv.exe", ring1ServiceName + " " + gamePath + "usługa\\bin\\Debug\\usługa.exe") { WindowStyle = ProcessWindowStyle.Hidden, UseShellExecute = true, Verb = "runas" });
+            Process.Start(new ProcessStartInfo(gamePath + "onOff\\bin\\instsrv.exe", ring1ServiceName + " " + gamePath + "usługa\\bin\\usługa.exe") { WindowStyle = ProcessWindowStyle.Hidden, UseShellExecute = true, Verb = "runas" });
             Thread.Sleep(500);
             ServiceController sc = GetInstalledService(ring1ServiceName);
             if (sc != null && sc.Status != ServiceControllerStatus.Running) sc.Start();
@@ -42,7 +42,7 @@ namespace onOff
         {
             ServiceController sc = GetInstalledService(ring1ServiceName);
             if (sc != null && sc.Status == ServiceControllerStatus.Running) sc.Stop();
-            Process.Start(new ProcessStartInfo(gamePath + "onOff\\bin\\Debug\\instsrv.exe", ring1ServiceName + " REMOVE") { WindowStyle = ProcessWindowStyle.Hidden, UseShellExecute = true, Verb = "runas" });
+            Process.Start(new ProcessStartInfo(gamePath + "onOff\\bin\\instsrv.exe", ring1ServiceName + " REMOVE") { WindowStyle = ProcessWindowStyle.Hidden, UseShellExecute = true, Verb = "runas" });
             displayServiceState();
         }
         static void NotifyIcon_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -75,7 +75,7 @@ namespace onOff
             setNotifyIcon();
             Application.Run();
         }
-        static string gamePath = Directory.GetCurrentDirectory().Substring(0, Directory.GetCurrentDirectory().LastIndexOf('\\', Directory.GetCurrentDirectory().LastIndexOf('\\', Directory.GetCurrentDirectory().LastIndexOf('\\') - 1) - 1) + 1);
+        static string gamePath = Directory.GetCurrentDirectory().Substring(0, Directory.GetCurrentDirectory().LastIndexOf('\\', Directory.GetCurrentDirectory().LastIndexOf('\\') - 1) + 1);
         static Icon icoChmura = new Icon(gamePath + "rysunki\\chmura.ico");
         static Icon icoBrakUsługi = new Icon(gamePath + "rysunki\\usługa.ico");
         static string ring1ServiceName = "_graŻabkaUsługa";

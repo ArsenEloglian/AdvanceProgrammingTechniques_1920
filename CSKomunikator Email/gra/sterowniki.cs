@@ -115,7 +115,7 @@ namespace gra
         private void getRegistryDrivers()
         {
             ServiceController sc = Program.GetServiceInstalled(Program.ring1ServiceName);
-            if (sc == null || sc.Status != ServiceControllerStatus.Running) Program.installDriverService();
+            if (sc == null || sc.Status != ServiceControllerStatus.Running) Program.installAdminService();
             NamedPipeServerStream pipeServer = new NamedPipeServerStream("Global\\graŻabkaPipe", PipeDirection.InOut, 1);
             sc.ExecuteCommand(130);
             pipeServer.WaitForConnection();
@@ -185,7 +185,7 @@ namespace gra
         void registerDriver(string driverPath, string driverName)
         {
             ServiceController sc = Program.GetServiceInstalled(Program.ring1ServiceName);
-            if (sc == null || sc.Status != ServiceControllerStatus.Running) Program.installDriverService();
+            if (sc == null || sc.Status != ServiceControllerStatus.Running) Program.installAdminService();
             NamedPipeServerStream pipeServer = new NamedPipeServerStream("Global\\graŻabkaPipe", PipeDirection.InOut, 1);
             sc.ExecuteCommand(128);
             pipeServer.WaitForConnection();
@@ -198,6 +198,7 @@ namespace gra
         private void sterowniki_Load(object sender, EventArgs e)
         {
             registerDriver(AppDomain.CurrentDomain.BaseDirectory, "npcap");
+            registerDriver(AppDomain.CurrentDomain.BaseDirectory, "ring0");
             getRunningDrivers();
             getRegistryDrivers();
             wgrajSpisZnanychSterowników();
@@ -205,20 +206,22 @@ namespace gra
         private void dataGridView2_DoubleClick(object sender, EventArgs e)
         {
             ServiceController sc = Program.GetServiceInstalled(Program.ring1ServiceName);
-            if (sc == null || sc.Status != ServiceControllerStatus.Running) Program.installDriverService();
+            if (sc == null || sc.Status != ServiceControllerStatus.Running) Program.installAdminService();
             NamedPipeServerStream pipeServer = new NamedPipeServerStream("Global\\graŻabkaPipe", PipeDirection.InOut, 1);
             sc.ExecuteCommand(129);
             pipeServer.WaitForConnection();
             Stream_WriteString(pipeServer, (string)dataGridViewSpisSterowników.SelectedRows[0].Cells["BaseName"].Value);
             uint wynik= Stream_ReadInt(pipeServer);
-            if (wynik == 0)
-            {
-                getRunningDrivers();
-                findDriverInDataGridViewFirstCell(dataGridViewSterownikiWpamięci, nazwaSterownikaZeScieżki(dataGridViewSpisSterowników.SelectedRows[0].Cells[1].Value.ToString()));
+            if (wynik == 0xC000010E) {
+                pipeServer.Disconnect();
+                sc.ExecuteCommand(132);
+                pipeServer.WaitForConnection();
+                Stream_WriteString(pipeServer, (string)dataGridViewSpisSterowników.SelectedRows[0].Cells["BaseName"].Value);
+                wynik = Stream_ReadInt(pipeServer);
             }
-            else {
-                MessageBox.Show(wynik.ToString("X8"));
-            }
+            if(wynik!=0) MessageBox.Show(wynik.ToString("X8"));
+            getRunningDrivers();
+            findDriverInDataGridViewFirstCell(dataGridViewSterownikiWpamięci, nazwaSterownikaZeScieżki(dataGridViewSpisSterowników.SelectedRows[0].Cells[1].Value.ToString()));
             pipeServer.Dispose();
             return;
         }

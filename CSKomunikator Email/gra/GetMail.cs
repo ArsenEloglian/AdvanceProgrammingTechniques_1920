@@ -30,8 +30,10 @@ namespace gra
             btnUnread.BackgroundImage = Resources.unread;
             btnReplyFrom.BackgroundImage = Resources.reply;
             btnReplyTo.BackgroundImage = Resources.reply;
-            btnShouldShowTagInfo.Image = Resources.noTagInfo;
-            btnGromadzone.Image = Resources.gromadź;
+            btnShouldShowTagInfo.BackgroundImage = Resources.noTagInfo;
+            btnGromadzone.BackgroundImage = Resources.gromadź;
+            btnUsuńTeczkę.BackgroundImage = Resources.usuńTeczkę;
+            btnPrzeńeś.BackgroundImage = Resources.pżeńeś;
             btnInbox.BackgroundImageLayout = ImageLayout.Stretch;
             btnSent.BackgroundImageLayout = ImageLayout.Stretch;
             btnSpam.BackgroundImageLayout = ImageLayout.Stretch;
@@ -60,6 +62,9 @@ namespace gra
             btnReplyFrom.Cursor = Cursor;
             btnReplyTo.Cursor = Cursor;
             btnShouldShowTagInfo.Cursor = Cursor;
+            btnGromadzone.Cursor = Cursor;
+            btnUsuńTeczkę.Cursor = Cursor;
+            btnPrzeńeś.Cursor = Cursor;
             cmbAttachments.Cursor= Cursor;
             cmbFolders.Cursor= Cursor;
             cmbTO.Cursor = Cursor;
@@ -247,7 +252,7 @@ namespace gra
                 foreach (Attachment attachment in attachments) currentEmail.HtmlBody = currentEmail.HtmlBody.Replace("cid:" + attachment.ContentID, "data:" + attachment.ContentType + ";base64," + Convert.ToBase64String(attachment.Content));
                 webBrowser1.DocumentText = currentEmailBody =currentEmail.HtmlBody;
                 tableLayoutPanel1.RowStyles[1].Height = 20;
-                tableLayoutPanel1.RowStyles[3].Height = 80;
+                tableLayoutPanel1.RowStyles[3].Height = 70;
                 tableLayoutPanel1.RowStyles[4].Height = 80;
                 btnResize.BackgroundImage = Resources.up_arrow;
             }
@@ -259,6 +264,7 @@ namespace gra
         static extern short GetKeyState(int nVirtKey);
         private void listBox1_KeyDown(object sender, KeyEventArgs e)
         {
+            if (e.KeyCode == Keys.Delete) btnKosz_Click(null, null);
             if (e.KeyCode == Keys.Return) listBox1_MouseDoubleClick(null, null);
             bool ctrl = Convert.ToBoolean(GetKeyState(0x11) & 0x8000);
             if (e.KeyCode == Keys.A&&ctrl) {
@@ -303,7 +309,7 @@ namespace gra
             if (tableLayoutPanel1.RowStyles[1].Height == 100)
             {
                 tableLayoutPanel1.RowStyles[1].Height = 20;
-                tableLayoutPanel1.RowStyles[3].Height = 80;
+                tableLayoutPanel1.RowStyles[3].Height = 70;
                 tableLayoutPanel1.RowStyles[4].Height = 80;
                 btnResize.BackgroundImage = Resources.up_arrow;
             }
@@ -461,6 +467,65 @@ namespace gra
         private void btnGromadzone_Click(object sender, EventArgs e)
         {
             foreach (Imap4FolderItem imap4FolderItem in cmbFolders.Items) if (imap4FolderItem.imap4Folder.Name == "Gromadzone") cmbFolders.SelectedItem = imap4FolderItem;
+        }
+
+        private void btnUsuńTeczkę_Click(object sender, EventArgs e)
+        {
+            mailClient.DeleteFolder(new Imap4Folder(cmbFolders.Text));
+            getFoldersDisplayed();
+        }
+        Imap4FolderItem moveMailsFrom;
+        private void cmbFolders_SelectedIndexChanged_2(object sender, EventArgs e)
+        {
+            cmbFolders.SelectedIndexChanged -= cmbFolders_SelectedIndexChanged_2;
+            btnInbox.Enabled = true;
+            btnSpam.Enabled = true;
+            btnSent.Enabled = true;
+            btnTrash.Enabled = true;
+            btnResize.Enabled = true;
+            btnKosz.Enabled = true;
+            btnBulb.Enabled = true;
+            btnRead.Enabled = true;
+            btnUnread.Enabled = true;
+            btnReplyFrom.Enabled = true;
+            btnShouldShowTagInfo.Enabled = true;
+            btnGromadzone.Enabled = true;
+            btnUsuńTeczkę.Enabled = true;
+            btnPrzeńeś.Enabled = true;
+            listBox1.Enabled = true;
+            tabControl1.Enabled = true;
+            if (cmbFolders.SelectedItem.ToString() == "Spam"|| cmbFolders.SelectedItem.ToString() == "Segregator" || cmbFolders.SelectedItem.ToString() == "Społeczności") cmbFolders.SelectedItem = moveMailsFrom;
+            cmbFolders.SelectedIndexChanged += cmbFolders_SelectedIndexChanged_1;
+            if (moveMailsFrom.ToString()!=cmbFolders.SelectedItem.ToString()) {
+                foreach (MailItem mailItem in listBox1.SelectedItems) mailClient.Move(mailItem.mailInfo, new Imap4Folder(cmbFolders.SelectedItem.ToString()));
+                cmbFolders_SelectedIndexChanged_1(null,null);
+            }
+            return;
+        }
+
+        private void btnPrzeńeś_Click(object sender, EventArgs e)
+        {
+            if (listBox1.SelectedItems.Count == 0) return;
+            btnInbox.Enabled = false;
+            btnSpam.Enabled = false;
+            btnSent.Enabled = false;
+            btnTrash.Enabled = false;
+            btnResize.Enabled = false;
+            btnKosz.Enabled = false;
+            btnBulb.Enabled = false;
+            btnRead.Enabled = false;
+            btnUnread.Enabled = false;
+            btnReplyFrom.Enabled = false;
+            btnShouldShowTagInfo.Enabled = false;
+            btnGromadzone.Enabled = false;
+            btnUsuńTeczkę.Enabled = false;
+            btnPrzeńeś.Enabled = false;
+            listBox1.Enabled = false;
+            tabControl1.Enabled = false;
+            moveMailsFrom = cmbFolders.SelectedItem as Imap4FolderItem;
+            cmbFolders.SelectedIndexChanged -= cmbFolders_SelectedIndexChanged_1;
+            cmbFolders.SelectedIndexChanged += cmbFolders_SelectedIndexChanged_2;
+            return;
         }
     }
 }

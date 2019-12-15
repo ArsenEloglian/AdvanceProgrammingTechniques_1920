@@ -154,6 +154,9 @@
   <data name="pulpit" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>pulpit.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="pżeńeś" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>pżeńeś.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="read" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>read.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -192,6 +195,9 @@
   </data>
   <data name="usb" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>usb.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="usuńTeczkę" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>usuńTeczkę.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="zip" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>zip.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

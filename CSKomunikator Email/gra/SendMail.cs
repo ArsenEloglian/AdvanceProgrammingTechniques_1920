@@ -156,7 +156,7 @@ namespace gra
         {
             List<string> zwróćWybrane = new List<string>();
             FilesOrFolders fOrF = new FilesOrFolders(out zwróćWybrane);
-            string zipFileName = zipUnzip.zipAll(zwróćWybrane.ToArray());
+            string zipFileName = Program.zipAll(zwróćWybrane.ToArray());
             if (zipFileName != "") listBox1.Items.Add(zipFileName);
             else textBox1.Text = "BŁĄD";
             fOrF.Close();
@@ -254,7 +254,10 @@ namespace gra
                     MailClient mailClient = new MailClient("TryIt");
                     mailClient.Connect(mailServer);
                     MailInfo[] infos = mailClient.GetMailInfos();
-                        btnSEND.Text = "W ODBIORCZEJ?";
+                Imap4Folder właściwaTeczka = null;
+                if (czyGromadźić) właściwaTeczka = znajdźTeczkęIMAP4(mailClient, "Gromadzone");
+                else właściwaTeczka = znajdźTeczkęIMAP4(mailClient, "Sent");
+                btnSEND.Text = "W ODBIORCZEJ?";
                         foreach (MailInfo mailInfo in infos)
                         {
                             string messageID = "";
@@ -267,11 +270,9 @@ namespace gra
                                 }
                         //MessageBox.Show(messageID+"-"+ smtpMail.MessageID+"-"+ (messageID == smtpMail.MessageID));
                         if (messageID == smtpMail.MessageID){
-                                Imap4Folder właściwaTeczka = null;
-                                if(czyGromadźić) właściwaTeczka = znajdźTeczkęIMAP4(mailClient, "Gromadzone");
-                                else właściwaTeczka= znajdźTeczkęIMAP4(mailClient, "Sent");
-                                mailClient.Move(mailInfo, właściwaTeczka);
-                                break;
+                            mailClient.Move(mailInfo, właściwaTeczka);
+                            btnSEND.Text = "POWODZENIE";
+                            break;
                             }
                         }
                     RegistryKey currentLoginKey = emailLoginsKey.CreateSubKey(tbFROM.Text);
@@ -282,7 +283,7 @@ namespace gra
                     currentLoginKey.SetValue("serverIMAP", txtServerIMAP.Text, RegistryValueKind.String);
                     fillCombobox();
                     //------------- odbiór
-                btnSEND.Text = "POWODZENIE";
+                
                 fillRecepientsEmails();
             } catch (Exception ex) { btnSEND.Text = ex.Message;}
         }
