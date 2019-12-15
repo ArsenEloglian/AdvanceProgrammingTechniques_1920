@@ -39,8 +39,8 @@ namespace gra
             InitializeComponent();
             InitializeComponentHere();
         }
-        glowne mainForm = null;
-        public OtherPlayer(glowne formMain)
+        OknoGry mainForm = null;
+        public OtherPlayer(OknoGry formMain)
         {
             mainForm = formMain;
             if (Program.loggedUser!="")
