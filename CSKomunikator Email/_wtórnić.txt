@@ -1,2 +1,0 @@
-Database1.mdf//gameResult->name:text,points:int//not null,identity column,identity increment
-

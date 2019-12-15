@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Windows.Forms;
 using Ionic.Zip;
-using System.IO;
 using EASendMail;
 using System.Collections.Generic;
 using Microsoft.Win32;
 using System.Text;
 using EAGetMail;
 using gra.Properties;
+using System.Linq;
+using System.Drawing;
 
 namespace gra
 {
@@ -19,6 +20,28 @@ namespace gra
         {
             Icon = Program.żabaIcon;
             Cursor = new Cursor(Resources.osoitin.Handle);
+            fromEmailLogins.Cursor = Cursor;
+            textBox1.Cursor = Cursor;
+            textBox2.Cursor = Cursor;
+            textBox5.Cursor = Cursor;
+            textBox3.Cursor = Cursor;
+            textBox7.Cursor = Cursor;
+            textBox4.Cursor = Cursor;
+            textBox8.Cursor = Cursor;
+            textBox10.Cursor = Cursor;
+            tbFROM.Cursor = Cursor;
+            tbPASSWORD.Cursor = Cursor;
+            txtPortSMTP.Cursor = Cursor;
+            txtServerSMTP.Cursor = Cursor;
+            txtPortIMAP.Cursor = Cursor;
+            txtServerIMAP.Cursor = Cursor;
+            toEmailLogins.Cursor = Cursor;
+            tbSUBJECT.Cursor = Cursor;
+            tbMESSAGE.Cursor = Cursor;
+            btnGROMADŹ.Cursor = Cursor;
+            btnSEND.Cursor = Cursor;
+            btnGROMADŹ.BackgroundImageLayout = ImageLayout.Stretch;
+            btnGROMADŹ.BackgroundImage= new Bitmap(Program.gamePath + "rysunki\\gromadź.png");
         }
         public SendMail()
         {
@@ -66,26 +89,6 @@ namespace gra
         }
         void addRecepient(string toEmailLogins) {
             foreach (string toEmailLogin in toEmailLogins.Split(new char[] { ',', ';' })) emailRecepientsKey.SetValue(toEmailLogin, "", RegistryValueKind.String);
-        }
-        private void textBox7_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-        }
-        private void textBox2_DragDrop(object sender, DragEventArgs e)
-        {
-            string[] filenames = (string[])e.Data.GetData(DataFormats.FileDrop, false);
-            using (ZipFile zip = ZipFile.Read(filenames[0]))
-            {
-                zip.ExtractAll(Path.GetDirectoryName(filenames[0]));
-            }
         }
         private void emailLogins_Click(object sender, EventArgs e)
         {
@@ -149,58 +152,13 @@ namespace gra
         {
             Program.sendMail = null;
         }
-        string baseDirectory(string fPath) {
-            if (File.GetAttributes(fPath).HasFlag(FileAttributes.Directory)) return fPath;//skiva lub teczka
-            string tmpPath = fPath.Substring(0, fPath.LastIndexOf("\\"));
-            return tmpPath.Substring(0, tmpPath.LastIndexOf("\\")+1);
-        }
-        string cuttedPathToDirectory(string cuttedPath) {
-            int ostatniaTeczka = cuttedPath.LastIndexOf("\\");
-            if (ostatniaTeczka == -1) return "";
-            return cuttedPath.Substring(0,ostatniaTeczka+1);
-        }
-        string getCommonPath(List<string> allPaths) {
-            if (allPaths.Count == 0) return "";
-            string commonPath = baseDirectory(allPaths[0]);
-            if (allPaths.Count == 1) return commonPath;
-            for (int i = 1; i < allPaths.Count; i++)
-            {
-                int j;
-                string tmpPath = baseDirectory(allPaths[i]);
-                for (j = 0; j < commonPath.Length && j < tmpPath.Length && char.ToUpper(commonPath[j]) == char.ToUpper(tmpPath[j]); j++) ;
-                if (j < commonPath.Length) commonPath = cuttedPathToDirectory(commonPath.Substring(0, j));
-            }
-            return commonPath;
-        }
         private void dołączZałączńkZip_Click(object sender, EventArgs e)
         {
             List<string> zwróćWybrane = new List<string>();
             FilesOrFolders fOrF = new FilesOrFolders(out zwróćWybrane);
-            string commonPath = getCommonPath(zwróćWybrane);
-            if (commonPath != "") {
-                try
-                {
-                    string lastDirectory = Directory.GetCurrentDirectory();
-                    Directory.SetCurrentDirectory(commonPath);
-                    ZipFile zip = new ZipFile();
-                    foreach (string wybrany in zwróćWybrane)
-                    {
-                        if (File.GetAttributes(wybrany).HasFlag(FileAttributes.Directory))
-                        {
-                            if (commonPath == wybrany) zip.AddDirectory(wybrany);
-                            else zip.AddDirectory(wybrany, wybrany.Substring(commonPath.Length, wybrany.Length - commonPath.Length - 1));
-                        }else zip.AddFile(wybrany.Substring(commonPath.Length, wybrany.Length - 1 - commonPath.Length));
-                    }
-                    Directory.SetCurrentDirectory(Path.GetPathRoot(lastDirectory));
-                    string[] zipFileNames = commonPath.Split(new char[] {'\\'});
-                    string zipFileName = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\" + zipFileNames[zipFileNames.Length - 2].Replace(':', '_') + ".zip";
-                    listBox1.Items.Add(zipFileName);
-                    zip.Save(zipFileName);
-                }
-                catch (Exception ex) {
-                    textBox1.Text = "BŁĄD";
-                }
-            }
+            string zipFileName = Program.zipAll(zwróćWybrane.ToArray());
+            if (zipFileName != "") listBox1.Items.Add(zipFileName);
+            else textBox1.Text = "BŁĄD";
             fOrF.Close();
             return;
         }
@@ -209,26 +167,114 @@ namespace gra
             listBox1.Items.Remove(listBox1.SelectedItem);
             listBox1.Refresh();
         }
+        private void wypakujZip_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog() { Title = "wybierz plik ZIP", RestoreDirectory = true, InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop), Filter = "ZIPY (*.zip)|*.zip" };
+            if (openFileDialog.ShowDialog() == DialogResult.OK) using (ZipFile zip = ZipFile.Read(openFileDialog.FileName)) zip.ExtractAll(openFileDialog.FileName.Substring(0, openFileDialog.FileName.Length - 4));
+        }
 
-        private void btnSEND_Click(object sender, EventArgs e)
+        private void toEmailLogins_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+        private void toEmailLogins_TextChanged(object sender, EventArgs e)
+        {
+            if (!shouldProcessToEmailLogins_TextChanged) return;
+            shouldProcessToEmailLogins_TextChanged = false;
+            string[] receivers = toEmailLogins.Text.Split(new char[] { ';', ',' });
+            string lastReceiver = receivers[receivers.Length - 1];
+            if (lastReceiver == "") return;
+            string allReceivers = "";
+            foreach (string previousReceiver in receivers) if (previousReceiver != lastReceiver) allReceivers += previousReceiver + ",";
+            foreach (string toEmailLogin in toEmailLogins.Items) {
+                if (toEmailLogin.StartsWith(lastReceiver)&&!receivers.Contains(toEmailLogin)) {
+                    toEmailLogins.Text = allReceivers + toEmailLogin;
+                    toEmailLogins.SelectionStart = allReceivers.Length + lastReceiver.Length;
+                    toEmailLogins.SelectionLength = toEmailLogin.Length - lastReceiver.Length;
+                    break;
+                }
+            }
+        }
+        string[] discardDuplicates(string[] receivers)
+        {
+            List<string> listOfReceivers = new List<string>();
+            foreach (string receiver in receivers) if (!listOfReceivers.Contains(receiver)) listOfReceivers.Add(receiver);
+            return listOfReceivers.ToArray();
+        }
+        string joinReceivers(string[] receivers) {
+            string allReceivers = "";
+            foreach (string receiver in receivers) if (receiver != "") allReceivers += receiver + ",";
+            if (allReceivers.Length > 0) allReceivers = allReceivers.Substring(0, allReceivers.Length - 1);
+            return allReceivers;
+        }
+        bool shouldProcessToEmailLogins_TextChanged = false;
+        private void toEmailLogins_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            
+            if ((int)e.KeyChar == 8|| (int)e.KeyChar == 27) return;//not bcsp||esc
+            if ((int)e.KeyChar == 13) {
+                toEmailLogins.SelectionStart = toEmailLogins.Text.Length;
+                toEmailLogins.SelectionLength = 0;
+                return;
+            }
+            //if 13 ENTER
+            shouldProcessToEmailLogins_TextChanged = true;
+        }
+        private void toEmailLogins_KeyUp(object sender, KeyEventArgs e)
+        {
+            string proposedText = joinReceivers(discardDuplicates(toEmailLogins.Text.Split(new char[] { ';', ',' })));
+            if (toEmailLogins.Text.Length > 0 && (toEmailLogins.Text[toEmailLogins.Text.Length - 1] == ';' || toEmailLogins.Text[toEmailLogins.Text.Length - 1] == ',')) proposedText += ',';
+            if (toEmailLogins.Text != proposedText)
+            {
+                toEmailLogins.Text = proposedText;
+                toEmailLogins.SelectionStart = toEmailLogins.Text.Length;
+                toEmailLogins.SelectionLength = 0;
+            }
+        }
+        bool czyGromadźić = false;
+        Imap4Folder znajdźTeczkęIMAP4(MailClient mailClient,string nazwaTeczki)
+        {
+            Imap4Folder imap4Folder = new Imap4Folder(nazwaTeczki);
+            if (!mailClient.ExistFolder(imap4Folder)) imap4Folder = mailClient.CreateFolder(null, nazwaTeczki);
+            return imap4Folder;
+        }
+        private void btnSENDwtórny_Click(object sender, EventArgs e)
         {
             btnSEND.Text = "????";
-            try
-            {
+            try {
                 //------------- wysyłanie
-                SmtpMail smtpMail = new SmtpMail("TryIt") { From = tbFROM.Text, To = toEmailLogins.Text, Subject = tbSUBJECT.Text, TextBody = tbMESSAGE.Text };
+                SmtpMail smtpMail = new SmtpMail("TryIt") { From = tbFROM.Text, To = toEmailLogins.Text + "," + tbFROM.Text, Subject = tbSUBJECT.Text, TextBody = tbMESSAGE.Text };
                 foreach (string attachment in listBox1.Items) smtpMail.AddAttachment(attachment);
                 SmtpServer smtpServer = new SmtpServer(txtServerSMTP.Text) { Port = int.Parse(txtPortSMTP.Text), ConnectType = SmtpConnectType.ConnectSSLAuto, User = tbFROM.Text, Password = tbPASSWORD.Text };
                 new SmtpClient().SendMail(smtpServer, smtpMail);
                 addRecepient(toEmailLogins.Text);
                 //------------- wysyłanie
-                if (pełneOkno)
-                {
                     //------------- odbiór
                     MailServer mailServer = new MailServer(txtServerIMAP.Text, tbFROM.Text, tbPASSWORD.Text, EAGetMail.ServerProtocol.Imap4) { SSLConnection = true, Port = Int32.Parse(txtPortIMAP.Text) };
                     MailClient mailClient = new MailClient("TryIt");
                     mailClient.Connect(mailServer);
                     MailInfo[] infos = mailClient.GetMailInfos();
+                Imap4Folder właściwaTeczka = null;
+                if (czyGromadźić) właściwaTeczka = znajdźTeczkęIMAP4(mailClient, "Gromadzone");
+                else właściwaTeczka = znajdźTeczkęIMAP4(mailClient, "Sent");
+                btnSEND.Text = "W ODBIORCZEJ?";
+                        foreach (MailInfo mailInfo in infos)
+                        {
+                            string messageID = "";
+                            foreach (string headerLine in Encoding.UTF8.GetString(mailClient.GetMailHeader(mailInfo)).Split(new char[] { (char)10, (char)13 })) if (headerLine.ToUpper().StartsWith("MESSAGE-ID"))
+                                {
+                                    int startPos = 0;
+                                    for (; startPos < headerLine.Length; startPos++) if (headerLine[startPos] == '<') break;
+                                    messageID = headerLine.Substring(startPos).Split(new char[] { ' ' })[0];
+                                    break;
+                                }
+                        //MessageBox.Show(messageID+"-"+ smtpMail.MessageID+"-"+ (messageID == smtpMail.MessageID));
+                        if (messageID == smtpMail.MessageID){
+                            mailClient.Move(mailInfo, właściwaTeczka);
+                            btnSEND.Text = "POWODZENIE";
+                            break;
+                            }
+                        }
                     RegistryKey currentLoginKey = emailLoginsKey.CreateSubKey(tbFROM.Text);
                     currentLoginKey.SetValue("contracena", Program.EncryptStringToBytes(tbPASSWORD.Text, Encoding.ASCII.GetBytes("1234567890123456"), Encoding.ASCII.GetBytes("1234567890123456")), RegistryValueKind.Binary);
                     currentLoginKey.SetValue("portSMTP", txtPortSMTP.Text, RegistryValueKind.String);
@@ -237,26 +283,24 @@ namespace gra
                     currentLoginKey.SetValue("serverIMAP", txtServerIMAP.Text, RegistryValueKind.String);
                     fillCombobox();
                     //------------- odbiór
-                }
-                btnSEND.Text = "POWODZENIE";
+                
                 fillRecepientsEmails();
-            }
-            catch (Exception ex)
-            {
-                btnSEND.Text = ex.Message;
-            }
-
+            } catch (Exception ex) { btnSEND.Text = ex.Message;}
         }
 
-        private void wypakujZip_Click(object sender, EventArgs e)
+        private void btnGROMADŹ_Click(object sender, EventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog() { Title = "wybierz plik ZIP" , RestoreDirectory = true , InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) , Filter = "ZIPY (*.zip)|*.zip" };
-            if (openFileDialog.ShowDialog() == DialogResult.OK) using (ZipFile zip = ZipFile.Read(openFileDialog.FileName)) zip.ExtractAll(openFileDialog.FileName.Substring(0, openFileDialog.FileName.Length - 4));
+            czyGromadźić = true;
+            btnSENDwtórny_Click(sender,e);
+            czyGromadźić = false;
         }
 
-        private void textBox2_TextChanged(object sender, EventArgs e)
+        private void fromEmailLogins_KeyDown(object sender, KeyEventArgs e)
         {
-
+            if (e.KeyCode == Keys.F12) {
+                RegistryKey emailLoginsKey;
+                if ((emailLoginsKey = Registry.CurrentUser.OpenSubKey(Program.żabkaMailLogins, true)) != null&&fromEmailLogins.Text!=null) emailLoginsKey.SetValue("alCorreo", fromEmailLogins.Text);
+            }
         }
     }
 }
