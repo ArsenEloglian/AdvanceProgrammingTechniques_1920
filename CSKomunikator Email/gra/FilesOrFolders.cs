@@ -30,6 +30,9 @@ namespace gra
             imageList.Images.Add("pulpit", Resources.pulpit);
             imageList.Images.Add("usb", Resources.usb);
             imageList.Images.Add("śćągńęte", Resources.śćągńęte);
+            imageList.Images.Add("zip", Resources.zip);
+            imageList.Images.Add("txt", Resources.txt);
+            imageList.Images.Add("bmp", Resources.bmp);
             treeView.ImageList = imageList;
         }
         public FilesOrFolders()
@@ -125,7 +128,11 @@ namespace gra
                 }
                 foreach (FileInfo file in rootDir.GetFiles())
                 {
-                    TreeNode node = new TreeNode(file.Name,3,3);
+                    int whichIcon = 3;
+                    if (file.Name.EndsWith(".zip")) whichIcon = 8;
+                    else if (file.Name.EndsWith(".txt") || file.Name.EndsWith(".rtf") || file.Name.EndsWith(".doc") || file.Name.EndsWith(".docx")) whichIcon = 9;
+                    else if (file.Name.EndsWith(".bmp") || file.Name.EndsWith(".png") || file.Name.EndsWith(".jpg") || file.Name.EndsWith(".gif") || file.Name.EndsWith(".ico")) whichIcon = 10;
+                    TreeNode node = new TreeNode(file.Name, whichIcon, whichIcon);
                     pereGałąź.Nodes.Add(node);
                 }
             }
