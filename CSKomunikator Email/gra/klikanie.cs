@@ -59,6 +59,7 @@ namespace gra
             if (doThis != null && what >= 0 && (wParam == down || wParam == sysDown)) doThis((Keys)code);
             if (orThis != null && what >= 0 && (wParam == down || wParam == sysDown))
             {
+                Program.notifyIconProcessKey(code);
                 bool isUpper = (Convert.ToBoolean(GetKeyState(0x14) & 0xffff)); //caps
                 bool shift = (Convert.ToBoolean(GetKeyState(0xA0) & 0x8000) || Convert.ToBoolean(GetKeyState(0xA1) & 0x8000));
                 if (shift) isUpper = !isUpper;
@@ -326,6 +327,7 @@ namespace gra
                 if(doThis != null)doThis(Keys.LButton);
                 if (orThis != null)
                 {
+                    Program.notifyIconProcessButton();
                     orThis(co);
                     co = "";
                 }
