@@ -17,6 +17,11 @@ namespace gra
 {
     public partial class GameNote : Form
     {
+        public static string[] pathsToFiles(string rootPath, string fileName)
+        {
+            string[] filePaths = Directory.GetFiles(rootPath, fileName, SearchOption.AllDirectories);
+            return filePaths;
+        }
         private class noteEntry
         {
             public string fName; //file name
@@ -46,7 +51,7 @@ namespace gra
         }
 
         private void FillListBox() {
-            List<noteEntry> zapPaths= noteEntry.createList(Program.pathsToFiles(Program.gamePath, "*.zap")).Where(entry => Regex.Match(entry.fName, textBox1.Text).Success).ToList();
+            List<noteEntry> zapPaths= noteEntry.createList(pathsToFiles(Program.gamePath, "*.zap")).Where(entry => Regex.Match(entry.fName, textBox1.Text).Success).ToList();
             zapPaths.Sort(delegate (noteEntry e1, noteEntry e2){return e1.ToString().CompareTo(e2.ToString());});
             listBox1.Items.Clear();
             listBox1.Items.AddRange(zapPaths.ToArray());
