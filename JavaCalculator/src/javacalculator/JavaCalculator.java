@@ -1,4 +1,4 @@
-package javacalculator;
+package src.javacalculator;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -17,10 +17,12 @@ public class JavaCalculator implements ActionListener {
    
    private JTextField field;
    private String operation;
-   private Float operandA, operandB;
+   private float operandA, operandB;
+   private double liczba1,liczba2;
    private String currentOperation;
    private String result;
    private StringBuilder temp;
+    private boolean isDotPressed = false;
    
    public final String[][] BUTTON_TEXTS = {
       {"C", "CE", "%", "√"},
@@ -33,6 +35,7 @@ public class JavaCalculator implements ActionListener {
 
    private void createAndShowGui() {
       field = new JTextField(10);
+
       field.setPreferredSize(new Dimension(0, 80));
       field.setFont(BTN_FONT.deriveFont(Font.PLAIN));
       JPanel btnPanel = new JPanel(new GridLayout(BUTTON_TEXTS.length,
@@ -91,10 +94,11 @@ public class JavaCalculator implements ActionListener {
         if(!this.isInteger(operation)){
             switch(operation){
                 case "C" :
-                    System.out.println("Usuwanie");
                     this.clearScreen();
                     break;
-                case "CE" :  
+                case "CE" :
+                    this.clearScreen();
+
                     break;
                 case "%" :
                     this.operandA = Float.parseFloat(this.field.getText());
@@ -103,13 +107,16 @@ public class JavaCalculator implements ActionListener {
                     break;      
                 case "√" :
                     this.operandA = Float.parseFloat(this.field.getText());
+                    System.out.println(operandA);
                      this.clearScreen();
                     this.currentOperation = operation;
                     break;
                 case "+" :
                     this.operandA = Float.parseFloat(this.field.getText());
-                     this.clearScreen();
-                    this.currentOperation = operation; 
+                    System.out.println(operandA);
+                    this.clearScreen();
+                    this.currentOperation = operation;
+
                     break;
                 case "-" :
                     this.operandA = Float.parseFloat(this.field.getText());
@@ -121,19 +128,32 @@ public class JavaCalculator implements ActionListener {
                     this.clearScreen();
                     this.currentOperation = operation;
                     break;
-                case "=" : 
+                case "=" :
                     this.operandB = Float.parseFloat(this.field.getText());
-                    
-                        this.calculate();
-                    
+                    System.out.println(operandB);
+                    this.calculate();
                     break;
                 case "/" :
                     this.operandA = Float.parseFloat(this.field.getText());
                     this.clearScreen();
                     this.currentOperation = operation;
                     break;
-                case "." : 
-                    break;
+                case "." :
+                    isDotPressed = false;
+                    if (!isDotPressed) {
+                        isDotPressed = true;
+                        temp.append('.');
+
+                    }
+
+
+
+
+
+
+
+
+
             }
         }else {     
             for(int i=0; i<=9; ++i){     
@@ -164,19 +184,24 @@ public class JavaCalculator implements ActionListener {
     private void calculate(){
         
         switch(this.currentOperation){
-            case "%" :           
-                result = String.valueOf(this.operandA%this.operandB);
+            case "%" :
+
+                result = String.valueOf((this.operandA/100)*this.operandB);
                 this.field.setText(this.operandA + "%" + this.operandB + "="+ 
                          result);
                 break;      
             case "√" :
+                result = String.valueOf(Math.sqrt(this.operandA));
+                this.field.setText("√"+this.operandA+"="+result);
                 this.currentOperation = operation;
                 break;
             case "+" :
+
                 result = String.valueOf(this.operandA+this.operandB);
                 this.field.setText(this.operandA + "+" + this.operandB + "="+ 
                          result);
-                this.currentOperation = operation; 
+                this.currentOperation = operation;
+                System.out.println(result);
                 break;
             case "-" :
                  result = String.valueOf(this.operandA-this.operandB);
@@ -196,6 +221,10 @@ public class JavaCalculator implements ActionListener {
                          result);
                this.currentOperation = operation;
                break;
+
+
+
+
         
         }  
            
@@ -204,5 +233,8 @@ public class JavaCalculator implements ActionListener {
     private void clearScreen(){
         temp.setLength(0);
         field.setText("");
+
     }
+
+
 }

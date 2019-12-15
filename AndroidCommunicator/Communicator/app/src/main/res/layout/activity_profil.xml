@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ProfilActivity"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@color/colorPrimary"
+    >
+
+
+    <TextView
+        android:id="@+id/profileName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="32dp"
+        android:layout_marginBottom="300dp"
+        android:layout_marginRight="32dp"
+        android:background="#00000000"
+        android:ems="10"
+        android:fontFamily="casual"
+        android:gravity="center"
+        android:hint="Name"
+        android:text="Name"
+        android:textColor="#FF335F"
+        android:textSize="25dp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/addToFriendsButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add to friends" />
+
+    <Button
+        android:id="@+id/goToChatButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Go to chat" />
+
+
+</LinearLayout>

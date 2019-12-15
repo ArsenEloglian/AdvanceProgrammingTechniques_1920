@@ -1,2 +1,6 @@
+<<<<<<< HEAD
 include ':app', ':exp4j-0.4.8'
+=======
+include ':app'
+>>>>>>> 87ec5e1d35f88f320fabe0d3c4f7701bae3844c7
 rootProject.name='qq'
