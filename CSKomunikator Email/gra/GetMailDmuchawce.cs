@@ -83,7 +83,7 @@ namespace gra
         }
         class LoginInfo
         {
-            public string email, contracena, imap, portSMTP, serverSMTP, portIMAP, serverIMAP;
+            public string email, contracena, portSMTP, serverSMTP, portIMAP, serverIMAP;
         }
         void AddUnreadMailsFromAccount(string emailName)
         {
@@ -125,6 +125,10 @@ namespace gra
             timer.Enabled = false;
             ReceiveMails();
             timer.Enabled = true;
+        }
+        public void noMailsAgain()
+        {
+            timer.Enabled = false;
         }
     }
 }
