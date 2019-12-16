@@ -28,15 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridViewSterownikiWpamięci = new System.Windows.Forms.DataGridView();
             this.dataGridViewSpisSterowników = new System.Windows.Forms.DataGridView();
             this.txtZeSpisuSterowników = new System.Windows.Forms.TextBox();
             this.txtSterownikiWpamięci = new System.Windows.Forms.TextBox();
-            this.twóżPlikSpisuGuzik = new System.Windows.Forms.Button();
-            this.znajdźNieznany = new System.Windows.Forms.Button();
-            this.btnOdPoczątku = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewSterownikiWpamięci)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewSpisSterowników)).BeginInit();
             this.SuspendLayout();
@@ -46,8 +43,8 @@
             this.dataGridViewSterownikiWpamięci.AllowUserToAddRows = false;
             this.dataGridViewSterownikiWpamięci.AllowUserToDeleteRows = false;
             this.dataGridViewSterownikiWpamięci.AllowUserToOrderColumns = true;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.dataGridViewSterownikiWpamięci.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.dataGridViewSterownikiWpamięci.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridViewSterownikiWpamięci.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dataGridViewSterownikiWpamięci.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dataGridViewSterownikiWpamięci.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -67,8 +64,8 @@
             this.dataGridViewSpisSterowników.AllowUserToAddRows = false;
             this.dataGridViewSpisSterowników.AllowUserToDeleteRows = false;
             this.dataGridViewSpisSterowników.AllowUserToOrderColumns = true;
-            dataGridViewCellStyle6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.dataGridViewSpisSterowników.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.dataGridViewSpisSterowników.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridViewSpisSterowników.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dataGridViewSpisSterowników.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dataGridViewSpisSterowników.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
@@ -83,6 +80,7 @@
             this.dataGridViewSpisSterowników.TabIndex = 3;
             this.dataGridViewSpisSterowników.SelectionChanged += new System.EventHandler(this.dataGridViewZeSpisuSterowników_SelectionChanged);
             this.dataGridViewSpisSterowników.DoubleClick += new System.EventHandler(this.dataGridView2_DoubleClick);
+            this.dataGridViewSpisSterowników.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridViewSpisSterowników_KeyDown);
             // 
             // txtZeSpisuSterowników
             // 
@@ -90,7 +88,6 @@
             this.txtZeSpisuSterowników.Name = "txtZeSpisuSterowników";
             this.txtZeSpisuSterowników.Size = new System.Drawing.Size(429, 20);
             this.txtZeSpisuSterowników.TabIndex = 4;
-            this.txtZeSpisuSterowników.Text = "npcap";
             this.txtZeSpisuSterowników.Click += new System.EventHandler(this.txtSpisSterowników_Click);
             this.txtZeSpisuSterowników.TextChanged += new System.EventHandler(this.txtZeSpisuSterowników_TextChanged);
             // 
@@ -103,36 +100,6 @@
             this.txtSterownikiWpamięci.Click += new System.EventHandler(this.txtSterownikiWpamięci_Click);
             this.txtSterownikiWpamięci.TextChanged += new System.EventHandler(this.txtSterownikiWpamięci_TextChanged);
             // 
-            // twóżPlikSpisuGuzik
-            // 
-            this.twóżPlikSpisuGuzik.Location = new System.Drawing.Point(440, 444);
-            this.twóżPlikSpisuGuzik.Name = "twóżPlikSpisuGuzik";
-            this.twóżPlikSpisuGuzik.Size = new System.Drawing.Size(172, 23);
-            this.twóżPlikSpisuGuzik.TabIndex = 6;
-            this.twóżPlikSpisuGuzik.Text = "twóż plik spisu sterowników";
-            this.twóżPlikSpisuGuzik.UseVisualStyleBackColor = true;
-            this.twóżPlikSpisuGuzik.Click += new System.EventHandler(this.twóżSpisSterowników_Click);
-            // 
-            // znajdźNieznany
-            // 
-            this.znajdźNieznany.Location = new System.Drawing.Point(628, 444);
-            this.znajdźNieznany.Name = "znajdźNieznany";
-            this.znajdźNieznany.Size = new System.Drawing.Size(119, 23);
-            this.znajdźNieznany.TabIndex = 7;
-            this.znajdźNieznany.Text = "znajdź ńeznany";
-            this.znajdźNieznany.UseVisualStyleBackColor = true;
-            this.znajdźNieznany.Click += new System.EventHandler(this.znajdźNieznany_Click);
-            // 
-            // btnOdPoczątku
-            // 
-            this.btnOdPoczątku.Location = new System.Drawing.Point(754, 445);
-            this.btnOdPoczątku.Name = "btnOdPoczątku";
-            this.btnOdPoczątku.Size = new System.Drawing.Size(75, 23);
-            this.btnOdPoczątku.TabIndex = 8;
-            this.btnOdPoczątku.Text = "od początku";
-            this.btnOdPoczątku.UseVisualStyleBackColor = true;
-            this.btnOdPoczątku.Click += new System.EventHandler(this.btnOdPoczątku_Click);
-            // 
             // sterowniki
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -140,9 +107,6 @@
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(1094, 470);
-            this.Controls.Add(this.btnOdPoczątku);
-            this.Controls.Add(this.znajdźNieznany);
-            this.Controls.Add(this.twóżPlikSpisuGuzik);
             this.Controls.Add(this.txtSterownikiWpamięci);
             this.Controls.Add(this.txtZeSpisuSterowników);
             this.Controls.Add(this.dataGridViewSpisSterowników);
@@ -162,8 +126,5 @@
         private System.Windows.Forms.DataGridView dataGridViewSpisSterowników;
         private System.Windows.Forms.TextBox txtZeSpisuSterowników;
         private System.Windows.Forms.TextBox txtSterownikiWpamięci;
-        private System.Windows.Forms.Button twóżPlikSpisuGuzik;
-        private System.Windows.Forms.Button znajdźNieznany;
-        private System.Windows.Forms.Button btnOdPoczątku;
     }
 }

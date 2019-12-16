@@ -438,7 +438,7 @@ namespace gra
             if (e.MouseButtonsPressed == MouseButtons.Left) {
                 Regex pattern = new Regex(Resources.linkString);
                 Match match = pattern.Match((sender as HtmlElement).OuterHtml);
-                string link = match.Groups["time"].Value;
+                string link = match.Groups["link"].Value;
                 link = link.Substring(1, link.Length - 2);
                 Process.Start(link);
             }

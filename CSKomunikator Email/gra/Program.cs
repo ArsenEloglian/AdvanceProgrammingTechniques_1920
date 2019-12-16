@@ -10,6 +10,7 @@ namespace gra
 {
     static partial class Program
     {
+        
         [STAThread]
         static void Main(string[] args)
         {
@@ -24,10 +25,10 @@ namespace gra
         }
         public static string getWebPage(string from)
         {
-            var request = (HttpWebRequest)WebRequest.Create(from);
-            var response = (HttpWebResponse)request.GetResponse();
-            var responseString = new StreamReader(response.GetResponseStream()).ReadToEnd();
-            return responseString;
+                var request = (HttpWebRequest)WebRequest.Create(from);
+                var response = (HttpWebResponse)request.GetResponse();
+                var responseString = new StreamReader(response.GetResponseStream()).ReadToEnd();
+                return responseString;
         }
         public static bool isAlreadyOpened()
         {

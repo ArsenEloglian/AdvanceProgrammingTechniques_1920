@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using gra.Properties;
+using Microsoft.Win32;
 using System;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
@@ -75,8 +76,8 @@ namespace gra
         }
         static void startupChecks()
         {
-            bool[,,] markedQuarters = markThisQuarter(getMarkedQuarters());
-            notifyIcon.Icon = redŻabaIcon;
+            notifyIcon.Icon = Resources.aleKokosy;
+            bool[,,] markedQuarters = markThisQuarter(getMarkedQuarters()); 
         }
         public static NotifyIcon notifyIcon;
         public static RegistryKey emailLoginsKey;
