@@ -6,14 +6,13 @@ namespace gra
 {
     class klikanie
     {
-        myProcDelegate delegatePtr;
         delegate int myProcDelegate(int what, int paramH, int paramL);
+        myProcDelegate delegatePtr;
         IntPtr willCancel;
-        [DllImport("user32.dll")]
-        static extern IntPtr SetWindowsHookEx(int type, myProcDelegate ptrProcedure, IntPtr zeroPtr, uint zero);
-
         myProcDelegate mouseDelPtr;
         IntPtr msWlCancel;
+        [DllImport("user32.dll")]
+        static extern IntPtr SetWindowsHookEx(int type, myProcDelegate ptrProcedure, IntPtr zeroPtr, uint zero);
         public klikanie()
         {
             delegatePtr = new myProcDelegate(myProc);
@@ -23,10 +22,16 @@ namespace gra
         }
         [DllImport("user32.dll")]
         static extern bool UnhookWindowsHookEx(IntPtr hookHandle);
-        ~klikanie()
-        {
-            UnhookWindowsHookEx(willCancel);
-            UnhookWindowsHookEx(msWlCancel);
+        public void odczepWgląd() {
+            if (willCancel != IntPtr.Zero) {
+                UnhookWindowsHookEx(willCancel);
+                willCancel = IntPtr.Zero;
+            }
+            if (msWlCancel != IntPtr.Zero)
+            {
+                UnhookWindowsHookEx(msWlCancel);
+                msWlCancel = IntPtr.Zero;
+            }
         }
         public struct lowerParam
         {
