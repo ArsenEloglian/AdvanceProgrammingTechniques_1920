@@ -37,6 +37,7 @@
             this.Name = "weekQuarter";
             this.Size = new System.Drawing.Size(800, 450);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.weekQuarter_Paint_1);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.weekQuarter_KeyDown);
             this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.weekQuarter_MouseClick);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.weekQuarter_MouseDown);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.weekQuarter_MouseMove);
