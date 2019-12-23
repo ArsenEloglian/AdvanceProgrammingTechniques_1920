@@ -20,6 +20,7 @@ namespace weekQuarters
         public void setQuarters(bool[,,] tempQuarters)
         {
             quarters = tempQuarters;
+            for (int x = 0; x < 7; x++) for (int y = 0; y < 24; y++) for (int z = 0; z < 4; z++) quartersOriginal[x, y, z] = quarters[x, y, z];
         }
         public bool[,,] getMarkedQuarters()
         {
@@ -86,6 +87,15 @@ namespace weekQuarters
             return eY;
         }
         bool origValue, markedOrigValue;
+
+        private void weekQuarter_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode==Keys.Home) {
+                for (int x = 0; x < 7; x++) for (int y = 0; y < 24; y++) for (int z = 0; z < 4; z++) quarters[x, y, z]= quartersOriginal[x, y, z];
+                drawTable();
+            }
+        }
+
         private void weekQuarter_MouseDown(object sender, MouseEventArgs e)
         {
             int eX = eXinsideTable(e.X);
@@ -183,12 +193,9 @@ namespace weekQuarters
                 markedQuarters = lastQuarters;
             }
         }
-        void InitializeComponentHere()
-        {
-            marginSize = 2;
+        void recalculateDrawingSizes() {
             Graphics g = Graphics.FromHwnd(Handle);
-            g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
-            generalFont = new Font("Sergoe Script", 10, FontStyle.Regular);
+            generalFont = new Font("Sergoe Script", ClientSize.Height / 45, FontStyle.Regular);
             monSize = g.MeasureString("Mon", generalFont);
             tueSize = g.MeasureString("Tue", generalFont);
             wedSize = g.MeasureString("Wed", generalFont);
@@ -202,6 +209,11 @@ namespace weekQuarters
             cellWidth = (ClientSize.Width - marginSize * 2 - leftSpacing) / (7 * 4);
             cellHeight = (ClientSize.Height - marginSize * 2 - headerSpacing) / 24;
             g.Dispose();
+        }
+        void InitializeComponentHere()
+        {
+            marginSize = 2;
+            recalculateDrawingSizes();
         }
         [DllImport("user32.dll")]
         public static extern int SendMessage(IntPtr hWnd, Int32 wMsg, bool wParam, Int32 lParam);
@@ -220,7 +232,6 @@ namespace weekQuarters
         void drawTable()
         {
             Graphics g = Graphics.FromHwnd(Handle);
-            g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
             int xStart, yStart;
             xStart = marginSize;
             yStart = marginSize + headerSpacing;
@@ -280,6 +291,7 @@ namespace weekQuarters
             drawTable();
         }
         bool[,,] quarters = new bool[7, 24, 4];
+        bool[,,] quartersOriginal = new bool[7, 24, 4];
         bool[,,] markedQuarters = new bool[7, 24, 4];
         private void weekQuarter_MouseClick(object sender, MouseEventArgs e)
         {
