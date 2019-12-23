@@ -15,7 +15,7 @@ namespace gra
         public GetMailDmuchawce(NotifyIcon _notifyIcon)//wyświetlanie dmóchawców
         {
             notifyIcon = _notifyIcon;
-            if ((emailLoginsKey = Registry.CurrentUser.OpenSubKey(Program.żabkaMailLogins, true)) == null) emailLoginsKey = Registry.CurrentUser.CreateSubKey(Program.żabkaMailLogins);
+            if ((emailLoginsKey = Registry.CurrentUser.OpenSubKey(Program.żabkaEmailLoginsKeyName, true)) == null) emailLoginsKey = Registry.CurrentUser.CreateSubKey(Program.żabkaEmailLoginsKeyName);
             ReceiveMails();
             SetDisplayTimer();
         }
