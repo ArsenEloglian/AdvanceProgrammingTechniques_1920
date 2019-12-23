@@ -101,7 +101,7 @@ namespace gra
         public GetMail(){
             InitializeComponent();
             InitializeComponentHere();
-            if ((emailLoginsKey = Registry.CurrentUser.OpenSubKey(Program.żabkaMailLogins, true)) == null) emailLoginsKey = Registry.CurrentUser.CreateSubKey(Program.żabkaMailLogins);
+            if ((emailLoginsKey = Registry.CurrentUser.OpenSubKey(Program.żabkaEmailLoginsKeyName, true)) == null) emailLoginsKey = Registry.CurrentUser.CreateSubKey(Program.żabkaEmailLoginsKeyName);
         }
         RegistryKey emailLoginsKey;
         class LoginInfo {
@@ -148,6 +148,7 @@ namespace gra
             Show();
             Text = emailName;
             RegistryKey currentLoginKey = emailLoginsKey.OpenSubKey(emailName, true);
+            
             loginInfo = new LoginInfo() { email = emailName, portSMTP = currentLoginKey.GetValue("portSMTP").ToString(), portIMAP = currentLoginKey.GetValue("portIMAP").ToString(), serverSMTP = currentLoginKey.GetValue("serverSMTP").ToString(), serverIMAP = currentLoginKey.GetValue("serverIMAP").ToString(), contracena = Program.DecryptStringFromBytes((byte[])currentLoginKey.GetValue("contracena", RegistryValueKind.Binary), Encoding.ASCII.GetBytes("1234567890123456"), Encoding.ASCII.GetBytes("1234567890123456")) };
             mailServer = new MailServer(loginInfo.serverIMAP, loginInfo.email, loginInfo.contracena, ServerProtocol.Imap4) { SSLConnection = true, Port = Int32.Parse(loginInfo.portIMAP) };
             mailClient = new MailClient("TryIt");

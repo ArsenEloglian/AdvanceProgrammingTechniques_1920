@@ -10,7 +10,6 @@ namespace gra
 {
     static partial class Program
     {
-        
         [STAThread]
         static void Main(string[] args)
         {
@@ -19,6 +18,7 @@ namespace gra
             if (isAlreadyOpened()) Environment.Exit(0);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            zmeczenieGrającego = new zmęczenieGracza();
             setNotifyIcon();
             getMailDmuchawce = new GetMailDmuchawce(notifyIcon);//wyświetlańe dmóchawców
             Application.Run();
@@ -51,9 +51,11 @@ namespace gra
         public static string loggedUser = "";
         public static Icon żabaIcon = Icon.ExtractAssociatedIcon(Assembly.GetExecutingAssembly().Location);
         public static Icon redŻabaIcon = new Icon(gamePath+"gra\\redŻaba.ico");
-        public static string żabkaMailLogins = "żabkaMail";
+        public static string żabkaEmailLoginsKeyName = "żabka\\emailLogins";
+        public static string żabkaEmailOdbiorcyKeyName = "żabka\\emailOdbiorcy";
+        public static string żabkaGraczeKeyName = "żabka\\gracze";
         public static long DopuszczalneZmęczenie = 1024*1024;
-        public static zmeczenieGracza zmeczenieGrającego = new zmeczenieGracza();
+        public static zmęczenieGracza zmeczenieGrającego;// = new zmeczenieGracza();
         public static SendMail sendMail;
         public static GetMail getMail;
         public static GetMailDmuchawce getMailDmuchawce;

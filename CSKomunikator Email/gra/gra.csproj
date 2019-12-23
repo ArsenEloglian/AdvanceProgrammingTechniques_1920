@@ -237,7 +237,7 @@
       <DependentUpon>zarzadcaZdjęć.cs</DependentUpon>
     </Compile>
     <Compile Include="zipUnzip.cs" />
-    <Compile Include="zmeczenieGracza.cs" />
+    <Compile Include="zmęczenieGracza.cs" />
     <Compile Include="zrzuty.cs">
       <SubType>Form</SubType>
     </Compile>

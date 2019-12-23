@@ -30,6 +30,21 @@ namespace żyść_łełtuj
                 }
                 catch (Exception ex) { }
             }
+            try
+            {
+                Directory.Delete(teczkaŚcieżka + "bin\\.vs", true);
+            }
+            catch (Exception ex) { }
+            try
+            {
+                Directory.Delete(teczkaŚcieżka + "bin\\Release", true);
+            }
+            catch (Exception ex) { }
+            try
+            {
+                Directory.Delete(teczkaŚcieżka + "bin\\x64", true);
+            }
+            catch (Exception ex) { }
             foreach (FileInfo file in new DirectoryInfo(teczkaŚcieżka + "bin\\").GetFiles("*.ldf"))
             {
                 try
@@ -110,7 +125,7 @@ namespace żyść_łełtuj
             czyśćOgólnie(gamePath + "usługa\\", new string[] { "bin\\Release" }, new string[] { });
             czyśćOgólnie(gamePath + "onOff\\", new string[] { }, new string[] { });
             czyśćOgólnie(gamePath + "odumćaćuj\\", new string[] { }, new string[] { });
-            czyśćOgólnie(gamePath + "gra\\", new string[] { }, new string[] { });
+            czyśćOgólnie(gamePath + "gra\\", new string[] { }, new string[] { "bin\\rubbish" });
         }
         string gamePath = Application.ExecutablePath.ToString().Substring(0, Application.ExecutablePath.ToString().LastIndexOf('\\', Application.ExecutablePath.ToString().LastIndexOf('\\', Application.ExecutablePath.ToString().LastIndexOf('\\') - 1) - 1) + 1);
 

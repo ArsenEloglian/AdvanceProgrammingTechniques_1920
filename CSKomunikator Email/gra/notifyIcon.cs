@@ -91,7 +91,7 @@ namespace gra
             GrajMenuItem.Click += new EventHandler(taskBarGraj_Click);
             ContextMenuStrip taskBarIconMenuStrip = new ContextMenuStrip();
             taskBarIconMenuStrip.Items.AddRange(new ToolStripItem[] { GrajMenuItem });
-            if ((emailLoginsKey = Registry.CurrentUser.OpenSubKey(żabkaMailLogins, true)) == null) emailLoginsKey = Registry.CurrentUser.CreateSubKey(żabkaMailLogins);
+            if ((emailLoginsKey = Registry.CurrentUser.OpenSubKey(żabkaEmailLoginsKeyName, true)) == null) emailLoginsKey = Registry.CurrentUser.CreateSubKey(żabkaEmailLoginsKeyName);
             foreach (string emailName in emailLoginsKey.GetSubKeyNames())
             {
                 GrajMenuItem = new ToolStripMenuItem();
