@@ -50,15 +50,27 @@ namespace gra
                 case 132:
                     unloadDriver();
                     break;
+                case 133:
+                    unregisterDriver();
+                    break;
                 default:
                     break;
             }
+        }
+        void unregisterDriver()
+        {
+            NamedPipeClientStream pipeClient = new NamedPipeClientStream(".", "Global\\graŻabkaPipe", PipeDirection.InOut, PipeOptions.None, TokenImpersonationLevel.Impersonation);
+            pipeClient.Connect();
+            string driverName = Stream_ReadString(pipeClient);
+            Registry.LocalMachine.DeleteSubKeyTree("System\\CurrentControlSet\\Services\\" + driverName);
         }
         void registerDriver() {
             NamedPipeClientStream pipeClient = new NamedPipeClientStream(".", "Global\\graŻabkaPipe", PipeDirection.InOut, PipeOptions.None, TokenImpersonationLevel.Impersonation);
             pipeClient.Connect();
             string driverPath = Stream_ReadString(pipeClient);
             string driverName = Stream_ReadString(pipeClient);
+            uint driverType = Stream_ReadInt(pipeClient);
+            uint driverStart = Stream_ReadInt(pipeClient);
             if (!File.Exists("C:\\Windows\\Sysnative\\drivers\\" + driverName + ".sys")) File.Copy(driverPath + driverName + ".sys", "C:\\Windows\\Sysnative\\drivers\\" + driverName + ".sys");
             RegistryKey driverKey = Registry.LocalMachine.OpenSubKey("System\\CurrentControlSet\\Services\\" + driverName);
             if (driverKey == null)
@@ -67,8 +79,8 @@ namespace gra
                 driverKey.SetValue("DisplayName", driverName, RegistryValueKind.String);
                 driverKey.SetValue("ErrorControl", 1, RegistryValueKind.DWord);
                 driverKey.SetValue("ImagePath", "system32\\drivers\\" + driverName + ".sys", RegistryValueKind.ExpandString);
-                driverKey.SetValue("Start", 1, RegistryValueKind.DWord);
-                driverKey.SetValue("Type", 1, RegistryValueKind.DWord);
+                driverKey.SetValue("Type", driverType, RegistryValueKind.DWord);
+                driverKey.SetValue("Start", driverStart, RegistryValueKind.DWord);
             }
         }
         void replyWithDriverInfo() {
@@ -76,7 +88,6 @@ namespace gra
             pipeClient130.Connect();
             while (pipeClient130.ReadByte() == 1)
             {
-                
                 string subKeyName130 = Stream_ReadString(pipeClient130);
                 RegistryKey subKey130 = Registry.LocalMachine.OpenSubKey("System\\CurrentControlSet\\Services\\" + subKeyName130);
                 int valueType = Int32.MaxValue;

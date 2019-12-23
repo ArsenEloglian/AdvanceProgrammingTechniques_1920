@@ -10,6 +10,15 @@ namespace gra
 {
     public partial class OknoGry : Form
     {
+        [System.Security.Permissions.PermissionSet(System.Security.Permissions.SecurityAction.Demand, Name = "FullTrust")]
+        protected override void WndProc(ref Message m)
+        {
+            if (m.Msg == 0x11)
+            {
+                //File.Create(m.Msg.ToString()).Close();
+            }
+            base.WndProc(ref m);
+        }
         Bitmap gameView = null;
         Bitmap sky;
         Bitmap frog;
