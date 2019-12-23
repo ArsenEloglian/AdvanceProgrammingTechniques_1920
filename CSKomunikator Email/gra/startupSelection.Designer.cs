@@ -36,18 +36,19 @@
             this.weekQuarter1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.weekQuarter1.Location = new System.Drawing.Point(0, 0);
             this.weekQuarter1.Name = "weekQuarter1";
-            this.weekQuarter1.Size = new System.Drawing.Size(548, 318);
+            this.weekQuarter1.Size = new System.Drawing.Size(612, 344);
             this.weekQuarter1.TabIndex = 0;
             // 
-            // startup
+            // startupSelection
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(548, 318);
+            this.ClientSize = new System.Drawing.Size(612, 344);
             this.Controls.Add(this.weekQuarter1);
-            this.Name = "startup";
+            this.Name = "startupSelection";
             this.Text = "startup";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.pcStartup_FormClosing);
+            this.Load += new System.EventHandler(this.startupSelection_Load);
             this.ResumeLayout(false);
 
         }
