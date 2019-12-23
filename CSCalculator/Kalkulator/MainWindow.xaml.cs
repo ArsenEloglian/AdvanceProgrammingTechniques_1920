@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+<<<<<<< HEAD
 using System.Text.RegularExpressions;
+=======
+>>>>>>> 87ec5e1d35f88f320fabe0d3c4f7701bae3844c7
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -26,12 +29,16 @@ namespace Kalkulator
 		String znak = "";
         Boolean czyZnak = false;
         double wynik = 0;
+<<<<<<< HEAD
 
         private void tbOperation_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             Regex regex = new Regex("[^0-9]+");
             e.Handled = regex.IsMatch(e.Text);
         }
+=======
+        
+>>>>>>> 87ec5e1d35f88f320fabe0d3c4f7701bae3844c7
 
         public MainWindow()
         {
@@ -44,7 +51,11 @@ namespace Kalkulator
             {
                 tbOperation.Text = "1";
                 czyZnak = false;
+<<<<<<< HEAD
                 disableOperations();
+=======
+                disableAll();
+>>>>>>> 87ec5e1d35f88f320fabe0d3c4f7701bae3844c7
                 buttonWynik.IsEnabled = true;
             }
             else
@@ -59,7 +70,11 @@ namespace Kalkulator
             {
                 tbOperation.Text = "2";
                 czyZnak = false;
+<<<<<<< HEAD
                 disableOperations();
+=======
+                disableAll();
+>>>>>>> 87ec5e1d35f88f320fabe0d3c4f7701bae3844c7
                 buttonWynik.IsEnabled = true;
             }
             else
@@ -74,7 +89,11 @@ namespace Kalkulator
             {
                 tbOperation.Text = "3";
                 czyZnak = false;
+<<<<<<< HEAD
                 disableOperations();
+=======
+                disableAll();
+>>>>>>> 87ec5e1d35f88f320fabe0d3c4f7701bae3844c7
                 buttonWynik.IsEnabled = true;
             }
             else
@@ -89,7 +108,11 @@ namespace Kalkulator
             {
                 tbOperation.Text = "4";
                 czyZnak = false;
+<<<<<<< HEAD
                 disableOperations();
+=======
+                disableAll();
+>>>>>>> 87ec5e1d35f88f320fabe0d3c4f7701bae3844c7
                 buttonWynik.IsEnabled = true;
             }
             else
@@ -104,7 +127,11 @@ namespace Kalkulator
             {
                 tbOperation.Text = "5";
                 czyZnak = false;
+<<<<<<< HEAD
                 disableOperations();
+=======
+                disableAll();
+>>>>>>> 87ec5e1d35f88f320fabe0d3c4f7701bae3844c7
                 buttonWynik.IsEnabled = true;
             }
             else
@@ -119,7 +146,11 @@ namespace Kalkulator
             {
                 tbOperation.Text = "6";
                 czyZnak = false;
+<<<<<<< HEAD
                 disableOperations();
+=======
+                disableAll();
+>>>>>>> 87ec5e1d35f88f320fabe0d3c4f7701bae3844c7
                 buttonWynik.IsEnabled = true;
             }
             else
@@ -133,7 +164,11 @@ namespace Kalkulator
             {
                 tbOperation.Text = "7";
                 czyZnak = false;
+<<<<<<< HEAD
                 disableOperations();
+=======
+                disableAll();
+>>>>>>> 87ec5e1d35f88f320fabe0d3c4f7701bae3844c7
                 buttonWynik.IsEnabled = true;
             }
             else
@@ -147,7 +182,11 @@ namespace Kalkulator
             {
                 tbOperation.Text = "8";
                 czyZnak = false;
+<<<<<<< HEAD
                 disableOperations();
+=======
+                disableAll();
+>>>>>>> 87ec5e1d35f88f320fabe0d3c4f7701bae3844c7
                 buttonWynik.IsEnabled = true;
             }
             else
@@ -161,7 +200,11 @@ namespace Kalkulator
             {
                 tbOperation.Text = "9";
                 czyZnak = false;
+<<<<<<< HEAD
                 disableOperations();
+=======
+                disableAll();
+>>>>>>> 87ec5e1d35f88f320fabe0d3c4f7701bae3844c7
                 buttonWynik.IsEnabled = true;
             }
             else
@@ -175,7 +218,11 @@ namespace Kalkulator
             {
                 tbOperation.Text = "0";
                 czyZnak = false;
+<<<<<<< HEAD
                 disableOperations();
+=======
+                disableAll();
+>>>>>>> 87ec5e1d35f88f320fabe0d3c4f7701bae3844c7
                 buttonWynik.IsEnabled = true;
             }
             else
@@ -186,6 +233,7 @@ namespace Kalkulator
 
         private void buttonPlus_onClick(object sender, RoutedEventArgs e)
         {
+<<<<<<< HEAD
             Double.TryParse(tbOperation.Text.Replace(" ", string.Empty), out liczba1);
             tbOperation.Text = "+";
 			znak = "+";
@@ -224,27 +272,70 @@ namespace Kalkulator
             znak = "%";
             czyZnak = true;
             disableOperations();
+=======
+            Double.TryParse(tbOperation.Text, out liczba1);
+            tbOperation.Text = "+";
+			znak = "+";
+            czyZnak = true;
+            
+        }
+        private void buttonMinus_onClick(object sender, RoutedEventArgs e)
+        {
+            Double.TryParse(tbOperation.Text, out liczba1);
+            tbOperation.Text = "-";
+			znak = "-";
+            czyZnak = true;
+            
+        }
+        private void buttonMnozenie_onClick(object sender, RoutedEventArgs e)
+        {
+            Double.TryParse(tbOperation.Text, out liczba1);
+            tbOperation.Text = "*";
+			znak = "*";
+            czyZnak = true;
+            
+        }
+        private void buttonDivide_onClick(object sender, RoutedEventArgs e)
+        {
+            Double.TryParse(tbOperation.Text, out liczba1);
+            tbOperation.Text = "/";
+			znak = "/";
+            czyZnak = true;
+            
+>>>>>>> 87ec5e1d35f88f320fabe0d3c4f7701bae3844c7
         }
 
         private void buttonPrzecinek_onClick(object sender, RoutedEventArgs e)
         {
+<<<<<<< HEAD
             if(czyZnak == false && tbOperation.Text.Length > 0 && !(tbOperation.Text.Contains(",")))
             {
                 tbOperation.Text = tbOperation.Text + ",";
             }
+=======
+
+>>>>>>> 87ec5e1d35f88f320fabe0d3c4f7701bae3844c7
         }
 
         private void buttonPlusMinus_onClick(object sender, RoutedEventArgs e)
         {
             if(znak == "")
             {
+<<<<<<< HEAD
                 Double.TryParse(tbOperation.Text.Replace(" ", string.Empty), out liczba1);
+=======
+                Double.TryParse(tbOperation.Text, out liczba1);
+>>>>>>> 87ec5e1d35f88f320fabe0d3c4f7701bae3844c7
                 liczba1 = liczba1 * -1;
                 tbOperation.Text = liczba1.ToString();
             }
             else
             {
+<<<<<<< HEAD
                 Double.TryParse(tbOperation.Text.Replace(" ", string.Empty), out liczba2);
+=======
+                Double.TryParse(tbOperation.Text, out liczba2);
+>>>>>>> 87ec5e1d35f88f320fabe0d3c4f7701bae3844c7
                 liczba2 = liczba2 * -1;
                 tbOperation.Text = liczba2.ToString();
             }
@@ -252,26 +343,41 @@ namespace Kalkulator
 
         private void buttonWynik_onClick(object sender, RoutedEventArgs e)
         {
+<<<<<<< HEAD
             if(znak == "+")
 			{
 				Double.TryParse(tbOperation.Text.Replace(" ", string.Empty), out liczba2);
+=======
+			if(znak == "+")
+			{
+				Double.TryParse(tbOperation.Text, out liczba2);
+>>>>>>> 87ec5e1d35f88f320fabe0d3c4f7701bae3844c7
                 wynik = liczba1 + liczba2;
                 tbOperation.Text = wynik.ToString();
             }
 			else if(znak == "-")
 			{
+<<<<<<< HEAD
 				Double.TryParse(tbOperation.Text.Replace(" ", string.Empty), out liczba2);
+=======
+				Double.TryParse(tbOperation.Text, out liczba2);
+>>>>>>> 87ec5e1d35f88f320fabe0d3c4f7701bae3844c7
                 wynik = liczba1 - liczba2;
                 tbOperation.Text = wynik.ToString();
             }
 			else if(znak == "*")
 			{
+<<<<<<< HEAD
 				Double.TryParse(tbOperation.Text.Replace(" ", string.Empty), out liczba2);
+=======
+				Double.TryParse(tbOperation.Text, out liczba2);
+>>>>>>> 87ec5e1d35f88f320fabe0d3c4f7701bae3844c7
                 wynik = liczba1 * liczba2;
                 tbOperation.Text = wynik.ToString();
             }
 			else if(znak == "/")
 			{
+<<<<<<< HEAD
 				Double.TryParse(tbOperation.Text.Replace(" ", string.Empty), out liczba2);
                 if (liczba2 == 0)
                 {
@@ -298,11 +404,24 @@ namespace Kalkulator
         }
 
         private void disableOperations()
+=======
+				Double.TryParse(tbOperation.Text, out liczba2);
+                wynik = liczba1 / liczba2;
+                tbOperation.Text = wynik.ToString();
+            }
+            znak = "";
+            czyZnak = true;
+            buttonWynik.IsEnabled = false;
+        }
+
+        private void disableAll()
+>>>>>>> 87ec5e1d35f88f320fabe0d3c4f7701bae3844c7
         {
             buttonPlus.IsEnabled = !buttonPlus.IsEnabled;
             buttonMinus.IsEnabled = !buttonMinus.IsEnabled;
             buttonMnozenie.IsEnabled = !buttonMnozenie.IsEnabled;
             buttonDivide.IsEnabled = !buttonDivide.IsEnabled;
+<<<<<<< HEAD
             buttonResztaZdzielenia.IsEnabled = !buttonResztaZdzielenia.IsEnabled;
         }
 
@@ -322,6 +441,8 @@ namespace Kalkulator
             buttonPrzecinek.IsEnabled = !buttonPrzecinek.IsEnabled;
             buttonUsunZnak.IsEnabled = !buttonUsunZnak.IsEnabled;
             buttonPierwiastek.IsEnabled = !buttonPierwiastek.IsEnabled;
+=======
+>>>>>>> 87ec5e1d35f88f320fabe0d3c4f7701bae3844c7
         }
 
         private void buttonC_Click(object sender, RoutedEventArgs e)
@@ -332,6 +453,7 @@ namespace Kalkulator
             buttonWynik.IsEnabled = false;
             if(buttonMnozenie.IsEnabled == false)
             {
+<<<<<<< HEAD
                 disableOperations();
                 if(!button0.IsEnabled)
                 {
@@ -378,3 +500,10 @@ namespace Kalkulator
         }
     }
 }
+=======
+                disableAll();
+            }
+        }
+    }
+}
+>>>>>>> 87ec5e1d35f88f320fabe0d3c4f7701bae3844c7
