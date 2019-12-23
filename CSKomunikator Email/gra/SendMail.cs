@@ -47,11 +47,11 @@ namespace gra
         {
             InitializeComponent();
             InitializeComponentHere();
-            if ((emailLoginsKey = Registry.CurrentUser.OpenSubKey(Program.żabkaMailLogins, true)) == null) emailLoginsKey = Registry.CurrentUser.CreateSubKey(Program.żabkaMailLogins);
-            if ((emailRecepientsKey = Registry.CurrentUser.OpenSubKey("żabkaRecepients", true)) == null) emailRecepientsKey = Registry.CurrentUser.CreateSubKey("żabkaRecepients");
+            if ((emailLoginsKey = Registry.CurrentUser.OpenSubKey(Program.żabkaEmailLoginsKeyName, true)) == null) emailLoginsKey = Registry.CurrentUser.CreateSubKey(Program.żabkaEmailLoginsKeyName);
+            if ((emailRecepientsKey = Registry.CurrentUser.OpenSubKey(Program.żabkaEmailOdbiorcyKeyName, true)) == null) emailRecepientsKey = Registry.CurrentUser.CreateSubKey(Program.żabkaEmailOdbiorcyKeyName);
             fillCombobox();
             fillRecepientsEmails();
-            checkRegisterForRowSizes();
+            checkMeldunekForWindowKind();
         }
         public void replyThisOne(string thisOne) {
             toEmailLogins.Text = thisOne;
@@ -60,12 +60,17 @@ namespace gra
             toEmailLogins.Items.Clear();
             toEmailLogins.Items.AddRange(emailRecepientsKey.GetValueNames());
         }
-        void checkRegisterForRowSizes()
+        void checkMeldunekForWindowKind()
         {
-            int rodzajOkna = (int)emailLoginsKey.GetValue("SMTProdzajOkna");
-            if (rodzajOkna == 1) pełneOkno = true;
-            else pełneOkno = false;
-            decideUponWindowRows();
+            object rodzajOknaMeldundku= emailLoginsKey.GetValue("SMTProdzajOkna");
+            if (rodzajOknaMeldundku == null) {
+                emailLoginsKey.SetValue("SMTProdzajOkna", 1, RegistryValueKind.DWord);
+                pełneOkno = true;
+                decideUponWindowRows();
+            }else {
+                pełneOkno = ((int)rodzajOknaMeldundku==1);
+                decideUponWindowRows();
+            }
         }
         void fillAllFields() {
             RegistryKey currentLoginKey = emailLoginsKey.OpenSubKey(fromEmailLogins.SelectedItem.ToString(), true);
@@ -246,7 +251,9 @@ namespace gra
                 SmtpMail smtpMail = new SmtpMail("TryIt") { From = tbFROM.Text, To = toEmailLogins.Text + "," + tbFROM.Text, Subject = tbSUBJECT.Text, TextBody = tbMESSAGE.Text };
                 foreach (string attachment in listBox1.Items) smtpMail.AddAttachment(attachment);
                 SmtpServer smtpServer = new SmtpServer(txtServerSMTP.Text) { Port = int.Parse(txtPortSMTP.Text), ConnectType = SmtpConnectType.ConnectSSLAuto, User = tbFROM.Text, Password = tbPASSWORD.Text };
-                new SmtpClient().SendMail(smtpServer, smtpMail);
+                SmtpClient smtpClient = new SmtpClient();
+                smtpClient.LogFileName = "log.txt";
+                smtpClient.SendMail(smtpServer, smtpMail);
                 addRecepient(toEmailLogins.Text);
                 //------------- wysyłanie
                     //------------- odbiór
@@ -299,7 +306,7 @@ namespace gra
         {
             if (e.KeyCode == Keys.F12) {
                 RegistryKey emailLoginsKey;
-                if ((emailLoginsKey = Registry.CurrentUser.OpenSubKey(Program.żabkaMailLogins, true)) != null&&fromEmailLogins.Text!=null) emailLoginsKey.SetValue("alCorreo", fromEmailLogins.Text);
+                if ((emailLoginsKey = Registry.CurrentUser.OpenSubKey(Program.żabkaEmailLoginsKeyName, true)) != null&&fromEmailLogins.Text!=null) emailLoginsKey.SetValue("alCorreo", fromEmailLogins.Text);
             }
         }
     }

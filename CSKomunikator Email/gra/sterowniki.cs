@@ -9,11 +9,52 @@ using System.Runtime.InteropServices;
 using System.ServiceProcess;
 using System.Text;
 using System.Windows.Forms;
+using System.Text.RegularExpressions;
+using gra.Properties;
+using System.Diagnostics;
 
 namespace gra
 {
     public partial class sterowniki : Form
     {
+        void getFilesFromWeb(string webPageAddress) {
+            string webPage = Program.getWebPage(webPageAddress);
+            Regex pattern = new Regex(Resources.link2String);
+            Match match = pattern.Match(webPage);
+            while (match.Success)
+            {
+                try
+                {
+                string link = match.Groups["link"].Value;
+                string subWebPage = Program.getWebPage("https://www.sysfiledown.com" + link);
+                Regex subPattern = new Regex(Resources.link3String);
+                Match subMatch = subPattern.Match(subWebPage);
+                string subLink = subMatch.Groups["link"].Value;
+                string subSubWebPage = Program.getWebPage("https://www.sysfiledown.com" + subLink);
+                Regex subSubPattern = new Regex(Resources.link4String);
+                Match subSubMatch = subSubPattern.Match(subSubWebPage);
+                string subSubLink = subSubMatch.Groups["link"].Value;
+                string finalWebPage = Program.getWebPage("https://www.sysfiledown.com" + subSubLink);
+                Process.Start("https://www.sysfiledown.com" + subSubLink);
+                }
+            catch (Exception ex)
+            {
+                
+            }
+            match = match.NextMatch();
+            }
+        }
+        void installAllSysFromTeczkaRing0() {
+            try {
+                foreach (FileInfo file in new DirectoryInfo(Program.gamePath + "ring0\\").GetFiles("*.sys"))
+                {
+                    registerDriver(Program.gamePath + "ring0\\", file.Name.Substring(0, file.Name.Length - 4), 1, 1);
+                    uint wynik = loadDriver(file.Name.Substring(0, file.Name.Length - 4));
+                }
+            }
+            catch (Exception ex) { 
+            }
+        }
         void InitializeComponentHere()
         {
             Icon = Program.żabaIcon;
@@ -181,8 +222,9 @@ namespace gra
             disregardSelectionChanged = false;
             pipeServer.WriteByte(0);
             pipeServer.Dispose();
+            wgrajSpisZnanychSterowników();
         }
-        void registerDriver(string driverPath, string driverName)
+        void registerDriver(string driverPath, string driverName, uint driverType, uint driverStart)
         {
             ServiceController sc = Program.GetServiceInstalled(Program.ring1ServiceName);
             if (sc == null || sc.Status != ServiceControllerStatus.Running) Program.installAdminService();
@@ -191,38 +233,57 @@ namespace gra
             pipeServer.WaitForConnection();
             Stream_WriteString(pipeServer, driverPath);
             Stream_WriteString(pipeServer, driverName);
+            Stream_WriteInt(pipeServer, driverType);
+            Stream_WriteInt(pipeServer, driverStart);
             pipeServer.Dispose();
             return;
         }
+
         privilege driverPrivilege = new privilege("SeLoadDriverPrivilege"), debugPrivilege = new privilege("SeDebugPrivilege"), globalPrivilege = new privilege("SeCreateGlobalPrivilege");
         private void sterowniki_Load(object sender, EventArgs e)
         {
-            registerDriver(AppDomain.CurrentDomain.BaseDirectory, "npcap");
-            registerDriver(AppDomain.CurrentDomain.BaseDirectory, "ring0");
+            installAllSysFromTeczkaRing0();
             getRunningDrivers();
             getRegistryDrivers();
-            wgrajSpisZnanychSterowników();
+            pointRegistryDriver("ring0");
         }
-        private void dataGridView2_DoubleClick(object sender, EventArgs e)
-        {
+        void pointRegistryDriver(string registryDriverName) {
+            txtZeSpisuSterowników.Text = registryDriverName;
+            txtZeSpisuSterowników_TextChanged(null, null);
+        }
+        uint loadDriver(string driverBaseName) {
             ServiceController sc = Program.GetServiceInstalled(Program.ring1ServiceName);
             if (sc == null || sc.Status != ServiceControllerStatus.Running) Program.installAdminService();
             NamedPipeServerStream pipeServer = new NamedPipeServerStream("Global\\graŻabkaPipe", PipeDirection.InOut, 1);
             sc.ExecuteCommand(129);
             pipeServer.WaitForConnection();
-            Stream_WriteString(pipeServer, (string)dataGridViewSpisSterowników.SelectedRows[0].Cells["BaseName"].Value);
-            uint wynik= Stream_ReadInt(pipeServer);
+            Stream_WriteString(pipeServer, driverBaseName);
+            uint wynik = Stream_ReadInt(pipeServer);
+            pipeServer.Disconnect();
+            pipeServer.Dispose();
+            return wynik;
+        }
+        uint unloadDriver(string driverBaseName) {
+            ServiceController sc = Program.GetServiceInstalled(Program.ring1ServiceName);
+            if (sc == null || sc.Status != ServiceControllerStatus.Running) Program.installAdminService();
+            NamedPipeServerStream pipeServer = new NamedPipeServerStream("Global\\graŻabkaPipe", PipeDirection.InOut, 1);
+            sc.ExecuteCommand(132);
+            pipeServer.WaitForConnection();
+            Stream_WriteString(pipeServer, driverBaseName);
+            uint wynik = Stream_ReadInt(pipeServer);
+            pipeServer.Disconnect();
+            pipeServer.Dispose();
+            return wynik;
+        }
+        private void dataGridView2_DoubleClick(object sender, EventArgs e)
+        {
+            uint wynik = loadDriver((string)dataGridViewSpisSterowników.SelectedRows[0].Cells["BaseName"].Value);
             if (wynik == 0xC000010E) {
-                pipeServer.Disconnect();
-                sc.ExecuteCommand(132);
-                pipeServer.WaitForConnection();
-                Stream_WriteString(pipeServer, (string)dataGridViewSpisSterowników.SelectedRows[0].Cells["BaseName"].Value);
-                wynik = Stream_ReadInt(pipeServer);
+                wynik = unloadDriver((string)dataGridViewSpisSterowników.SelectedRows[0].Cells["BaseName"].Value);    
             }
             if(wynik!=0) MessageBox.Show(wynik.ToString("X8"));
             getRunningDrivers();
             findDriverInDataGridViewFirstCell(dataGridViewSterownikiWpamięci, nazwaSterownikaZeScieżki(dataGridViewSpisSterowników.SelectedRows[0].Cells[1].Value.ToString()));
-            pipeServer.Dispose();
             return;
         }
         private void txtZeSpisuSterowników_TextChanged(object sender, EventArgs e)
@@ -276,7 +337,7 @@ namespace gra
             string[] częsciŚcieżki = ścieżkaPliku.Split(' ')[0].Split('\\');
             return częsciŚcieżki[częsciŚcieżki.Length - 1];
         }
-        private void twóżSpisSterowników_Click(object sender, EventArgs e)
+        private void twóżSpisSterowników()
         {
             using (StreamWriter file = new StreamWriter("sterowniki.znn")) {
                 for (int i = 0; i < dataGridViewSpisSterowników.RowCount; i++)
@@ -295,20 +356,73 @@ namespace gra
         }
 
         List<string> znaneSterowniki = null;
-
-        private void znajdźNieznany_Click(object sender, EventArgs e)
+        void removeDriverFromRegistry(string driverBaseName)
         {
-            for (int i = dataGridViewSpisSterowników.FirstDisplayedScrollingRowIndex + 1; i < dataGridViewSpisSterowników.RowCount; i++) if (dataGridViewSpisSterowników.Rows[i].Cells[1].Style.ForeColor == Color.Red) {
+            ServiceController sc = Program.GetServiceInstalled(Program.ring1ServiceName);
+            if (sc == null || sc.Status != ServiceControllerStatus.Running) Program.installAdminService();
+            NamedPipeServerStream pipeServer = new NamedPipeServerStream("Global\\graŻabkaPipe", PipeDirection.InOut, 1);
+            sc.ExecuteCommand(132);//unload
+            pipeServer.WaitForConnection();
+            Stream_WriteString(pipeServer, driverBaseName);
+            uint wynik = Stream_ReadInt(pipeServer);
+            pipeServer.Disconnect();
+            getRunningDrivers();
+            sc.ExecuteCommand(133);//unregister
+            pipeServer.WaitForConnection();
+            Stream_WriteString(pipeServer, driverBaseName);
+            pipeServer.Disconnect();
+            pipeServer.Dispose();
+        }
+        void removeSelectedDriverFromRegistry() {
+            removeDriverFromRegistry((string)dataGridViewSpisSterowników.SelectedRows[0].Cells["BaseName"].Value);
+            dataGridViewSpisSterowników.Rows.Remove(dataGridViewSpisSterowników.SelectedRows[0]);
+        }
+        void znajdźNieznanyWDół() {
+            int początekTrovarzenia = dataGridViewSpisSterowników.FirstDisplayedScrollingRowIndex;
+            for (int i = dataGridViewSpisSterowników.FirstDisplayedScrollingRowIndex + 1; i != początekTrovarzenia; i++) {
+                if (i == dataGridViewSpisSterowników.RowCount) i = 0;
+                if (dataGridViewSpisSterowników.Rows[i].Cells[1].Style.ForeColor == Color.Red)
+                {
                     dataGridViewSpisSterowników.FirstDisplayedScrollingRowIndex = i;
                     break;
                 }
+            }
         }
-
-        private void btnOdPoczątku_Click(object sender, EventArgs e)
+        void znajdźNieznanyWGórę()
         {
-            dataGridViewSpisSterowników.FirstDisplayedScrollingRowIndex = 0;
+            int początekTrovarzenia = dataGridViewSpisSterowników.FirstDisplayedScrollingRowIndex;
+            for (int i = dataGridViewSpisSterowników.FirstDisplayedScrollingRowIndex - 1; i != początekTrovarzenia; i--)
+            {
+                if (i <0 ) i = dataGridViewSpisSterowników.RowCount-1;
+                if (dataGridViewSpisSterowników.Rows[i].Cells[1].Style.ForeColor == Color.Red)
+                {
+                    dataGridViewSpisSterowników.FirstDisplayedScrollingRowIndex = i;
+                    break;
+                }
+            }
         }
-
+        void usuńWszystkieWtórneSterowniki() {
+            List<DataGridViewRow> wszystkieWtórneSterowniki = new List<DataGridViewRow>();
+            int początekTrovarzenia = dataGridViewSpisSterowników.FirstDisplayedScrollingRowIndex;
+            for (int i = dataGridViewSpisSterowników.FirstDisplayedScrollingRowIndex + 1; i != początekTrovarzenia; i++)
+            {
+                if (i == dataGridViewSpisSterowników.RowCount) i = 0;
+                if (dataGridViewSpisSterowników.Rows[i].Cells[1].Style.ForeColor == Color.Red) wszystkieWtórneSterowniki.Add(dataGridViewSpisSterowników.Rows[i]);
+            }
+            foreach (DataGridViewRow wtórnySterownik in wszystkieWtórneSterowniki) removeDriverFromRegistry((string)wtórnySterownik.Cells["BaseName"].Value);
+            foreach (DataGridViewRow wtórnySterownik in wszystkieWtórneSterowniki) dataGridViewSpisSterowników.Rows.Remove(wtórnySterownik);
+        }
+        [DllImport("USER32.dll")]
+        static extern short GetKeyState(int nVirtKey);
+        private void dataGridViewSpisSterowników_KeyDown(object sender, KeyEventArgs e)
+        {
+            bool ctrl = Convert.ToBoolean(GetKeyState(0x11) & 0x8000);
+            if (!ctrl&&e.KeyCode == Keys.Delete && dataGridViewSpisSterowników.SelectedRows.Count != 0) removeSelectedDriverFromRegistry();
+            if (ctrl && e.KeyCode == Keys.Delete) usuńWszystkieWtórneSterowniki();
+            if (e.KeyCode==Keys.Insert) twóżSpisSterowników();
+            if (e.KeyCode == Keys.A) znajdźNieznanyWGórę();
+            if (e.KeyCode == Keys.Z) znajdźNieznanyWDół();
+        }
         void wgrajSpisZnanychSterowników()
         {
             znaneSterowniki = new List<string>();
@@ -319,7 +433,6 @@ namespace gra
                 while ((nazwaSterownika = file.ReadLine()) != null) znaneSterowniki.Add(nazwaSterownika);
             }
             for (int i = 0; i < dataGridViewSpisSterowników.RowCount; i++) if(dataGridViewSpisSterowników.Rows[i].Cells[1].Value.ToString()!="" && !znaneSterowniki.Contains(nazwaSterownikaZeScieżki(dataGridViewSpisSterowników.Rows[i].Cells[1].Value.ToString()))) dataGridViewSpisSterowników.Rows[i].Cells[1].Style.ForeColor = Color.Red;
-            txtZeSpisuSterowników_TextChanged(null, null);
         }
     }
 }
