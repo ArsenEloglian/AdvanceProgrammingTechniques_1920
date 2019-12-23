@@ -15,7 +15,7 @@ namespace gra
 {
     public partial class OtherPlayer : Form
     {
-        RegistryKey gameKey = Registry.CurrentUser.OpenSubKey("żabka", true);
+        RegistryKey gameKey = Registry.CurrentUser.OpenSubKey(Program.żabkaGraczeKeyName, true);
         void fillCombobox()
         {
             login.Items.Clear();
@@ -51,7 +51,7 @@ namespace gra
             else
             {
                 InitializeComponent();
-                if (gameKey == null) gameKey = Registry.CurrentUser.CreateSubKey("żabka");
+                if (gameKey == null) gameKey = Registry.CurrentUser.CreateSubKey(Program.żabkaGraczeKeyName);
                 fillCombobox();
                 Show();
             }
