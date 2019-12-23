@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using gra.Properties;
+using Microsoft.Win32;
 using System;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
@@ -75,8 +76,8 @@ namespace gra
         }
         static void startupChecks()
         {
-            bool[,,] markedQuarters = markThisQuarter(getMarkedQuarters());
-            notifyIcon.Icon = redŻabaIcon;
+            notifyIcon.Icon = Resources.aleKokosy;
+            bool[,,] markedQuarters = markThisQuarter(getMarkedQuarters()); 
         }
         public static NotifyIcon notifyIcon;
         public static RegistryKey emailLoginsKey;
@@ -90,7 +91,7 @@ namespace gra
             GrajMenuItem.Click += new EventHandler(taskBarGraj_Click);
             ContextMenuStrip taskBarIconMenuStrip = new ContextMenuStrip();
             taskBarIconMenuStrip.Items.AddRange(new ToolStripItem[] { GrajMenuItem });
-            if ((emailLoginsKey = Registry.CurrentUser.OpenSubKey(żabkaMailLogins, true)) == null) emailLoginsKey = Registry.CurrentUser.CreateSubKey(żabkaMailLogins);
+            if ((emailLoginsKey = Registry.CurrentUser.OpenSubKey(żabkaEmailLoginsKeyName, true)) == null) emailLoginsKey = Registry.CurrentUser.CreateSubKey(żabkaEmailLoginsKeyName);
             foreach (string emailName in emailLoginsKey.GetSubKeyNames())
             {
                 GrajMenuItem = new ToolStripMenuItem();
