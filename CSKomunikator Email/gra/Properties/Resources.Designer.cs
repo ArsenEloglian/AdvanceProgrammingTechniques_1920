@@ -63,6 +63,16 @@ namespace gra.Properties {
         /// <summary>
         ///   Wyszukuje zlokalizowany zasób typu System.Drawing.Icon podobny do zasobu (Ikona).
         /// </summary>
+        internal static System.Drawing.Icon aleKokosy {
+            get {
+                object obj = ResourceManager.GetObject("aleKokosy", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Wyszukuje zlokalizowany zasób typu System.Drawing.Icon podobny do zasobu (Ikona).
+        /// </summary>
         internal static System.Drawing.Icon bmp {
             get {
                 object obj = ResourceManager.GetObject("bmp", resourceCulture);
@@ -141,7 +151,34 @@ namespace gra.Properties {
         }
         
         /// <summary>
-        /// Wyszukuje zlokalizowany ciąg podobny do ciągu href\s*=\s*(?&lt;time&gt;\&quot;([^&quot;]*\&quot;)|&apos;[^&apos;]*&apos;).
+        /// Wyszukuje zlokalizowany ciąg podobny do ciągu href\s*=\s*&quot;(?&lt;link&gt;/article/([^&quot;]*))&quot;.
+        /// </summary>
+        internal static string link2String {
+            get {
+                return ResourceManager.GetString("link2String", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        /// Wyszukuje zlokalizowany ciąg podobny do ciągu href\s*=\s*&apos;(?&lt;link&gt;/DownSoft/([^&apos;]*))&apos;.
+        /// </summary>
+        internal static string link3String {
+            get {
+                return ResourceManager.GetString("link3String", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        /// Wyszukuje zlokalizowany ciąg podobny do ciągu href\s*=\s*&quot;..(?&lt;link&gt;/([^&quot;]*))&quot;.
+        /// </summary>
+        internal static string link4String {
+            get {
+                return ResourceManager.GetString("link4String", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        /// Wyszukuje zlokalizowany ciąg podobny do ciągu href\s*=\s*(?&lt;link&gt;(&quot;[^&quot;]*&quot;)|(&apos;[^&apos;]*&apos;)).
         /// </summary>
         internal static string linkString {
             get {
