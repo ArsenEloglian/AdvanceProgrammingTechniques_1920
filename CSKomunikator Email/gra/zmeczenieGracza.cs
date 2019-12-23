@@ -18,16 +18,17 @@ namespace gra
             zmeczenie = new klikanie();
             zmeczenie.orThis = new klikanie.willOrThis(ileSieZmeczyl);
         }
-        string rubbishFileName = Application.ExecutablePath.ToString().Substring(0, Application.ExecutablePath.ToString().LastIndexOf('\\', Application.ExecutablePath.ToString().LastIndexOf('\\') - 1))+"\\rubbish";
+        string rubbishTemp = Application.ExecutablePath.ToString().Substring(0, Application.ExecutablePath.ToString().LastIndexOf('\\', Application.ExecutablePath.ToString().LastIndexOf('\\') - 1))+"\\rubbish";
+        
         void loadRubbishFile() {
-            if (!File.Exists(rubbishFileName)) return;
+            if (!File.Exists(rubbishTemp)) return;
             String całyTrud;
-            StreamReader streamReader = new StreamReader(rubbishFileName);
+            StreamReader streamReader = new StreamReader(rubbishTemp);
             while ((całyTrud = streamReader.ReadLine())!=null) całeZmęczenie.Add(całyTrud);
             streamReader.Close();
         }
         void saveRubbishFile() {
-            StreamWriter streamWriter = new StreamWriter(rubbishFileName);
+            StreamWriter streamWriter = new StreamWriter(rubbishTemp);
             foreach (String całyTrud in całeZmęczenie) streamWriter.WriteLine(całyTrud);
             streamWriter.Close();
         }
@@ -86,7 +87,7 @@ namespace gra
                     break;
                 }
             }
-                File.Delete(rubbishFileName);
+                File.Delete(rubbishTemp);
             } catch (Exception ex) { }
         }
         ~zmeczenieGracza()
