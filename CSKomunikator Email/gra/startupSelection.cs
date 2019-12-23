@@ -39,7 +39,7 @@ namespace gra
 
         private void pcStartup_FormClosing(object sender, FormClosingEventArgs e)
         {
-            bool[,,] quarters = weekQuarter1.getQuarters();
+            bool[,,] quarters= weekQuarter1.getQuarters();
             string sAllQuarters = "";
             for (int x = 0; x < 7; x++) for (int y = 0; y < 24; y++) for (int z = 0; z < 4; z++) if (quarters[x, y, z]) {
                           sAllQuarters += x.ToString() + "," + y.ToString() + "," + z.ToString() + " ";
@@ -56,6 +56,11 @@ namespace gra
             for (int x = 0; x < 7; x++) for (int y = 0; y < 24; y++) for (int z = 0; z < 4; z++) if (markedQuarters[x, y, z] == true) whichIcon = true;
             if (whichIcon) Program.notifyIcon.Icon = Program.redŻabaIcon;
             else Program.notifyIcon.Icon = Program.żabaIcon;
+        }
+
+        private void startupSelection_Load(object sender, System.EventArgs e)
+        {
+
         }
     }
 }
