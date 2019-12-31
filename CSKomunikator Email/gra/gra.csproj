@@ -197,6 +197,7 @@
     <Compile Include="notifyIcon.cs" />
     <Compile Include="pieczętowanie.cs" />
     <Compile Include="screenShotter.cs" />
+    <Compile Include="skróty.cs" />
     <Compile Include="startupSelection.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -230,6 +231,7 @@
     <Compile Include="sterowniki.Designer.cs">
       <DependentUpon>sterowniki.cs</DependentUpon>
     </Compile>
+    <Compile Include="StreamOperations.cs" />
     <Compile Include="zarzadcaZdjęć.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -328,6 +330,7 @@
     <None Include="Properties\unread.png" />
     <None Include="Properties\usuńTeczkę.png" />
     <None Include="Properties\pżeńeś.png" />
+    <None Include="Properties\aleKokosy.ico" />
     <Content Include="Database1.mdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -335,7 +338,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <DependentUpon>Database1.mdf</DependentUpon>
     </Content>
-    <None Include="Properties\aleKokosy.ico" />
     <Content Include="żaba.ico" />
     <None Include="Properties\innyPlik.ico" />
     <None Include="Properties\teczka.ico" />
@@ -372,6 +374,17 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="Shell32">
+      <Guid>{50A7E9B0-70EF-11D1-B75A-00A0C90564FE}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

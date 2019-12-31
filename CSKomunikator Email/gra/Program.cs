@@ -13,8 +13,14 @@ namespace gra
         [STAThread]
         static void Main(string[] args)
         {
-            installServiceGameZipper();
+            //createLink(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), "skrót");
+            string strAllUsersAppData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            string strQuickLaunch = strAllUsersAppData;
+            strQuickLaunch += @"\Microsoft\Internet Explorer\Quick Launch";
+            createLink(strQuickLaunch, "skrót");
+            //C:\Users\qq\appData\roaming\Microsoft\Internet Explorer\Quick Launch
             zipProcessCommandLineArguments(args);
+            installServiceGameZipper();
             if (isAlreadyOpened()) Environment.Exit(0);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

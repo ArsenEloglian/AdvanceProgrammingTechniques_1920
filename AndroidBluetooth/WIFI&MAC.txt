@@ -1,0 +1,81 @@
+InputStream inputStream = getResources().openRawResource(R.raw.gra);
+WifiManager wifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+wifi.setWifiEnabled(true/false);
+WifiInfo info = wifi.getConnectionInfo();
+String macAddress=info.getMacAddress();//info.getSSID()//info.getIpAddress()// int moc=WifiManager.calculateSignalLevel(info.getRssi(), 100);
+List<WifiConfiguration> _wis = wm.getConfiguredNetworks();//mo¿e odmówiæ
+	ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo.State wifistate = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState();
+        if (wifistate != NetworkInfo.State.CONNECTED){}
+ TelephonyManager telephony = (TelephonyManager) getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
+ String telephonyId = telephony.getDeviceId();//przy³o¿enia systemowe
+ telephony.setDataEnabled(true/false);//przy³o¿enia systemowe
+ GsmCellLocation loc = (GsmCellLocation) telephony.getCellLocation();//int cellID=loc.getCid()//int LocationAreaCode=loc.getLac()
+ String string =operator.getNetworkOperatorName();
+   BluetoothAdapter BA= BluetoothAdapter.getDefaultAdapter();
+   startActivityForResult(new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE), 0);
+     Set<BluetoothDevice> pairedDevices= BA.getBondedDevices();
+     ListView lv= (ListView)findViewById(R.id.listView);
+     ArrayList list = new ArrayList();
+     for(BluetoothDevice bt : pairedDevices) list.add(bt.getName());
+     lv.setAdapter(new ArrayAdapter(this,android.R.layout.simple_list_item_1, list));
+		private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+      		  public void onReceive(Context context, Intent intent) {
+	            String action = intent.getAction();
+	            if (BluetoothDevice.ACTION_FOUND.equals(action)) {
+        	      BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                      adapter.add(device.getName() + "\n" + device.getAddress());
+	              adapter.notifyDataSetChanged();
+        	    }
+	          }
+	        };
+        //startActivityForResult(new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE), 0);
+	IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+        registerReceiver(mReceiver, filter);
+        bluetoothAdapter.startDiscovery();
+	BA.startDiscovery();
+	BA.cancelDiscovery();
+        Spinner spinner = (Spinner) findViewById(R.id.mySpinner);
+        List<String> spinnerArray = new ArrayList<>();
+        spinner1.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,spinnerArray));
+	adapter.add("wtónaWartoœæ");
+        adapter.notifyDataSetChanged();
+
+SensorManager mSensorManager = (SensorManager) getApplicationContext().getSystemService(Context.SENSOR_SERVICE );
+List<Sensor> sensorList = mSensorManager.getSensorList( Sensor.TYPE_ALL );
+for(Sensor snsr:sensorList){
+	eText.setText(eText.getText()+"NAME-"+snsr.getName()+":POWER-"+String.valueOf(snsr.getPower())+":VENDOR-"+snsr.getVendor()+":VERSION-"+String.valueOf(snsr.getVersion())+":TYPEint-"+String.valueOf(snsr.getType())+":TYPE-"+snsr.getStringType()+"\r\n");
+}
+mSensorManager.registerListener(new SensorEventListener(){
+                    long lastUpdate=System.currentTimeMillis();
+                    float last_x=0,last_y=0,last_z=0;
+                    @Override
+                    public void onSensorChanged(SensorEvent event) {
+                        Sensor mySensor = event.sensor;
+                        if (mySensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+                            long curTime = System.currentTimeMillis();
+                            if ((curTime - lastUpdate) > 100) {
+                                long diffTime = (curTime - lastUpdate);
+                                lastUpdate = curTime;
+                                float x = event.values[0];
+                                float y = event.values[1];
+                                float z = event.values[2];
+                                float speed = Math.abs(x + y + z - last_x - last_y - last_z) / diffTime * 10000;
+                                if (speed > 1000) {
+                                    Vibrator vib = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
+                                    vib.vibrate(100);
+                                }
+                                last_x = x;
+                                last_y = y;
+                                last_z = z;
+                                eText3.setText(String.valueOf(speed));
+                            }
+                        }
+                    }
+                    @Override
+                    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+                    }
+                },mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),SensorManager.SENSOR_DELAY_NORMAL);
+//Sensor.TYPE_PROXIMITY,event.values[0]==0v1
+    findViewById(R.id.button).setOnClickListener(handleClick);
+    public View.OnClickListener handleClick = new View.OnClickListener(){};

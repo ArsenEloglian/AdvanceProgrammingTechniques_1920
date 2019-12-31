@@ -31,9 +31,14 @@ namespace odumćaćuj
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            ServiceController sc = GetInstalledService(ring1ServiceName);
-            if (sc != null && sc.Status == ServiceControllerStatus.Running) sc.Stop();
-            Process serviceRemove = Process.Start(new ProcessStartInfo(gamePath + "onOff\\bin\\instsrv.exe", ring1ServiceName + " REMOVE") { WindowStyle = ProcessWindowStyle.Hidden, RedirectStandardError = false, RedirectStandardOutput = false, UseShellExecute = true, Verb = "runas" });
+            uninstallRing1Service();
+            uninstallRegistryEntries();
+            uninstallAllSysFromTeczkaRing0();
+            uninstallSendTo();
+        }
+
+        private static void uninstallRegistryEntries()
+        {
             try
             {
                 RegistryKey śćskaczKey = Registry.CurrentUser.OpenSubKey("Software\\Classes\\directory\\shell", true);
@@ -51,8 +56,22 @@ namespace odumćaćuj
                 Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true).DeleteValue("graŻabka");
             }
             catch (Exception ex) { }
-            uninstallAllSysFromTeczkaRing0();
         }
+
+        private static void uninstallRing1Service()
+        {
+            ServiceController sc = GetInstalledService(ring1ServiceName);
+            if (sc != null && sc.Status == ServiceControllerStatus.Running) sc.Stop();
+            Process serviceRemove = Process.Start(new ProcessStartInfo(gamePath + "onOff\\bin\\instsrv.exe", ring1ServiceName + " REMOVE") { WindowStyle = ProcessWindowStyle.Hidden, RedirectStandardError = false, RedirectStandardOutput = false, UseShellExecute = true, Verb = "runas" });
+        }
+
+        private static void uninstallSendTo()
+        {
+            try {
+                File.Delete(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\Microsoft\\Windows\\SendTo\\ściskacz.lnk");
+            }catch(Exception ex) { }
+        }
+
         public static string gamePath = Application.ExecutablePath.ToString().Substring(0, Application.ExecutablePath.ToString().LastIndexOf('\\', Application.ExecutablePath.ToString().LastIndexOf('\\', Application.ExecutablePath.ToString().LastIndexOf('\\') - 1) - 1) + 1);
         public static string ring1ServiceName = "_graŻabkaUsługa";
     }
