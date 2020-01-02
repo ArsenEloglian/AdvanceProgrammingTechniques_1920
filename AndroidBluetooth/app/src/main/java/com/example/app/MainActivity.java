@@ -10,27 +10,17 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.res.Resources;
 import android.os.Bundle;
-import android.os.Environment;
-import android.telephony.TelephonyManager;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.ToggleButton;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -38,14 +28,25 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import net.objecthunter.exp4j.Expression;
+import net.objecthunter.exp4j.ExpressionBuilder;
+
 import static android.provider.Settings.NameValueTable.NAME;
 
 public class MainActivity extends AppCompatActivity {
-    public void wyślij(View view) {
-        EditText editText = (EditText) findViewById(R.id.wiadomość);
-        connectedThread.write(editText.getText().toString().getBytes());
+    private String doubleToString(double calculate) {
+        return calculate % 1 == 0 ? String.valueOf((int) calculate) : String.format ("%.3f", calculate) ;
     }
-
+    public void liczWciśńęty(View view) {
+        TextView wiadomość= (TextView) findViewById(R.id.wiadomość);
+        if(wiadomość.getText().toString().length()!=0){
+            Expression expression = new ExpressionBuilder(wiadomość.getText().toString()).build();
+            adapter.add(wiadomość.getText().toString()+"="+doubleToString(expression.evaluate()));
+            adapter.notifyDataSetChanged();
+            Spinner spinnerZdarzeńa = (Spinner) findViewById(R.id.spinnerZdarzeńa);
+            spinnerZdarzeńa.setSelection(spinnerZdarzeńa.getCount()-1);
+        }
+    }
     private class ConnectedThread extends Thread {
         private final BluetoothSocket mmSocket;
         private final InputStream mmInStream;
@@ -84,7 +85,6 @@ public class MainActivity extends AppCompatActivity {
             } catch (IOException e) { }
         }
     }
-
     private class ConnectThread extends Thread {
         private BluetoothSocket bluetoothSocket;
         private final BluetoothDevice mmDevice;
@@ -158,10 +158,12 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
                 String deviceName=device.getName();
-                if(deviceName!=null&&deviceName.length()==21){
+                if(deviceName!=null&&deviceName.length()==19){
                     foundDevice=true;
                     adapter.add(device.getName() + " connect: " + device.getAddress());
                     adapter.notifyDataSetChanged();
+                    Spinner spinnerZdarzeńa = (Spinner) findViewById(R.id.spinnerZdarzeńa);
+                    spinnerZdarzeńa.setSelection(spinnerZdarzeńa.getCount()-1);
                     connectThread=new ConnectThread(device);
                     connectThread.start();
                     bluetoothAdapter.cancelDiscovery();
@@ -177,9 +179,13 @@ public class MainActivity extends AppCompatActivity {
             }else if(BluetoothDevice.ACTION_ACL_CONNECTED.equals(action)){
                 adapter.add("ACL_CONNECTED");
                 adapter.notifyDataSetChanged();
+                Spinner spinnerZdarzeńa = (Spinner) findViewById(R.id.spinnerZdarzeńa);
+                spinnerZdarzeńa.setSelection(spinnerZdarzeńa.getCount()-1);
             }else if(BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action)){
                 adapter.add("ACL_DISCONNECTED");
                 adapter.notifyDataSetChanged();
+                Spinner spinnerZdarzeńa = (Spinner) findViewById(R.id.spinnerZdarzeńa);
+                spinnerZdarzeńa.setSelection(spinnerZdarzeńa.getCount()-1);
             }
         }
     };
@@ -192,19 +198,40 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setTitle("androidCommunicatorXi");
-        {//twórz adapter
-            Spinner spinner1 = (Spinner) findViewById(R.id.spinnerZdarzeńa);
+        setTitle("androidCalculatorXi");
+        EditText wiadomość = (EditText) findViewById(R.id.wiadomość);
+        wiadomość.requestFocus();
+        {//imageView longClick
+            ImageView imageView= (ImageView) findViewById(R.id.wyświetlacz);
+            imageView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    EditText wiadomość = (EditText) findViewById(R.id.wiadomość);
+                    connectedThread.write(wiadomość.getText().toString().getBytes());
+                    return true;
+                }
+            });
+        }
+        {//twórz spinner
+            Spinner spinnerZdarzeńa = (Spinner) findViewById(R.id.spinnerZdarzeńa);
             List<String> spinnerArray = new ArrayList<>();
             adapter= new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,spinnerArray);
-            spinner1.setAdapter(adapter);
+            spinnerZdarzeńa.setAdapter(adapter);
+            spinnerZdarzeńa.setOnItemSelectedListener(
+                    new AdapterView.OnItemSelectedListener() {
+                        public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                            Object item = parent.getItemAtPosition(pos);
+                            TextView wiadomość= (TextView) findViewById(R.id.wiadomość);
+                            if(item.toString().indexOf("=")!=-1) wiadomość.setText(item.toString().substring(0,item.toString().indexOf("=")));
+                        }
+                        public void onNothingSelected(AdapterView<?> parent) {
+                        }
+                    });
         }
         {//włącz niebieski
             bluetoothAdapter= BluetoothAdapter.getDefaultAdapter();
-            bluetoothAdapter.setName("androidCommunicatorXi");
+            bluetoothAdapter.setName("androidCalculatorXi");
             startActivityForResult(new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE), 0);
-            adapter.add("<<"+bluetoothAdapter.getAddress().toString());
-            adapter.notifyDataSetChanged();
             try {
                 Method method = BluetoothAdapter.class.getMethod("setScanMode", int.class);
                 method.invoke(bluetoothAdapter, BluetoothAdapter.SCAN_MODE_CONNECTABLE);
@@ -217,7 +244,7 @@ public class MainActivity extends AppCompatActivity {
         }
         Set<BluetoothDevice> pairedDevices= bluetoothAdapter.getBondedDevices();
         boolean foundPairedDevice=false;
-        for(BluetoothDevice bt : pairedDevices) if(bt.getName().length()==21){
+        for(BluetoothDevice bt : pairedDevices) if(bt.getName().length()==19){
             foundPairedDevice=true;
             connectThread=new ConnectThread(bt);
             connectThread.start();

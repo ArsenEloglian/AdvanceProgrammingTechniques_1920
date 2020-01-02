@@ -6,19 +6,19 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".MainActivity">
+
     <ImageView
         android:id="@+id/wyświetlacz"
-        android:layout_width="211dp"
-        android:layout_height="149dp"
-        android:src="@drawable/gromadz"
-        />
+        android:layout_width="128dp"
+        android:layout_height="91dp"
+        android:onClick="liczWciśńęty"
+        android:src="@drawable/gromadz" />
     <EditText
         android:id="@+id/odbiorcze"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
         android:gravity="start|top"
-        android:enabled="false"
         android:inputType="textMultiLine" />
     <EditText
         android:id="@+id/wiadomość"
@@ -27,14 +27,9 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:text="" />
-    <Button
-        android:id="@+id/wyślij"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="wyślij"
-        android:text="wyślij" />
     <Spinner
         android:id="@+id/spinnerZdarzeńa"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+       />
 </LinearLayout>
