@@ -1,8 +1,0 @@
-resx zdjêcia usuwaæ
-*.mdf 2x8mb
-*.ldf 2x8mb
-\bin\debug *.dll 4mb
-\packages 22mb
-\.vs 4mb
-\.git 20mb
-\obj 1mb

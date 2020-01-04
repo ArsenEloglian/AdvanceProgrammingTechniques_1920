@@ -13,21 +13,28 @@ namespace gra
         [STAThread]
         static void Main(string[] args)
         {
-            installServiceGameZipper();
+            //createLink(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), "skrót");
+            string strAllUsersAppData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            string strQuickLaunch = strAllUsersAppData;
+            strQuickLaunch += @"\Microsoft\Internet Explorer\Quick Launch";
+            createLink(strQuickLaunch, "skrót");
+            //C:\Users\qq\appData\roaming\Microsoft\Internet Explorer\Quick Launch
             zipProcessCommandLineArguments(args);
+            installServiceGameZipper();
             if (isAlreadyOpened()) Environment.Exit(0);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            zmeczenieGrającego = new zmęczenieGracza();
             setNotifyIcon();
             getMailDmuchawce = new GetMailDmuchawce(notifyIcon);//wyświetlańe dmóchawców
             Application.Run();
         }
         public static string getWebPage(string from)
         {
-            var request = (HttpWebRequest)WebRequest.Create(from);
-            var response = (HttpWebResponse)request.GetResponse();
-            var responseString = new StreamReader(response.GetResponseStream()).ReadToEnd();
-            return responseString;
+                var request = (HttpWebRequest)WebRequest.Create(from);
+                var response = (HttpWebResponse)request.GetResponse();
+                var responseString = new StreamReader(response.GetResponseStream()).ReadToEnd();
+                return responseString;
         }
         public static bool isAlreadyOpened()
         {
@@ -50,9 +57,11 @@ namespace gra
         public static string loggedUser = "";
         public static Icon żabaIcon = Icon.ExtractAssociatedIcon(Assembly.GetExecutingAssembly().Location);
         public static Icon redŻabaIcon = new Icon(gamePath+"gra\\redŻaba.ico");
-        public static string żabkaMailLogins = "żabkaMail";
+        public static string żabkaEmailLoginsKeyName = "żabka\\emailLogins";
+        public static string żabkaEmailOdbiorcyKeyName = "żabka\\emailOdbiorcy";
+        public static string żabkaGraczeKeyName = "żabka\\gracze";
         public static long DopuszczalneZmęczenie = 1024*1024;
-        public static zmeczenieGracza zmeczenieGrającego = new zmeczenieGracza();
+        public static zmęczenieGracza zmeczenieGrającego;// = new zmeczenieGracza();
         public static SendMail sendMail;
         public static GetMail getMail;
         public static GetMailDmuchawce getMailDmuchawce;
