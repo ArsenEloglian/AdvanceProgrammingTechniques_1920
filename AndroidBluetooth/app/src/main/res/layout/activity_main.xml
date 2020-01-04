@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <ImageView
+        android:id="@+id/wyświetlacz"
+        android:layout_width="128dp"
+        android:layout_height="91dp"
+        android:onClick="liczWciśńęty"
+        android:src="@drawable/gromadz" />
+    <EditText
+        android:id="@+id/odbiorcze"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:gravity="start|top"
+        android:inputType="textMultiLine" />
+    <EditText
+        android:id="@+id/wiadomość"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="" />
+    <Spinner
+        android:id="@+id/spinnerZdarzeńa"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+       />
+</LinearLayout>

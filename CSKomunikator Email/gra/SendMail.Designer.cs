@@ -307,7 +307,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.01869F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(685, 700);
             this.tableLayoutPanel1.TabIndex = 119;
-            this.tableLayoutPanel1.Click += new System.EventHandler(this.tableLayoutPanel1_Click);
+            this.tableLayoutPanel1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.tableLayoutPanel1_MouseClick);
             // 
             // toEmailLogins
             // 
@@ -348,8 +348,8 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(677, 211);
             this.panel1.TabIndex = 115;
-            this.panel1.Click += new System.EventHandler(this.panel1_Click);
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
+            this.panel1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseClick);
             // 
             // textBox5
             // 

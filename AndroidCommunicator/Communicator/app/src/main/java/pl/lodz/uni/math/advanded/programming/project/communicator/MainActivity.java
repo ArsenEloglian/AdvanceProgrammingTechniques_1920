@@ -11,11 +11,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 
+import pl.lodz.uni.math.advanded.programming.project.communicator.ChatList.ChatListActivity;
+
 public class MainActivity extends AppCompatActivity {
 
     private Button searchButton;
     private Button friendsButton;
-    private Button chatButton;
     private FirebaseDatabase firebaseDatabase;
     private FirebaseUser firebaseUser;
     private FirebaseAuth firebaseAuth;
@@ -39,9 +40,9 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        chatButton.setOnClickListener(new View.OnClickListener() {
+        friendsButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, ChatListActivity.class);
                 startActivity(intent);
             }
@@ -51,6 +52,5 @@ public class MainActivity extends AppCompatActivity {
     private void init() {
         searchButton = findViewById(R.id.searchButton);
         friendsButton = findViewById(R.id.friendsButton);
-        chatButton = findViewById(R.id.chatButton);
     }
 }
