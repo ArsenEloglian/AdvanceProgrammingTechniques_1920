@@ -1,0 +1,1 @@
+Gradle sync failed: com.intellij.openapi.externalSystem.model.ExternalSystemException (28 s 848 ms)
