@@ -10,7 +10,7 @@
     android:paddingBottom="16dp"
     tools:context=".Chat.ChatActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
+  <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list_of_message"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -45,5 +45,4 @@
             android:hint="Message..." />
 
     </LinearLayout>
-
 </RelativeLayout>
