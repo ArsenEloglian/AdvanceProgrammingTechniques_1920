@@ -47,8 +47,8 @@ public class MainActivity extends AppCompatActivity {
         recipient = (EditText) findViewById(R.id.recipient);
         response = (EditText) findViewById(R.id.response);
 
-        pass.setText("!HAISSA!!");
-        check("poczta.o2.pl", "imap", "prybak2019@o2.pl", "!HAISSA!!");
+        pass.setText("****");
+        check("poczta.o2.pl", "imap", "prybak2019@o2.pl", "****");
     }
     private void sendMessage() {
         String[] recipients = { recipient.getText().toString() };
