@@ -5,5 +5,3 @@
  Jakub Rzeźnicki - jakubrzeznicki
  Paweł Pawlak - Daymos1996
  Kacper Galantowicz - GalantKac
-
-
