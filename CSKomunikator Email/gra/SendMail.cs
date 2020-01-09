@@ -9,6 +9,7 @@ using EAGetMail;
 using gra.Properties;
 using System.Linq;
 using System.Drawing;
+using System.IO;
 
 namespace gra
 {
@@ -136,21 +137,9 @@ namespace gra
                 setWindowRows(new int[] { 6, 0, 5, 5, 58, 6, 8, 12 });
             }
         }
-        private void panel1_Click(object sender, EventArgs e)
-        {
-            pełneOkno = !pełneOkno;
-            decideUponWindowRows();
-        }
-
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
 
-        }
-
-        private void tableLayoutPanel1_Click(object sender, EventArgs e)
-        {
-            pełneOkno = !pełneOkno;
-            decideUponWindowRows();
         }
 
         private void SendMail_FormClosing(object sender, FormClosingEventArgs e)
@@ -252,7 +241,6 @@ namespace gra
                 foreach (string attachment in listBox1.Items) smtpMail.AddAttachment(attachment);
                 SmtpServer smtpServer = new SmtpServer(txtServerSMTP.Text) { Port = int.Parse(txtPortSMTP.Text), ConnectType = SmtpConnectType.ConnectSSLAuto, User = tbFROM.Text, Password = tbPASSWORD.Text };
                 SmtpClient smtpClient = new SmtpClient();
-                smtpClient.LogFileName = "log.txt";
                 smtpClient.SendMail(smtpServer, smtpMail);
                 addRecepient(toEmailLogins.Text);
                 //------------- wysyłanie
@@ -307,6 +295,61 @@ namespace gra
             if (e.KeyCode == Keys.F12) {
                 RegistryKey emailLoginsKey;
                 if ((emailLoginsKey = Registry.CurrentUser.OpenSubKey(Program.żabkaEmailLoginsKeyName, true)) != null&&fromEmailLogins.Text!=null) emailLoginsKey.SetValue("alCorreo", fromEmailLogins.Text);
+            }
+        }
+
+        private void tableLayoutPanel1_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left) {
+                pełneOkno = !pełneOkno;
+                decideUponWindowRows();
+            }else if (e.Button == MouseButtons.Right){
+                zrzućLubOdtwórzPoświadczenia();
+            }
+        }
+
+        private void panel1_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                pełneOkno = !pełneOkno;
+                decideUponWindowRows();
+            }
+            else if (e.Button == MouseButtons.Right){
+                zrzućLubOdtwórzPoświadczenia();
+            }
+        }
+
+        private void zrzućLubOdtwórzPoświadczenia()
+        {
+            string nazwaPlikuPoświadczeń = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\poświadczenia.pśw";
+            if (!File.Exists(nazwaPlikuPoświadczeń))
+            {
+                FileStream fileStream = File.Create(nazwaPlikuPoświadczeń);
+                string[] emailNames = emailLoginsKey.GetSubKeyNames();
+                Program.Stream_WriteUInt(fileStream, (uint)emailNames.Length);
+                foreach (string emailName in emailNames)
+                {
+                    RegistryKey currentLoginKey = emailLoginsKey.OpenSubKey(emailName, true);
+                    Program.Stream_WriteString(fileStream, emailName);
+                    Program.Stream_WriteBytes(fileStream, (byte[])currentLoginKey.GetValue("contracena", RegistryValueKind.Binary));
+                    Program.Stream_WriteString(fileStream, currentLoginKey.GetValue("portSMTP").ToString());
+                    Program.Stream_WriteString(fileStream, currentLoginKey.GetValue("serverSMTP").ToString());
+                    Program.Stream_WriteString(fileStream, currentLoginKey.GetValue("portIMAP").ToString());
+                    Program.Stream_WriteString(fileStream, currentLoginKey.GetValue("serverIMAP").ToString());
+                }
+            }
+            else {
+                FileStream fileStream = File.OpenRead(nazwaPlikuPoświadczeń);
+                uint length= Program.Stream_ReadUInt(fileStream);
+                for (int i=0;i<length;i++) {
+                    RegistryKey currentLoginKey = emailLoginsKey.CreateSubKey(Program.Stream_ReadString(fileStream), true);
+                    currentLoginKey.SetValue("contracena", Program.Stream_ReadBytes(fileStream),RegistryValueKind.Binary);
+                    currentLoginKey.SetValue("portSMTP", Program.Stream_ReadString(fileStream), RegistryValueKind.String);
+                    currentLoginKey.SetValue("serverSMTP", Program.Stream_ReadString(fileStream), RegistryValueKind.String);
+                    currentLoginKey.SetValue("portIMAP", Program.Stream_ReadString(fileStream), RegistryValueKind.String);
+                    currentLoginKey.SetValue("serverIMAP", Program.Stream_ReadString(fileStream), RegistryValueKind.String);
+                }
             }
         }
     }

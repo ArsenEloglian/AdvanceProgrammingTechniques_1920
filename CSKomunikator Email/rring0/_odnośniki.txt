@@ -1,0 +1,14 @@
+right click context menu
+https://social.msdn.microsoft.com/Forums/vstudio/en-US/3b92a4e7-66aa-49ac-8d0b-9376ed0e4cc8/how-to-add-context-menu-item-to-windows-explorer-for-both-folders-and-files-together?forum=csharpgeneral#3b92a4e7-66aa-49ac-8d0b-9376ed0e4cc8
+https://social.technet.microsoft.com/Forums/windows/en-US/2ee70aff-0d16-40b9-bb67-f6a217779676/how-to-add-context-menu-item-to-windows-explorer-for-both-folders-and-files-together?forum=win10itprogeneral#2ee70aff-0d16-40b9-bb67-f6a217779676
+https://stackoverflow.com/questions/59230300/how-to-add-context-menu-item-to-windows-explorer-for-both-folders-and-files-join
+sys
+linux https://lwn.net/Kernel/LDD3/ 
+sys http://www.reverse-engineering.info/SystemCoding/SkeletonKMD_Tutorial.htm 
+sys https://repo.palkeo.com/repositories/ivanlefou/windoz/drivers/0x03%20The%20Simplest%20Device%20Drivers.pdf 
+sys http://www.reverse-engineering.info/SystemCoding/ 
+https://www.youtube.com/user/y0011langester/
+riemann http://www.claymath.org/sites/default/files/zeta.pdf
+myDriver
+https://stackoverflow.com/questions/59298844/error-0xc000036b-status-driver-blocked-critical-while-trying-to-load-driver-ring
+https://social.msdn.microsoft.com/Forums/en-US/1513dd39-8d26-4cb0-ab56-ac8de5ed355d/error-0xc000036b-statusdriverblockedcritical-while-trying-to-load-driver-ring0sys-written-by-my?forum=architecturegeneral#1513dd39-8d26-4cb0-ab56-ac8de5ed355d

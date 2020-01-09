@@ -1,0 +1,3 @@
+SmsManager smsManager = SmsManager.getDefault();
+smsManager.sendTextMessage("609272025", null, "sms message", null, null);
+Toast.makeText(getApplicationContext(), "was sending sms",Toast.LENGTH_SHORT).show();

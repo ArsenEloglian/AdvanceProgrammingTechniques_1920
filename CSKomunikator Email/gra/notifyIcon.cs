@@ -76,7 +76,6 @@ namespace gra
         }
         static void startupChecks()
         {
-            notifyIcon.Icon = Resources.aleKokosy;
             bool[,,] markedQuarters = markThisQuarter(getMarkedQuarters()); 
         }
         public static NotifyIcon notifyIcon;
@@ -84,7 +83,7 @@ namespace gra
         static void setNotifyIcon()
         {
             notifyIcon = new NotifyIcon();
-            notifyIcon.Icon = żabaIcon;
+            notifyIcon.Icon = Resources.aleKokosy;
             notifyIcon.Visible = true;
             ToolStripMenuItem GrajMenuItem = new ToolStripMenuItem();
             GrajMenuItem.Text = "Graj";

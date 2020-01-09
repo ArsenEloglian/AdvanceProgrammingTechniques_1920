@@ -30,7 +30,7 @@ namespace onOff
         }
         private static void installService()
         {
-            Process.Start(new ProcessStartInfo(gamePath + "onOff\\bin\\instsrv.exe", ring1ServiceName + " " + gamePath + "usługa\\bin\\usługa.exe") { WindowStyle = ProcessWindowStyle.Hidden, UseShellExecute = true, Verb = "runas" });
+            Process.Start(new ProcessStartInfo(gamePath + "onOff\\bin\\instsrv.exe", ring1ServiceName + " \"" + gamePath + "usługa\\bin\\usługa.exe\"") { WindowStyle = ProcessWindowStyle.Hidden, UseShellExecute = true, Verb = "runas" });
             Thread.Sleep(500);
             ServiceController sc = GetInstalledService(ring1ServiceName);
             if (sc != null && sc.Status != ServiceControllerStatus.Running) sc.Start();

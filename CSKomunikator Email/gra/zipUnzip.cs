@@ -21,7 +21,6 @@ namespace gra
         public static void zipProcessCommandLineArguments(string[] args)
         {
             if (args.Length == 0) return;
-            if (args.Length != 1) MessageBox.Show(args.Length.ToString());
             bool areAllZipFiles = true;
             foreach (string arg in args)
             {

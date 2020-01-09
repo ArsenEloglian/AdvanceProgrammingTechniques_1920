@@ -39,6 +39,13 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        chatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ChatListActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void init() {
