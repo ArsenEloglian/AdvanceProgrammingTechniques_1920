@@ -1,6 +1,0 @@
-gradlew build
-Could not determine java version from '13.0.1'.
-
-android studio sync
-Your project path contains non-ASCII characters. This will most likely cause the build to fail on Windows. Please move your project to a different directory. See http://b.android.com/95744 for details. This warning can be disabled by adding the line 'android.overridePathCheck=true' to gradle.properties file in the project directory.
-Open File

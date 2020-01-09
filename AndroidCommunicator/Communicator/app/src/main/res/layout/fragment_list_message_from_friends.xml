@@ -3,10 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ChatList.ListMessageFromFriendsFragment">
+    tools:context=".ListMessageFromFriendsFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/chatListFriendsListRecyclerView"
+        android:id="@+id/friendsListRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
