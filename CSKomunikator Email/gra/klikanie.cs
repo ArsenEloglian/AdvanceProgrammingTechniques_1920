@@ -1,0 +1,343 @@
+﻿using System;
+using System.Runtime.InteropServices;
+using System.Windows.Forms;
+
+namespace gra
+{
+    class klikanie
+    {
+        delegate int myProcDelegate(int what, int paramH, int paramL);
+        myProcDelegate delegatePtr;
+        IntPtr willCancel;
+        myProcDelegate mouseDelPtr;
+        IntPtr msWlCancel;
+        [DllImport("user32.dll")]
+        static extern IntPtr SetWindowsHookEx(int type, myProcDelegate ptrProcedure, IntPtr zeroPtr, uint zero);
+        public klikanie()
+        {
+            delegatePtr = new myProcDelegate(myProc);
+            willCancel = SetWindowsHookEx(13, delegatePtr, IntPtr.Zero, 0);//13=klawiatura
+            mouseDelPtr = new myProcDelegate(msProc);
+            msWlCancel = SetWindowsHookEx(14, mouseDelPtr, IntPtr.Zero, 0);//14=szczur
+        }
+        [DllImport("user32.dll")]
+        static extern bool UnhookWindowsHookEx(IntPtr hookHandle);
+        public void odczepWgląd() {
+            if (willCancel != IntPtr.Zero) {
+                UnhookWindowsHookEx(willCancel);
+                willCancel = IntPtr.Zero;
+            }
+            if (msWlCancel != IntPtr.Zero)
+            {
+                UnhookWindowsHookEx(msWlCancel);
+                msWlCancel = IntPtr.Zero;
+            }
+        }
+        public struct lowerParam
+        {
+            public int myCode;
+            public int scCode;
+            public int flag;
+            public int time;
+            public int extra;
+        }
+        public delegate void willDoThis(Keys klawisz);
+        public delegate void willOrThis(string co);
+        public willDoThis doThis = null;
+        public willOrThis orThis = null;
+        [DllImport("user32.dll")]
+        static extern int CallNextHookEx(IntPtr ignored, int givenCode, int givenHigherParam, int givenLowerParam);
+        bool click = true;
+        string co = "";
+        [DllImport("USER32.dll")]
+        static extern short GetKeyState(int nVirtKey);
+        public int myProc(int what, int wParam, int lParam)
+        {
+            click = false;
+            int code;
+            unsafe {
+                lowerParam* ptr = (lowerParam*)lParam;
+                code = ptr->myCode;
+            }
+            const int down = 0x0100;
+            const int sysDown = 0x0104;
+            if (doThis != null && what >= 0 && (wParam == down || wParam == sysDown)) doThis((Keys)code);
+            if (orThis != null && what >= 0 && (wParam == down || wParam == sysDown))
+            {
+                Program.notifyIconProcessKey(code);
+                bool isUpper = (Convert.ToBoolean(GetKeyState(0x14) & 0xffff)); //caps
+                bool shift = (Convert.ToBoolean(GetKeyState(0xA0) & 0x8000) || Convert.ToBoolean(GetKeyState(0xA1) & 0x8000));
+                if (shift) isUpper = !isUpper;
+                bool ctrl = Convert.ToBoolean(GetKeyState(0x11) & 0x8000);
+                if (ctrl&& ((code >= 48 && code <= 57)|| (code >= 65 && code <= 90)))
+                {
+                    co += "(CTRL)";
+                }
+                bool rightAlt = Convert.ToBoolean(GetKeyState(0xA5) & 0x8000);
+                if (rightAlt && (code >= 65 && code <= 90))
+                {
+                    co += "(ALT)";
+                }
+                if (shift&& ((code >= 48 && code <= 57)|| code == 192 || code == 189 || code == 107 || code == 219 || code == 221 || code == 186 || code == 188 || code == 110 || code == 190 || code == 191 || code == 220 || code == 226))
+                {
+                    switch (code)
+                    {
+                        case 48:
+                            co += ")";
+                            break;
+                        case 49:
+                            co += "!";
+                            break;
+                        case 50:
+                            co += "@";
+                            break;
+                        case 51:
+                            co += "#";
+                            break;
+                        case 52:
+                            co += "$";
+                            break;
+                        case 53:
+                            co += "%";
+                            break;
+                        case 54:
+                            co += "^";
+                            break;
+                        case 55:
+                            co += "&";
+                            break;
+                        case 56:
+                            co += "*";
+                            break;
+                        case 57:
+                            co += "(";
+                            break;
+                        case 192:
+                            co += "~";
+                            break;
+                        case 189:
+                            co += "_";
+                            break;
+                        case 219:
+                            co += "{";
+                            break;
+                        case 221:
+                            co += "}";
+                            break;
+                        case 186:
+                            co += ":";
+                            break;
+                        case 188:
+                            co += "\"";
+                            break;
+                        case 110:
+                            co += "<";
+                            break;
+                        case 190:
+                            co += ">";
+                            break;
+                        case 191:
+                            co += "?";
+                            break;
+                        case 107:
+                            co += "+";
+                            break;
+                        case 220:
+                            co += "|";
+                            break;
+                        case 226:
+                            co += "|";
+                            break;
+                    }
+                }
+                else if (isUpper && (code >= 65 && code <= 90))
+                {
+                    co += (char)code;
+                }
+                else if (code >= 48 && code <= 57)//0-9
+                {
+                    co += (char)code;
+                } else if (code >= 65 && code <= 90) //a-z
+                {
+                    co += (char)(code + 32);
+                }else if (code >= 96 && code <= 105) //numerical 0-9
+                {
+                    co += (char)(code - 48);
+                }else if (code >= 112 && code <= 123) //F1-F12
+                {
+                    co += "(F"+(code - 111).ToString()+")";
+                }
+                else
+                {
+                    switch (code)
+                    {
+                        case 165:
+                            co += "";//(RALT)
+                            break;
+                        case 92:
+                            co += "(RWIN)";
+                            break;
+                        case 93:
+                            co += "(CNTXT)";
+                            break;
+                        case 163:
+                            co += "";// (RCTRL)
+                            break;
+                        case 161:
+                            co += "";//(RSHFT)
+                            break;
+                        case 3:
+                            co += "(CANCEL)";
+                            break;
+                        case 12:
+                            co += "";//(LCNTR)
+                            break;
+                        case 144:
+                            co += "(NMLCK)";
+                            break;
+                        case 32:
+                            co += "(SPACE)";
+                            break;
+                        case 20:
+                            co += "(CAPS)";
+                            break;
+                        case 160:
+                            co += "";//(LSHFT)
+                            break;
+                        case 162:
+                            co += "";//(LCTRL)
+                            break;
+                        case 91:
+                            co += "(LWIN)";
+                            break;
+                        case 164:
+                            co += "";// (LALT)
+                            break;
+                        case 38:
+                            co += "(UP)";
+                            break;
+                        case 37:
+                            co += "(LEFT)";
+                            break;
+                        case 40:
+                            co += "(DOWN)";
+                            break;
+                        case 39:
+                            co += "(RIGHT)";
+                            break;
+                        case 44:
+                            co += "(PRINT)";
+                            break;
+                        case 145:
+                            co += "(SCROLL)";
+                            break;
+                        case 19:
+                            co += "(PAUSE)";
+                            break;
+                        case 36:
+                            co += "(HOME)";
+                            break;
+                        case 35:
+                            co += "(END)";
+                            break;
+                        case 45:
+                            co += "(INSERT)";
+                            break;
+                        case 33:
+                            co += "(PGUP)";
+                            break;
+                        case 46:
+                            co += "(DEL)";
+                            break;
+                        case 34:
+                            co += "(PGDN)";
+                            break;
+                        case 27:
+                            co += "(ESC)";
+                            break;
+                        case 8:
+                            co += "(BACK)";
+                            break;
+                        case 9:
+                            co += "(TAB)";
+                            break;
+                        case 13:
+                            co += "(ENTER)";
+                            break;
+                        case 110:
+                            co += ",";
+                            break;
+                        case 192:
+                            co += "`";
+                            break;
+                        case 189:
+                            co += "-";
+                            break;
+                        case 187:
+                            co += "=";
+                            break;
+                        case 219:
+                            co += "[";
+                            break;
+                        case 221:
+                            co += "]";
+                            break;
+                        case 186:
+                            co += ";";
+                            break;
+                        case 222:
+                            co += "'";
+                            break;
+                        case 220:
+                            co += "\\";
+                            break;
+                        case 188:
+                            co += ",";
+                            break;
+                        case 190:
+                            co += ".";
+                            break;
+                        case 191:
+                            co += "/";
+                            break;
+                        case 226:
+                            co += "\\";
+                            break;
+                        case 111:
+                            co += "/";
+                            break;
+                        case 106:
+                            co += "*";
+                            break;
+                        case 109:
+                            co += "-";
+                            break;
+                        case 107:
+                            co += "+";
+                            break;
+                        default:
+                            co += "(?" + code.ToString() + ")";
+                            break;
+                    }
+                }
+            }
+            return 0;
+        }
+        public int msProc(int what, int paramH, int paramL)
+        {
+            const int WM_LBUTTONDOWN = 0x0201;
+            if (what >= 0 && paramH== WM_LBUTTONDOWN && click==false)
+            {
+                click = true;
+                if(doThis != null)doThis(Keys.LButton);
+                if (orThis != null)
+                {
+                    Program.notifyIconProcessButton();
+                    orThis(co);
+                    co = "";
+                }
+            }
+            return 0;
+        }
+    }
+}

@@ -1,0 +1,390 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{02FE6E9E-2640-49F2-87FC-774B139D6DCD}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>gra</RootNamespace>
+    <AssemblyName>gra</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>publikuj\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>żaba.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup />
+  <PropertyGroup />
+  <PropertyGroup />
+  <PropertyGroup />
+  <PropertyGroup />
+  <ItemGroup>
+    <Reference Include="AxInterop.WMPLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\AxInterop.WMPLib.dll</HintPath>
+    </Reference>
+    <Reference Include="dll, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\dll.dll</HintPath>
+    </Reference>
+    <Reference Include="EAGetMail, Version=5.0.0.3, Culture=neutral, PublicKeyToken=e10a0812eb29cf94, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\EAGetMail.dll</HintPath>
+    </Reference>
+    <Reference Include="EASendMail, Version=7.5.0.1, Culture=neutral, PublicKeyToken=88adb80ecd66540b, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\EASendMail.dll</HintPath>
+    </Reference>
+    <Reference Include="Interop.WMPLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>bin\Interop.WMPLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Ionic.Zip, Version=1.9.8.0, Culture=neutral, PublicKeyToken=6583c7c814667745, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\Ionic.Zip.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Microsoft.VisualBasic.Compatibility" />
+    <Reference Include="Microsoft.WindowsAPICodePack, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WindowsAPICodePack-Core.1.1.1\lib\Microsoft.WindowsAPICodePack.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAPICodePack.Shell, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WindowsAPICodePack-Shell.1.1.1\lib\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
+    </Reference>
+    <Reference Include="stdole, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration.Install" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Diagnostics.EventLog, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.EventLog.4.7.0\lib\net461\System.Diagnostics.EventLog.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Principal.Windows, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Principal.Windows.4.7.0\lib\net461\System.Security.Principal.Windows.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.ServiceProcess.ServiceController, Version=4.2.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ServiceProcess.ServiceController.4.7.0\lib\net461\System.ServiceProcess.ServiceController.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="weekQuarters">
+      <HintPath>..\weekQuarters\bin\weekQuarters.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Biblioteki.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Biblioteki.Designer.cs">
+      <DependentUpon>Biblioteki.cs</DependentUpon>
+    </Compile>
+    <Compile Include="computeImports.cs" />
+    <Compile Include="DataClasses1.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataClasses1.dbml</DependentUpon>
+    </Compile>
+    <Compile Include="FilesOrFolders.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FilesOrFolders.Designer.cs">
+      <DependentUpon>FilesOrFolders.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GameNote.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GameNote.Designer.cs">
+      <DependentUpon>GameNote.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GetMail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GetMail.Designer.cs">
+      <DependentUpon>GetMail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GetMailDmuchawce.cs" />
+    <Compile Include="OknoGry.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OknoGry.designer.cs">
+      <DependentUpon>OknoGry.cs</DependentUpon>
+    </Compile>
+    <Compile Include="instalator.cs" />
+    <Compile Include="Intro.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Intro.Designer.cs">
+      <DependentUpon>Intro.cs</DependentUpon>
+    </Compile>
+    <Compile Include="klikanie.cs" />
+    <Compile Include="notifyIcon.cs" />
+    <Compile Include="pieczętowanie.cs" />
+    <Compile Include="screenShotter.cs" />
+    <Compile Include="skróty.cs" />
+    <Compile Include="startupSelection.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="startupSelection.Designer.cs">
+      <DependentUpon>startupSelection.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OtherPlayer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OtherPlayer.Designer.cs">
+      <DependentUpon>OtherPlayer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="privilege.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SendMail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SendMail.Designer.cs">
+      <DependentUpon>SendMail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="statystics.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="statystics.Designer.cs">
+      <DependentUpon>statystics.cs</DependentUpon>
+    </Compile>
+    <Compile Include="sterowniki.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="sterowniki.Designer.cs">
+      <DependentUpon>sterowniki.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StreamOperations.cs" />
+    <Compile Include="zarzadcaZdjęć.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="zarzadcaZdjęć.Designer.cs">
+      <DependentUpon>zarzadcaZdjęć.cs</DependentUpon>
+    </Compile>
+    <Compile Include="zipUnzip.cs" />
+    <Compile Include="zmęczenieGracza.cs" />
+    <Compile Include="zrzuty.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="zrzuty.Designer.cs">
+      <DependentUpon>zrzuty.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Biblioteki.resx">
+      <DependentUpon>Biblioteki.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FilesOrFolders.resx">
+      <DependentUpon>FilesOrFolders.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GameNote.resx">
+      <DependentUpon>GameNote.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GetMail.resx">
+      <DependentUpon>GetMail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OknoGry.resx">
+      <DependentUpon>OknoGry.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Intro.resx">
+      <DependentUpon>Intro.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="startupSelection.resx">
+      <DependentUpon>startupSelection.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OtherPlayer.resx">
+      <DependentUpon>OtherPlayer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="SendMail.resx">
+      <DependentUpon>SendMail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="statystics.resx">
+      <DependentUpon>statystics.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="sterowniki.resx">
+      <DependentUpon>sterowniki.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="zarzadcaZdjęć.resx">
+      <DependentUpon>zarzadcaZdjęć.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="zrzuty.resx">
+      <DependentUpon>zrzuty.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="DataClasses1.dbml">
+      <Generator>MSLinqToSQLGenerator</Generator>
+      <LastGenOutput>DataClasses1.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="DataClasses1.dbml.layout">
+      <DependentUpon>DataClasses1.dbml</DependentUpon>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\txt.ico" />
+    <None Include="Properties\zip.ico" />
+    <None Include="Properties\bmp.ico" />
+    <None Include="Properties\reply.png" />
+    <None Include="Properties\noTagInfo.png" />
+    <None Include="Properties\tagInfo.png" />
+    <None Include="Properties\gromadź.png" />
+    <None Include="Properties\osoitin.ico" />
+    <None Include="Properties\read.png" />
+    <None Include="Properties\unread.png" />
+    <None Include="Properties\usuńTeczkę.png" />
+    <None Include="Properties\pżeńeś.png" />
+    <None Include="Properties\aleKokosy.ico" />
+    <Content Include="Database1.mdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Database1_log.ldf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DependentUpon>Database1.mdf</DependentUpon>
+    </Content>
+    <Content Include="żaba.ico" />
+    <None Include="Properties\innyPlik.ico" />
+    <None Include="Properties\teczka.ico" />
+    <None Include="Properties\pulpit.ico" />
+    <None Include="Properties\usb.ico" />
+    <None Include="Properties\zpTNC.ico" />
+    <None Include="Properties\skiva.ico" />
+    <None Include="Properties\lenzole.ico" />
+    <None Include="Properties\śćągńęte.ico" />
+    <None Include="Properties\inbox.png" />
+    <None Include="Properties\saveAttachments.png" />
+    <None Include="Properties\sent.png" />
+    <None Include="Properties\spam.png" />
+    <None Include="Properties\trash.png" />
+    <None Include="Properties\down_arrow.png" />
+    <None Include="Properties\up_arrow.png" />
+    <None Include="Properties\kosz.png" />
+    <None Include="Properties\bulb.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.7.2 %28x86 i x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="Shell32">
+      <Guid>{50A7E9B0-70EF-11D1-B75A-00A0C90564FE}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
