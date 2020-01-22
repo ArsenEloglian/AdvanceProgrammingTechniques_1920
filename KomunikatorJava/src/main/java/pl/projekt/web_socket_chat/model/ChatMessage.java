@@ -5,6 +5,7 @@ public class ChatMessage {
     private String sender;
     private MessageType type;
     private byte[] photo;
+	private int cos;
 
     public  enum  MessageType{
         CHAT,LEAVE,JOIN
